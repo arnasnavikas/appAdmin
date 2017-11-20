@@ -14,8 +14,8 @@
   
 <button mat-icon-button (click)='createList()' ><mat-icon [style.color]='backendService.addToList? "red" : "" '>&#xE16C;</mat-icon></button>
 <span *ngIf='backendService.addToList'>
-  <button mat-button ><mat-icon >&#xE5CA;</mat-icon> Delete</button>
-  <button mat-button ><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
+  <button mat-button (click)='deleteItems()'><mat-icon >&#xE5CA;</mat-icon> Delete</button>
+  <button mat-button (click)='resetList()'><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
 </span>
   <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>

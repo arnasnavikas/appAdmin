@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { BackendService } from '../../backend.service'
 import { GalerijaInterface } from '../../intercafe.enum'
-import { setTimeout } from 'timers';
 import { NewGroupComponent } from '../new-group/new-group.component';
 
 @Component({
@@ -49,7 +48,7 @@ export class NewGalleryComponent implements OnInit {
     this.newGallery.controls['aprasymas'].setValue(this.galleryDescription.controls['description'].value)
     name = name.replace(/[\W_]+/g,"-") 
     this.newGallery.controls['route_name'].setValue(name)
-    name = name + Date.now()
+    name = name +"_"+Date.now()
     this.newGallery.controls['folder_name'].setValue(name)
     this.newGallery.controls['group_name'].setValue(this.data.folder_name)
     this.backendService.createGallery(this.newGallery.value)

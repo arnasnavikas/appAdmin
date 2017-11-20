@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
 import { GroupInterface } from '../../intercafe.enum'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -6,20 +6,22 @@ import { DeleteGroupComponent } from '../../modals/delete-group/delete-group.com
 import { NewGalleryComponent } from '../../modals/new-gallery/new-gallery.component'
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  templateUrl: './groups.component.html',
+  styleUrls: ['./groups.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit {
+export class GroupsComponent implements OnInit, OnDestroy {
   constructor(private backendService: BackendService,public dialog: MatDialog) {}
 
   ngOnInit() {
-    console.log('init homeComponent')
+    this.backendService.what_object_delete = 'group'
     this.backendService.getGroups().subscribe(data =>{ this.backendService.groups = data; console.log(data)},
-                                              err=>{ console.log(err)},
-                                              ()=>{console.log('groups loaded')})
+    err=>{ console.log(err)},
+    ()=>{console.log('groups loaded')})
   }
- 
+  ngOnDestroy(){
+    this.backendService.what_object_delete = ''
+ }
   deleteGroup(group:GroupInterface){
     console.log(group)
     let dialogRef = this.dialog.open(DeleteGroupComponent, {
@@ -32,9 +34,6 @@ export class HomeComponent implements OnInit {
           width: '500px',
           data : group
         });
-  }
-  updateNumber(e){
-    e.stopPropagation()
   }
 }
 

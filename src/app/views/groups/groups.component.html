@@ -18,7 +18,7 @@
                         </mat-expansion-panel-header>
                         <!-- buttons -->
                         <button mat-raised-button color='primary' (click)='newGallery(group);' ><mat-icon>&#xE02E;</mat-icon> Sukurti Galeriją</button>
-                        <button mat-raised-button color='accent' [routerLink]='group.route+"/galleries/"+group._id' ><mat-icon >&#xE896;</mat-icon> Redaguoti Galerijas</button>
+                        <button mat-raised-button color='accent' [routerLink]='group.route+"/"+group._id' ><mat-icon >&#xE896;</mat-icon> Redaguoti Galerijas</button>
                         
                     </mat-expansion-panel>
                     <mat-expansion-panel (opened)="antras = true"

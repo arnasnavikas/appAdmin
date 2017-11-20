@@ -37,6 +37,9 @@ export class NewGroupComponent {
       let routerName = this.newGroup.controls['pavadinimas'].value
       routerName = routerName.replace(/[\W_]+/g,"-") 
       this.newGroup.controls['route'].setValue(routerName) 
+      let date ="_"+Date.now()
+      routerName = routerName+date
+      this.newGroup.controls['folder_name'].setValue(routerName) 
       this.backendService.createGroup(this.newGroup.value).subscribe(data=>{console.log(data)},
                                                                      err=>{console.log(err);},
                                                                      ()=>{ this.submited = false; 

@@ -1,0 +1,13 @@
+<span *ngIf='deleting == null'>  
+    <h1 mat-dialog-title style="text-align:center;">Ištrinti Elementą?</h1>
+    <div mat-dialog-actions>
+      <button mat-button (click)='deleteGroup()' color='warn' tabindex="2">delete</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </span>
+  <div *ngIf='deleting === true' fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+    <mat-spinner   [diameter]="40"></mat-spinner>
+  </div>
+  <div *ngIf='deleted' fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center">
+    <mat-icon style="color:green;" class="material-icons">&#xE834;</mat-icon> <p>Grupė ištrinta!</p>
+  </div>

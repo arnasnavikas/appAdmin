@@ -1,0 +1,20 @@
+<div  fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
+  <mat-card *ngFor='let gallerie of galleries; let i = index' style="margin:10px;" class="example-card">
+    <div #element  (click)='addToList(gallerie._id,element);'  [class.select-item]="backendService.addToList == true"></div>
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Galerijos pavadinimas <button mat-icon-button><mat-icon>&#xE3C9;</mat-icon></button></mat-card-title>
+              <mat-card-subtitle>{{gallerie.gallery_name}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-list>
+                  <mat-list-item>Nuotraukų: {{gallerie.gallery_images.length}}</mat-list-item>
+                  <mat-list-item>Sukurta: {{gallerie.birth_time | date:'longDate'}}</mat-list-item>
+                </mat-list>
+          </mat-card-content>
+          <mat-card-actions>
+              <button mat-button color='primary' ><mat-icon>&#xE439;</mat-icon> Add</button>
+              <button mat-button color='warn' ><mat-icon>&#xE410;</mat-icon> View</button>
+          </mat-card-actions>
+      </mat-card>
+  </div>

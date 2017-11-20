@@ -1,0 +1,45 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" style="margin-top:70px;">
+    <mat-card style="margin:10px;" *ngFor='let group of backendService.groups; let i = index' class="example-card">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>Grupės pavadinimas</mat-card-title>
+            <mat-card-subtitle>{{group.pavadinimas}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+                <mat-accordion>
+                    <mat-expansion-panel (opened)="pirmas = true"
+                                         (closed)="pirmas = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title >
+                                <p> Galerijos - {{group.gallerys}}</p> 
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <!-- buttons -->
+                        <button mat-raised-button color='primary' (click)='newGallery(group);' ><mat-icon>&#xE02E;</mat-icon> Sukurti Galeriją</button>
+                        <button mat-raised-button color='accent' [routerLink]='group.route+"/galleries/"+group._id' ><mat-icon >&#xE896;</mat-icon> Redaguoti Galerijas</button>
+                        
+                    </mat-expansion-panel>
+                    <mat-expansion-panel (opened)="antras = true"
+                                         (closed)="antras = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Lentelės - {{group.tables}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <!-- buttons -->
+                        <button mat-raised-button color='primary' ><mat-icon>&#xE02E;</mat-icon> Sukurti Lentelę</button>
+                        <button mat-raised-button color='accent' ><mat-icon >&#xE896;</mat-icon> Redaguoti Lenteles</button>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                      
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button color='primary' >RENAME</button>
+            <button mat-button color='warn' (click)='deleteGroup(group)'>DELETE</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

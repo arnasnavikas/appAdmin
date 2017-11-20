@@ -1,0 +1,35 @@
+  <mat-horizontal-stepper [linear]="true">
+      <mat-step [stepControl]="galleryName">
+        <form [formGroup]="galleryName">
+          <ng-template matStepLabel></ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Pavadinimas" formControlName="name" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Kitas</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="galleryDescription">
+        <form [formGroup]="galleryDescription">
+          <ng-template matStepLabel></ng-template>
+          <mat-form-field >
+            <textarea matInput placeholder="Aprašymas" formControlName="description" required></textarea>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Atgal</button>
+            <button mat-button matStepperNext>Kitas</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <div *ngIf='galleryCreated' fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center">
+            <mat-icon style="color:green;" class="material-icons">&#xE834;</mat-icon> <p>Galerija sukurta</p>
+          </div>
+        <div *ngIf='!galleryCreated'>
+          <button  mat-button color='primary' (click)='createGallery()'>Sukurti</button>
+          <button  mat-button matStepperPrevious>Back</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>

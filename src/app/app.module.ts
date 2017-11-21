@@ -24,6 +24,9 @@ import { RenameGalleryComponent } from './modals/rename-gallery/rename-gallery.c
 import { GalleryDescriptionComponent } from './modals/gallery-description/gallery-description.component';
 import { UploadImagesComponent } from './views/upload-images/upload-images.component';
 import { IndexPageComponent } from './views/index-page/index-page.component';
+import { FileSizePipe } from './pipes/bytes-to-larger.pipe';
+import { RenameGroupComponent } from './modals/rename-group/rename-group.component';
+import { PrivateImagesComponent } from './views/private-images/private-images.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,10 @@ import { IndexPageComponent } from './views/index-page/index-page.component';
     RenameGalleryComponent,
     GalleryDescriptionComponent,
     UploadImagesComponent,
-    IndexPageComponent
+    IndexPageComponent,
+    FileSizePipe,
+    RenameGroupComponent,
+    PrivateImagesComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,8 @@ import { IndexPageComponent } from './views/index-page/index-page.component';
                       DeleteGroupComponent,
                       NewGalleryComponent,
                       RenameGalleryComponent,
-                      GalleryDescriptionComponent
+                      GalleryDescriptionComponent,
+                      RenameGroupComponent
                       ],
   bootstrap: [AppComponent]
 })

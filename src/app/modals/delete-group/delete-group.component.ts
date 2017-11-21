@@ -11,16 +11,18 @@ import { GroupInterface } from '../../intercafe.enum'
 export class DeleteGroupComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DeleteGroupComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
+              @Inject(MAT_DIALOG_DATA) public data: GroupInterface,
               private backendService : BackendService) { }
   private deleted = false
   private deleting = null
+  private name
   ngOnInit() {
+    this.name = this.data.pavadinimas
   }
   deleteGroup(){
     this.deleting = true
     console.log(this.data)
-    this.backendService.deleteGroup(this.data.id,this.data.folderName)
+    this.backendService.deleteGroup([this.data._id])
                        .subscribe(data=>{console.log(data)},
                                   err=>{console.log(err)},
                                   ()=>{this.deleting = false; this.deleted = true; this.backendService.loadGroups()})

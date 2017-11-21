@@ -5,75 +5,38 @@
             <input style='visibility:hidden'  type="file" ng2FileSelect [uploader]="uploader" (change)='select($event)' >
         </div>
         <div>
-            <!-- <table class="table" >
-                <thead>
-                <tr>
-                    <th width="50%">Name</th>
-                    <th>Size</th>
-                    <th>Progress</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of uploader.queue">
-                    <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                    <td *ngIf="uploader.isHTML5">
-                        <div class="progress" style="margin-bottom: 0;">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                    </td>
-                    <td nowrap>
-                        <button type="button" class="btn btn-success btn-xs"
-                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span class="glyphicon glyphicon-upload"></span> Upload
-                        </button>
-                        <button type="button" class="btn btn-warning btn-xs"
-                                (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs"
-                                (click)="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table> -->
-            <div *ngIf='uploader.queue.length > 0' class="example-container mat-elevation-z8">
-                <mat-table #table [dataSource]="dataSource">
+                <div *ngIf='uploader.queue.length > 0' class="example-container mat-elevation-z8">
+                  <mat-table #table [dataSource]="dataSource">
               
                   <!-- Position Column -->
                   <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element._file.name}}_({{element._file.size | fileSize:'MB' }}) </mat-cell>
                   </ng-container>
-              
+                  
                   <!-- Name Column -->
                   <ng-container matColumnDef="size">
-                    <mat-header-cell *matHeaderCellDef> Size </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.size/1000}} KB </mat-cell>
+                    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <mat-icon *ngIf="element.isSuccess">&#xE876;</mat-icon>
+                      <mat-icon *ngIf="element.isCancel">&#xE14B;</mat-icon>
+                      <mat-icon *ngIf="element.isError">&#xE14C;</mat-icon>
+                    </mat-cell>
                   </ng-container>
-              
+                  
                   <!-- Weight Column -->
                   <ng-container matColumnDef="progress">
                     <mat-header-cell *matHeaderCellDef> Progress </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.progress}} %</mat-cell>
                   </ng-container>
-              
+                  
                   <!-- Actions -->
                   <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
                     <mat-cell *matCellDef="let element"> 
-                      <button mat-icon-button matTooltip='Ištrinti failą' color='warn' (click)='element.item.remove();makeTable()'><mat-icon>&#xE872;</mat-icon></button> 
-                      <button mat-icon-button matTooltip='Atšaukti įkėlimą' (click)='element.item.cancel()'><mat-icon>&#xE033;</mat-icon></button> 
-                      <button mat-icon-button matTooltip='Įkelti failą' color='primary' (click)='element.item.upload()'><mat-icon>&#xE2C6;</mat-icon></button> 
+                      <button mat-icon-button matTooltip='Ištrinti failą' color='warn' (click)='element.remove();makeTable()'><mat-icon>&#xE872;</mat-icon></button> 
+                      <button mat-icon-button matTooltip='Atšaukti įkėlimą' (click)='element.cancel()'><mat-icon>&#xE033;</mat-icon></button> 
+                      <button mat-icon-button matTooltip='Įkelti failą' color='primary' (click)='element.upload()'><mat-icon>&#xE2C6;</mat-icon></button> 
                     </mat-cell>
                   </ng-container>
               

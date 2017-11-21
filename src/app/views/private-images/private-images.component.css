@@ -1,0 +1,11 @@
+.example-card {
+    width: 150px;
+    margin-left:10px;
+    margin-bottom: 10px; 
+  }
+  
+  .delete-image {
+	position: absolute;
+	right: -20px;
+	top: -21px;
+}

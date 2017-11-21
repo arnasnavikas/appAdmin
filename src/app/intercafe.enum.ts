@@ -1,4 +1,5 @@
 export interface PicsInterfase{
+    _id:string,
     name : string,
     imgURL : string,
     size : number,

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation,Inject} from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { BackendService } from '../../backend.service'
 @Component({
@@ -14,22 +14,22 @@ export class RenameGalleryComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private backendService: BackendService,
               private _fb: FormBuilder ){}
-renameForm : FormGroup
+RenameGallery : FormGroup
   ngOnInit() {
-    this.renameForm = this._fb.group({ name:     this._fb.control(this.data.name,[Validators.required]),
+    this.RenameGallery = this._fb.group({ name:     this._fb.control(this.data.name,[Validators.required]),
                                        id:       this._fb.control(this.data.id,[Validators.required]),
                                        routeName:this._fb.control('',[Validators.required])
                                       })
   }
   renameGallery(){
-    let route = this.renameForm.controls['name'].value.replace(/[\W_]+/g,"-") 
-    this.renameForm.controls['routeName'].setValue(route)
-      if(this.renameForm.valid){
-        this.backendService.renameGallery(this.renameForm.value)
+    let route = this.RenameGallery.controls['name'].value.replace(/[\W_]+/g,"-") 
+    this.RenameGallery.controls['routeName'].setValue(route)
+      if(this.RenameGallery.valid){
+        this.backendService.renameGallery(this.RenameGallery.value)
                           .subscribe(data=>{console.log(data)},
                                       err=>{console.log(err)},
                                       ()=>{this.dialogRef.close();
-                                          this.backendService.loadGallerys(this.backendService.group_id)})
+                                          this.backendService.loadGallerys(this.data.group_id)})
       }
     }
   onNoClick(): void {

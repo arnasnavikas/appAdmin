@@ -1,25 +1,45 @@
-<mat-toolbar color="primary">
-  <mat-menu #appMenu="matMenu">
-    <button mat-menu-item routerLink='/groups'>
-      <mat-icon >&#xE896;</mat-icon>
-       Redaguoti grupes </button>
-    <button mat-menu-item (click)="openDialog()">
-      <mat-icon>&#xE03B;</mat-icon> 
-      Pridėti grupę </button>
-  </mat-menu>
+<mat-sidenav-container class="example-container">
+  <mat-toolbar color="primary">
+    <!-- <button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>  -->
+    <button type="button" mat-icon-button (click)="sidenav.open()">
+      <mat-icon>more_vert</mat-icon> 
+    </button>
+    
+    <button mat-icon-button matTooltip='Ištrinti kelis elementus' (click)='createList()' ><mat-icon [style.color]='backendService.addToList? "red" : "" '>&#xE16C;</mat-icon></button>
+    <span *ngIf='backendService.addToList'>
+      <button mat-button (click)='deleteItems()'><mat-icon >&#xE5CA;</mat-icon> Delete</button>
+      <button mat-button (click)='resetList()'><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
+    </span>
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+    <button mat-icon-button matTooltip='Atsijungti' routerLink=''> <mat-icon>&#xE879;</mat-icon></button>
+  </mat-toolbar>
+  <mat-sidenav #sidenav class="example-sidenav">
+      <mat-nav-list #shoes>
+          <mat-list-item routerLink='/groups' (click)='sidenav.close()'>
+            <mat-icon >&#xE896;</mat-icon> Redaguoti grupes 
+           </mat-list-item>
+           <mat-list-item (click)="sidenav.close();openDialog()">
+              <mat-icon>&#xE03B;</mat-icon> Pridėti grupę 
+           </mat-list-item>
+           <mat-list-item routerLink='/upload-images' (click)='sidenav.close()'>
+              <mat-icon>&#xE439;</mat-icon> Įkelti paveikslėlių 
+           </mat-list-item>
+           <mat-list-item routerLink='/private-images' (click)='sidenav.close()'>
+              <mat-icon>&#xE8A0;</mat-icon> Žiūrėti paveikslėlius 
+           </mat-list-item>
+        </mat-nav-list>
+        
+    <!-- <mat-menu #appMenu="matMenu"  >
+      </mat-menu> -->
+    </mat-sidenav>
+              
+    <div class="example-sidenav-content">
+      <span id='nav-spacer'></span>
+      <router-outlet></router-outlet>
+    </div>
   
-  <button mat-icon-button [matMenuTriggerFor]="appMenu">
-     <mat-icon>more_vert</mat-icon>
-  </button>
+  </mat-sidenav-container>
   
-<button mat-icon-button (click)='createList()' ><mat-icon [style.color]='backendService.addToList? "red" : "" '>&#xE16C;</mat-icon></button>
-<span *ngIf='backendService.addToList'>
-  <button mat-button (click)='deleteItems()'><mat-icon >&#xE5CA;</mat-icon> Delete</button>
-  <button mat-button (click)='resetList()'><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
-</span>
-  <!-- This fills the remaining space of the current row -->
-  <span class="example-fill-remaining-space"></span>
-  <button mat-icon-button routerLink=''> <mat-icon>&#xE5C9;</mat-icon></button>
-</mat-toolbar>
-
-<router-outlet></router-outlet>

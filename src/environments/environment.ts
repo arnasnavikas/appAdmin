@@ -42,7 +42,7 @@ createGalleryURL : 'http://'+address+'/new_gallery',
              /** delete group */
     group_delete : 'http://'+address+'/group-delete',
              /** rename group */
-    group_rename : 'http://'+address+'/group-rename/',
+    group_rename : 'http://'+address+'/group-rename',
              /** upload pictures */
  upload_pictures : 'http://'+address+'/upload-pictures',
              /** save 'apie mane' form */

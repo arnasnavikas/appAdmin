@@ -1,9 +1,6 @@
-import { Injectable } from '@angular/core';
-import { GroupInterface, GalerijaInterface } from "./intercafe.enum"
-import { Http,
-         Response, 
-         Headers,
-         RequestOptions } from "@angular/http";  
+import { Injectable, group } from '@angular/core';
+import { GroupInterface, GalerijaInterface,PicsInterfase } from "./intercafe.enum"
+import { Http,Response,Headers,RequestOptions } from "@angular/http";  
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
 @Injectable()
@@ -15,13 +12,32 @@ export class BackendService {
   
   public groups : Array<GroupInterface> = []
   public gallerys : Array<GalerijaInterface> = []
+  public private_pictures : Array<PicsInterfase> = []
   // delete object
   public addToList = false // enables items selecting for deletion
   public deleteList = []  // arry of items _id or other information of selected itemd
   public what_object_delete : string = '' // specifies witch object is current displaying for delete (pvz: 'group','gallery' ...)
   public selected_DOM_items = [] // holds selected itmes DOM, for removing class after canceling deletion
-  //group id 
+  //group parmas
   public group_id : string = ''
+  public group_folder : string = ''
+
+  // adds clicked elemetn information and DOM to list
+  _addToList(id,element){
+    for(let i of this.deleteList){
+      if(id == i){
+        let index = this.deleteList.indexOf(id)
+        this.deleteList.splice(index,1)
+        this.selected_DOM_items.splice(index,1)
+        element.className = 'select-item'
+        return;
+      }
+    } 
+    this.deleteList.push(id)
+    this.selected_DOM_items.push(element)
+    element.className += ' selected'
+    console.log(this.deleteList )
+  }
   createGroup(form_data:GroupInterface){
     let body = JSON.stringify(form_data);
     return this.http.post(environment.createGroup,"data="+body, this.options)
@@ -34,8 +50,9 @@ export class BackendService {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
-  deleteGroup(id,folderName){
-    return this.http.put(environment.group_delete+'/'+id+'/'+folderName,this.options)
+  deleteGroup(group_id:Array<string>){
+    let body = JSON.stringify(group_id)
+    return this.http.put(environment.group_delete,"data="+body, this.options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
@@ -44,13 +61,32 @@ export class BackendService {
                                               err =>{ console.log(err)},
                                               ()=>{console.log('groups updated')})
   }
-  getGalleries(id){
-    return this.http.get(environment.get_gallerys+'/'+id).
+  getOneGroup(group_id:string){
+    return this.http.get(environment.getGroups+'/'+group_id)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+  /**####################################################################
+ *  DESCRIPTION:
+ *        rename gallery in server database;
+ *  PARAMETERS: 
+ *        1. form_data { pavadinimas : 'data',
+ *                       _id    : 'data',
+ *                       route   : 'nasm_sad_' }
+ *#####################################################################*/
+  renameGroup(formValue){
+    var body = JSON.stringify(formValue);
+    return this.http.put(environment.group_rename,'data='+body,this.options)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  getGalleries(group_id){
+    return this.http.get(environment.get_gallerys+'/'+group_id).
                                   map(this.extractData).
                                   catch(this.handleError);
   }
-  loadGallerys(id){
-    this.getGalleries(id).subscribe(data=>{this.gallerys = data; console.log(data)},
+  loadGallerys(group_id){
+    this.getGalleries(group_id).subscribe(data=>{this.gallerys = data; console.log(data)},
                                     err=>{console.log(err)},
                                     ()=>{console.log('gallerys updated')})
   }
@@ -112,6 +148,20 @@ deleteGallerys(id:Array<string>){
     return body || { "error":"nera duomenu"};
   }
 
+  getPrivateImages(){
+    return this.http.get(environment.upload_pictures)
+             .map(this.extractData)
+             .catch(this.handleError);
+  }
+  loadPrivatePictures(){
+    this.getPrivateImages().subscribe(pictures=>{this.private_pictures = pictures},
+                                      err=>{console.log(err)},
+                                      ()=>{console.log('privte pictures loaded')})
+  }
+  deletePrivateImages(ids){
+    let body = JSON.stringify(ids)
+    return this.http.put(environment.upload_pictures,'data='+body,this.options)
+  }
   private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;

@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { NewGroupComponent } from '../../modals/new-group/new-group.component' 
-import { Location} from '@angular/common';
 import { BackendService } from '../../backend.service'
+import { MenuPositionY} from '@angular/material/menu';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent  {
   constructor(public dialog: MatDialog,
-              private loaction:Location,
               private backendService : BackendService) {}
   openDialog(): void {
     let dialogRef = this.dialog.open(NewGroupComponent, {
@@ -27,37 +26,45 @@ export class AppComponent {
     else
       this.backendService.addToList = false
   }
-  updateView(){
-    this.resetList();
-    this.backendService.deleteList = [];
-    this.backendService.loadGallerys(this.backendService.group_id)
-  }
   deleteItems(){
     if(this.backendService.deleteList.length == 0)
-      return;
+    return;
     switch (this.backendService.what_object_delete) {
       case "gallery":
-        this.backendService.deleteGallerys(this.backendService.deleteList)
-                           .subscribe(data=>{console.log(data)},
-                                      err=>{console.log(err)},
-                                      ()=>{this.updateView()})
-        console.log('deleting gallery')
-        break;
-        case "group":
-        console.log('deleting group')
-        break;
-        case "picture":
-        console.log('deleting picture')
-        break;
-        case "table":
-        console.log('deleting tablr')
-        break;
-        case "message":
-        console.log('deleting message')
-        break;
-    
+      this.backendService.deleteGallerys(this.backendService.deleteList)
+                         .subscribe(data=>{console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{this.backendService.loadGallerys(this.backendService.group_id);
+                                         this.resetList()})
+      console.log('deleting gallery')
+      break;
+      case "group":
+      this.backendService.deleteGroup(this.backendService.deleteList)
+                          .subscribe(data=>{console.log(data)},
+                                     err=>{console.log(err)},
+                                     ()=>{this.backendService.loadGroups();
+                                          this.resetList()})
+      break;
+      case "picture":
+      console.log('deleting picture')
+      break;
+      case "table":
+      console.log('deleting tablr')
+      break;
+      case "message":
+      console.log('deleting message')
+      break;
+      case "private-pictures":
+      this.backendService.deletePrivateImages(this.backendService.deleteList)
+                         .subscribe(data=>{console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{this.backendService.loadPrivatePictures();
+                                         this.resetList()})
+      console.log('deleting private pictures')
+      break;
+      
       default:
-        break;
+      break;
     }
   }
   // removes class name from selected elements

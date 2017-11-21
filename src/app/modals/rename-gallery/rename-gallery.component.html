@@ -1,8 +1,8 @@
   <h1 mat-dialog-title style="text-align:center;">Pakeisti pavadinimą</h1>
   <div mat-dialog-content>
-    <mat-form-field [formGroup]='renameForm'  >
+    <mat-form-field [formGroup]='RenameGallery'  >
         <input matInput placeholder="Grupės pavadinimas" formControlName='name' required>
-        <mat-error *ngIf="renameForm.controls['name'].hasError('required')" >Laukelis negali būti tuščias!</mat-error>
+        <mat-error *ngIf="RenameGallery.controls['name'].hasError('required')" >Laukelis negali būti tuščias!</mat-error>
     </mat-form-field>
   </div>
   <div mat-dialog-actions>

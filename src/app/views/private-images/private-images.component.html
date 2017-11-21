@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
+  <mat-card *ngFor='let pic of backendService.private_pictures' class="example-card">
+    <div #element  (click)='backendService._addToList(pic._id,element);'  [class.select-item]="backendService.addToList == true"></div>
+    <button class='delete-image' mat-icon-button><mat-icon>&#xE5C9;</mat-icon></button>
+      <mat-card-header>
+        <mat-card-subtitle>{{pic.name}}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="pic.imgURL" style="max-width:250px" alt="">
+      <mat-card-content>
+        {{pic.size | fileSize:'MB'}}
+      </mat-card-content>
+    </mat-card>
+</div> 

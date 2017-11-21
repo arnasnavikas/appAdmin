@@ -4,14 +4,11 @@ import { environment } from '../../../environments/environment'
 import { BackendService } from '../../backend.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-interface Element {
-  name: string;
-  size: number;
-  isSuccess:boolean,
-  isCancel:boolean,
-  isError:boolean,
-  progress: number;
-  item: any
+interface parameters{
+  group_id:string,
+  group_folder: string
+  gallery_folder: string,
+  gallery_id: string,
 }
 @Component({
   selector: 'app-upload-images',
@@ -19,9 +16,8 @@ interface Element {
   styleUrls: ['./upload-images.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class UploadImagesComponent implements OnInit,AfterViewInit {
+export class UploadImagesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  ELEMENT_DATA: Array<Element> = []
   dataSource;
   displayedColumns = ['name', 'size', 'progress','actions'];
   URL : string;
@@ -31,18 +27,22 @@ export class UploadImagesComponent implements OnInit,AfterViewInit {
   
   constructor( private backendService : BackendService,
     private router: ActivatedRoute,
-    private _router: Router) {}
+    private _router: Router) {
+      this.router.params.subscribe((params:parameters)=>{
+        if(Object.keys(params).length > 0){
+          this.URL = environment.addPictureUrl+params.group_folder+'/'+params.gallery_folder+'/'+params.gallery_id;
+          console.log('gallerys images uploading')
+        }
+        else{
+          this.URL = environment.upload_pictures;
+          console.log(this.URL)
+        }
+      })
+    }
     ngOnInit() {
-      this.router.params.subscribe(params=>{
-        console.log(params);
-        if(Object.keys(params).length > 0)
-        this.URL = environment.addPictureUrl+this.backendService.group_id+'/'+params['folder']+'/'+params['id'];
-        else
-        this.URL = environment.upload_pictures;
-        this.uploader = new FileUploader({ url: this.URL,
-          maxFileSize:50000000,
+      this.uploader = new FileUploader({ url: this.URL,
+          maxFileSize:5000000,
           queueLimit:20});
-        });
       }
       openFile(domEl) {
         
@@ -56,25 +56,8 @@ export class UploadImagesComponent implements OnInit,AfterViewInit {
       }
       
       makeTable(){
-        this.ELEMENT_DATA = []
-        for(let i=0; i<this.uploader.queue.length; i++){
-          console.log(this.uploader.queue.length)
-          console.log('looping '+ i)
-          let obj: any = {} 
-          obj['name'] = this.uploader.queue[i]._file.name
-          obj['progress'] = this.uploader.queue[i].progress
-          obj['size'] = this.uploader.queue[i]._file.size
-          obj['isCancel'] = this.uploader.queue[i].isCancel
-          obj['isSuccess'] = this.uploader.queue[i].isSuccess
-          obj['isError'] = this.uploader.queue[i].isError
-          obj['item'] = this.uploader.queue[i]
-          this.ELEMENT_DATA.push(obj)
-          if(i<this.uploader.queue.length){
-            this.dataSource = new MatTableDataSource<Element>(this.ELEMENT_DATA);
-            this.dataSource.paginator = this.paginator;
-            console.log(this.ELEMENT_DATA)
-          }
-        }
+          this.dataSource = new MatTableDataSource(this.uploader.queue);
+          this.dataSource.paginator = this.paginator;
       }
       public select(e:any):void{
         this.makeTable()

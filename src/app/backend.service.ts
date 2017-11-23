@@ -80,6 +80,32 @@ export class BackendService {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
+  /**####################################################################
+ *  DESCRIPTION:
+ *        change group description in server database;
+ *  PARAMETERS: 
+ *        1. form_data { _id    : 'data',
+ *                       description: 'nasm_sad_' }
+ *#####################################################################*/
+  changeGroupDecription(formValue){
+    var body = JSON.stringify(formValue);
+    return this.http.put(environment.addGroupDescription,'data='+body,this.options)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  /**####################################################################
+ *  DESCRIPTION:
+ *        rename gallery in server database;
+ *  PARAMETERS: 
+ *        1. form_data {  _id    : 'data',
+ *                       imgURL  : 'nasm_sad_' }
+ *#####################################################################*/
+  addGroupCover(formValue){
+    var body = JSON.stringify(formValue);
+    return this.http.post(environment.addGroupCover,'data='+body,this.options)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
   getGalleries(group_id){
     return this.http.get(environment.get_gallerys+'/'+group_id).
                                   map(this.extractData).

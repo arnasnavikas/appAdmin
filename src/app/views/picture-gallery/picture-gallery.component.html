@@ -1,0 +1,20 @@
+<div [@gallery-open]='animate_open' id='for-animation'> 
+  <div id="close-button" title="Išeiti">
+    <mat-icon (click)='removeGallery($event)'>close</mat-icon>
+  </div>
+  <div id='opacity-background' (click)='removeGallery()'></div>       
+  <div *ngIf='pictures.length > 0' id="fixed-container" (click)='showInfo(imageInfo)'>
+    <div (click)=prevImg($event)  id="left-button" >
+      <button  mat-fab style='background:black !important;opacity:.5;'><mat-icon class='arrow-icon'>&#xE5CB;</mat-icon></button> 
+    </div>
+    <img [@flyRight]='right' (click)='$event.stopPropagation()' (swipeleft)='swipe($event)' (@flyRight.done)="rightDone($event)" (@flyRight.start)='allowNextImg = false'
+    [@flyLeft]='left'   (swiperight)='swipe($event)' (@flyLeft.done)="leftDone($event)" (@flyLeft.start)='allowNextImg = false' id="picture-el" [src]="_source" alt="">
+    <div (click)=nextImg($event) id="right-button" >
+      <button mat-fab style='background:black !important;opacity:.5;' ><mat-icon class='arrow-icon'>&#xE315;</mat-icon></button>
+    </div>
+    <div #imageInfo id="image-footer" class="hidden-content mat-typography">
+      <p id="galerijos-pavadimas">{{gallery_name}}</p>
+      <p id="footer-info" >{{imgIndex+1}} / {{pictures.length}} Paveikslelis</p>
+    </div>
+  </div>
+</div>

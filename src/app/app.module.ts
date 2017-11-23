@@ -18,7 +18,7 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
 import { GallerysComponent } from './views/gallerys/gallerys.component';
   //modals
 import { NewGroupComponent } from './modals/new-group/new-group.component';
-import { DeleteGroupComponent } from './modals/delete-group/delete-group.component';
+import { DeleteItemComponent } from './modals/delete-item/delete-item.component';
 import { NewGalleryComponent } from './modals/new-gallery/new-gallery.component';
 import { RenameGalleryComponent } from './modals/rename-gallery/rename-gallery.component';
 import { GalleryDescriptionComponent } from './modals/gallery-description/gallery-description.component';
@@ -27,13 +27,16 @@ import { IndexPageComponent } from './views/index-page/index-page.component';
 import { FileSizePipe } from './pipes/bytes-to-larger.pipe';
 import { RenameGroupComponent } from './modals/rename-group/rename-group.component';
 import { PrivateImagesComponent } from './views/private-images/private-images.component';
+import { AddGroupCoverComponent } from './modals/add-group-cover/add-group-cover.component';
+import { AddGroupDescriptionComponent } from './modals/add-group-description/add-group-description.component';
+import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 @NgModule({
   declarations: [
     AppComponent,
     GroupsComponent,
     PageNotFoundComponent,
     NewGroupComponent,
-    DeleteGroupComponent,
+    DeleteItemComponent,
     NewGalleryComponent,
     GallerysComponent,
     RenameGalleryComponent,
@@ -42,7 +45,10 @@ import { PrivateImagesComponent } from './views/private-images/private-images.co
     IndexPageComponent,
     FileSizePipe,
     RenameGroupComponent,
-    PrivateImagesComponent
+    PrivateImagesComponent,
+    AddGroupCoverComponent,
+    AddGroupDescriptionComponent,
+    PictureGalleryComponent
   ],
   imports: [
     BrowserModule,
@@ -56,11 +62,13 @@ import { PrivateImagesComponent } from './views/private-images/private-images.co
   ],
   providers: [BackendService],
     entryComponents:[ NewGroupComponent,
-                      DeleteGroupComponent,
+                      DeleteItemComponent,
                       NewGalleryComponent,
                       RenameGalleryComponent,
                       GalleryDescriptionComponent,
-                      RenameGroupComponent
+                      RenameGroupComponent,
+                      AddGroupCoverComponent,
+                      AddGroupDescriptionComponent
                       ],
   bootstrap: [AppComponent]
 })

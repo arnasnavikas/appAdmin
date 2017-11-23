@@ -1,0 +1,18 @@
+<mat-paginator id='paginator' [length]="length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="updateView($event)">
+</mat-paginator>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
+  
+  <mat-card matTooltip='Paspauskite norėdami pasirinkti paveikslėlį' class="group-cover" *ngFor='let image of showedImages; let i = index' (click)='ElemIndex = i' >
+    <div #element  [class.hidden]="i != ElemIndex" [class.showOptions]='i == ElemIndex' ></div>
+    <div class='button-background' *ngIf='i == ElemIndex' fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
+      <button class="select-button" mat-raised-button color='primary' (click)='addCover(image.imgURL)' >PASIRINKTI</button>
+    </div>
+    <mat-card-header>
+      <mat-card-subtitle>{{image.name}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="image.imgURL" alt="">
+  </mat-card>
+</div>

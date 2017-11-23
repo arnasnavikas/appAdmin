@@ -49,8 +49,8 @@ export interface TableStruct {
 export interface PictureInterface{
     _id         : string,
     description : string,
-    img_name    : string,
-    img_src     : string,
+    name        : string,
+    imgURL     : string,
     size        : number,
     sukurta     : number
 }

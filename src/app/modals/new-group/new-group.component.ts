@@ -25,7 +25,7 @@ export class NewGroupComponent {
   private submited = false //for spinner display while response from server is comming
   private newGroup : FormGroup
                  
-  onNoClick(): void {
+  private onNoClick = (): void=> {
     this.dialogRef.close();
   }
 
@@ -44,7 +44,8 @@ export class NewGroupComponent {
                                                                      err=>{console.log(err);},
                                                                      ()=>{ this.submited = false; 
                                                                            this.created = true;
-                                                                           this.backendService.loadGroups() })
+                                                                           this.backendService.loadGroups();
+                                                                           setTimeout(this.onNoClick,2000) })
     }
   }
 

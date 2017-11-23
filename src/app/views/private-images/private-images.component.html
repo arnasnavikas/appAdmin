@@ -1,7 +1,7 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-  <mat-card *ngFor='let pic of backendService.private_pictures' class="example-card">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center"  >
+  <mat-card *ngFor='let pic of backendService.private_pictures;let i = index' (click)='openPicture(i);openGallery = true' class="example-card">
     <div #element  (click)='backendService._addToList(pic._id,element);'  [class.select-item]="backendService.addToList == true"></div>
-    <button class='delete-image' mat-icon-button><mat-icon>&#xE5C9;</mat-icon></button>
+    <button class='delete-image' (click)='deleteImage(pic._id,pic.name)' mat-icon-button><mat-icon>&#xE5C9;</mat-icon></button>
       <mat-card-header>
         <mat-card-subtitle>{{pic.name}}</mat-card-subtitle>
       </mat-card-header>
@@ -11,3 +11,5 @@
       </mat-card-content>
     </mat-card>
 </div> 
+
+<app-picture-gallery *ngIf='openGallery' [index]='clicked_Img' (close)='openGallery = $event' [picture]='backendService.private_pictures'></app-picture-gallery>

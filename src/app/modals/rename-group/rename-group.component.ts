@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation,Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { BackendService } from '../../backend.service'
+import { GroupInterface } from '../../intercafe.enum';
 @Component({
   selector: 'app-rename-group',
   templateUrl: './rename-group.component.html',
@@ -11,7 +12,7 @@ import { BackendService } from '../../backend.service'
 export class RenameGroupComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RenameGroupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: GroupInterface,
     private backendService: BackendService,
     private _fb: FormBuilder ){}
     ngOnInit() {
@@ -23,14 +24,14 @@ export class RenameGroupComponent implements OnInit {
     private renameGroup: FormGroup
   _renameGroup(){
     if(this.renameGroup.valid && this.renameGroup.value.pavadinimas != this.data.pavadinimas){
-
+      
       let route = this.renameGroup.controls['pavadinimas'].value.replace(/[\W_]+/g,"-") 
       this.renameGroup.controls['route'].setValue(route)
       this.backendService.renameGroup(this.renameGroup.value)
       .subscribe( data=>{console.log(data)},
                   err=>{console.log(err)},
-                  ()=>{this.backendService.loadGroups();
-                    this.dialogRef.close()})
+                  ()=>{this.data.pavadinimas = this.renameGroup.value.pavadinimas
+                       this.dialogRef.close()})
       }
   }
   onNoClick(): void {

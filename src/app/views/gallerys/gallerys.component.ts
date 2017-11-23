@@ -42,6 +42,7 @@ export class GallerysComponent implements OnInit,OnDestroy {
   editDescription(id,aprasymas){
     this.dialog.open(GalleryDescriptionComponent,{
       width:'320px',
+      height: '400px',
       data:{id:id,description:aprasymas,group_id:this.group._id}
     })
   }

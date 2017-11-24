@@ -152,18 +152,14 @@
 #image-footer{
   display: block;
   position: absolute;
-  opacity: 0;
   background: -moz-linear-gradient(rgba(255, 255, 255,0),rgba(0, 0, 0,.5));
   padding: 0 20px;
   bottom: 0;
   left: 0;
   height: auto;
   width: 100%;
-  transition:opacity .2s linear;
 }
-#image-footer:hover   .gallery-buttons{
-  opacity: 0;
-}
+
 #galerijos-pavadimas{
   display: -webkit-box;
   display: -ms-flexbox;

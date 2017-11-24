@@ -21,16 +21,28 @@ export const environment = {
        _messagesUrl : 'http://'+address+'/messages',
                 /** sends mail */
         sendMailUrl : 'http://'+address+'/sendMail',
-                /** loads gallerys */
-                url : 'http://'+address+'/galerija',
+/***************************** GALLERY  ************************* */
+                /** load gallerys */
+       get_gallerys : 'http://'+address+'/gallery',
                 /** deletes gallery */
-   deleteGalleryUrl : 'http://'+address+'/galleryDelete',
+   deleteGalleryUrl : 'http://'+address+'/gallery/delete',
                 /** creates new gallery */
-   createGalleryURL : 'http://'+address+'/new_gallery',
+   createGalleryURL : 'http://'+address+'/gallery/create',
+                /** creates new gallery */
+ addGalleryDescrURL : 'http://'+address+'/gallery/description',
+                /** rename gallery */
+   renameGalleryURL : 'http://'+address+'/gallery/rename',
+                /** loads one gallery  */
+   getGalleryPicturesURL : 'http://'+address+'/gallery/pictures',
                 /** adds index picture to gallery */
         addIndexURL : 'http://'+address+'/addindex',
-                /** adds picture to gallery */
-      addPictureUrl : 'http://'+address+'/addPictures/',
+        /******************************* PICTURES************************** */
+        /** removes pictures from gallery */
+       addPictureUrl : 'http://'+address+'/addPictures/',
+        /** removes pictures from gallery */
+removeGalleryPicture : 'http://'+address+'/picture/delete/',
+
+/******************************* GROUP **************************** */
                 /** creates new group */
         createGroup : 'http://'+address+'/group/create',
                 /** adds group image */
@@ -43,8 +55,6 @@ addGroupDescription : 'http://'+address+'/group/add-description',
        group_delete : 'http://'+address+'/group/delete',
                 /** rename group */
        group_rename : 'http://'+address+'/group/rename',
-                /** load gallerys */
-       get_gallerys : 'http://'+address+'/get-gallerys',
                 /** load gallerys */
        get_pictures : 'http://'+address+'/get-pictures',
                 /** upload pictures */

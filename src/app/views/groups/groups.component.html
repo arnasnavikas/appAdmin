@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
     <mat-card style="margin:10px;" *ngFor='let group of backendService.groups; let i = index' >
-        <div #element  (click)='backendService._addToList(group._id,element);'  [class.select-item]="backendService.addToList == true"></div>
+        <div appDeleteItem [id]='group._id'  [class.select-item]="backendService.addToList == true"></div>
             <button matTooltip='Ištrinti grupę' class="delete-group" mat-icon-button (click)='deleteGroup(group)'> <mat-icon>&#xE5C9;</mat-icon></button>
         <mat-card-header>
             <div mat-card-avatar class="group-header-image" [style.background-image]="'url('+group.imgURL+')'"></div>

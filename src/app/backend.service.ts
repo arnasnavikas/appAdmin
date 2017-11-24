@@ -1,8 +1,9 @@
 import { Injectable, group } from '@angular/core';
-import { GroupInterface, GalerijaInterface,PicsInterfase } from "./intercafe.enum"
+import { GroupInterface, GalerijaInterface,PictureInterface } from "./intercafe.enum"
 import { Http,Response,Headers,RequestOptions } from "@angular/http";  
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
+import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 @Injectable()
 export class BackendService {
 
@@ -12,12 +13,14 @@ export class BackendService {
   
   public groups : Array<GroupInterface> = []
   public gallerys : Array<GalerijaInterface> = []
-  public private_pictures : Array<PicsInterfase> = []
+  public pictures : Array<PictureInterface> = []
   // delete object
   public addToList = false // enables items selecting for deletion
   public deleteList = []  // arry of items _id or other information of selected itemd
-  public what_object_delete : string = '' // specifies witch object is current displaying for delete (pvz: 'group','gallery' ...)
+  public multiple_delete_type : string = '' // type for multiple delete
+  public single_delete_type : string = '' // type for single delete
   public selected_DOM_items = [] // holds selected itmes DOM, for removing class after canceling deletion
+  public gallery_id
   //group parmas
   public group_id : string = ''
   public group_folder : string = ''
@@ -127,7 +130,7 @@ export class BackendService {
  *#####################################################################*/
   renameGallery(formData){
     let body = JSON.stringify(formData);
-    return this.http.put(environment.createGalleryURL, "data="+body, this.options)
+    return this.http.put(environment.renameGalleryURL, "data="+body, this.options)
                                                    .map(this.extractData)
                                                    ._catch(this.handleError);
   } 
@@ -140,7 +143,7 @@ export class BackendService {
  *#####################################################################*/
   updateGalleryDescription(formData){
     let body = JSON.stringify(formData);
-    return this.http.post(environment.createGalleryURL+'/'+formData.id, "data="+body, this.options)
+    return this.http.post(environment.addGalleryDescrURL+'/'+formData.id, "data="+body, this.options)
                                                    .map(this.extractData)
                                                    ._catch(this.handleError);
   } 
@@ -168,25 +171,41 @@ deleteGallerys(id:Array<string>){
                   .map(this.extractData)
                   .catch(this.handleError);
 }
+getGalleryPictures(gallery_id){
+  return this.http.get(environment.getGalleryPicturesURL+'/'+gallery_id)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+loadGalleryPictures(){
+  this.getGalleryPictures(this.gallery_id).subscribe((gallery:GalerijaInterface)=>{this.pictures = gallery.gallery_images},
+                                                      err=>{console.log(err)},
+                                                      ()=>{})
+}
+deleteGalleryImages(id:Array<string>){
+  let body = JSON.stringify(id)
+  return this.http.put(environment.removeGalleryPicture+this.gallery_id,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError)
+}
+getPrivateImages(){
+  return this.http.get(environment.upload_pictures)
+  .map(this.extractData)
+  .catch(this.handleError);
+}
+loadPrivatePictures(){
+  this.getPrivateImages().subscribe(pictures=>{this.pictures = pictures},
+    err=>{console.log(err)},
+    ()=>{console.log('privte pictures loaded')})
+  }
+deletePrivateImages(ids){
+    let body = JSON.stringify(ids)
+    return this.http.put(environment.upload_pictures,'data='+body,this.options)
+  }
+
   // converting response data to json
   private extractData(res: Response) {
     let body = res.json();
     return body || { "error":"nera duomenu"};
-  }
-
-  getPrivateImages(){
-    return this.http.get(environment.upload_pictures)
-             .map(this.extractData)
-             .catch(this.handleError);
-  }
-  loadPrivatePictures(){
-    this.getPrivateImages().subscribe(pictures=>{this.private_pictures = pictures},
-                                      err=>{console.log(err)},
-                                      ()=>{console.log('privte pictures loaded')})
-  }
-  deletePrivateImages(ids){
-    let body = JSON.stringify(ids)
-    return this.http.put(environment.upload_pictures,'data='+body,this.options)
   }
   private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure

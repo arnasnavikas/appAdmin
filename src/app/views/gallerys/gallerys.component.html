@@ -22,7 +22,7 @@
     </mat-card-content>
     <mat-card-actions>
               <button mat-button [routerLink]='[gallery.group_name,gallery.folder_name,gallery._id]' color='primary' ><mat-icon>&#xE439;</mat-icon> Add</button>
-              <button mat-button color='warn' ><mat-icon>&#xE410;</mat-icon> View</button>
+              <button mat-button [routerLink]='[gallery._id]' color='warn' ><mat-icon>&#xE410;</mat-icon> View</button>
     </mat-card-actions>
   </mat-card>
 </div>

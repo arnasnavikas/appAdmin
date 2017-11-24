@@ -30,6 +30,7 @@ import { PrivateImagesComponent } from './views/private-images/private-images.co
 import { AddGroupCoverComponent } from './modals/add-group-cover/add-group-cover.component';
 import { AddGroupDescriptionComponent } from './modals/add-group-description/add-group-description.component';
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
+import { DeleteItemDirective } from './directives/delete-item.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,8 @@ import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery
     PrivateImagesComponent,
     AddGroupCoverComponent,
     AddGroupDescriptionComponent,
-    PictureGalleryComponent
+    PictureGalleryComponent,
+    DeleteItemDirective
   ],
   imports: [
     BrowserModule,

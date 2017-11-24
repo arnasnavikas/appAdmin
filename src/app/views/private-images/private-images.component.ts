@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation,OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
-import { PicsInterfase} from '../../intercafe.enum'
+import { PicsInterfase,GalerijaInterface,PictureInterface} from '../../intercafe.enum'
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
-
+import { ActivatedRoute } from "@angular/router"
 @Component({
   selector: 'app-private-images',
   templateUrl: './private-images.component.html',
@@ -13,26 +13,40 @@ import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 export class PrivateImagesComponent implements OnInit,OnDestroy {
 
   constructor(private backendService: BackendService,
-              public dialog: MatDialog,) { }
+              public dialog: MatDialog,
+              public router: ActivatedRoute) { }
   openGallery = false;
   clicked_Img
   ngOnInit() {
-    this.backendService.what_object_delete ='private-pictures'
-    this.backendService.getPrivateImages().subscribe((pictures:Array<PicsInterfase>)=>{
-      this.backendService.private_pictures = pictures;
+    // load pictures for gallery images
+    this.router.params.subscribe(params=>{
+      console.log(params)
+      if(Object.keys(params).length == 2){
+        this.backendService.gallery_id = params.gallery_id
+        // set what to delete for multiple deletion
+        this.backendService.multiple_delete_type = 'gallery-images'
+        // set what to delete for single deletion
+        this.backendService.single_delete_type = 'nuotrauką'
+        this.backendService.loadGalleryPictures()
+        console.log('this probably is gallery images...')
+        return;
+      }
+      // load images for private pictures
+        this.backendService.multiple_delete_type = 'private-pictures'
+        this.backendService.single_delete_type = 'paveikslėlį'
+        this.backendService.loadPrivatePictures()
+        console.log('this is definatley private images')
     })
   }
   ngOnDestroy(){
-    this.backendService.what_object_delete =''
-    this.backendService.addToList = false
+    this.backendService.pictures = []
   }
-  deleteImage(id,name){
+  deleteImage(id,name,event){
+    event.stopPropagation()
     this.dialog.open(DeleteItemComponent,{
       width: '250px',
-      data: {id:id,type:'paveikslėlį',name:name}
+      data: {id:id,name:name}
     })
   }
-  openPicture(i){
-    this.clicked_Img = i
-  }
+
 }

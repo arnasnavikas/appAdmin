@@ -13,6 +13,7 @@ const routes = [ {path: '', component: AppComponent},
                  {path: 'groups',component: IndexPageComponent,
                       children:[{path:'',component:GroupsComponent},
                                 {path:':group_id/:group_folder/:gallery_folder/:gallery_id',component:UploadImagesComponent},
+                                {path:':group_id/:gallery_id',component:PrivateImagesComponent},
                                 {path:':group_id',component:GallerysComponent}
                               ]},
                  {path: 'upload-images', component: UploadImagesComponent},                

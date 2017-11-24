@@ -4,7 +4,6 @@ import { GroupInterface } from '../../intercafe.enum'
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { NewGalleryComponent } from '../../modals/new-gallery/new-gallery.component'
-import { Router } from '@angular/router'
 import { RenameGroupComponent } from '../../modals/rename-group/rename-group.component'
 import { AddGroupCoverComponent } from '../../modals/add-group-cover/add-group-cover.component'
 import { AddGroupDescriptionComponent } from '../../modals/add-group-description/add-group-description.component'
@@ -16,23 +15,21 @@ import { AddGroupDescriptionComponent } from '../../modals/add-group-description
 })
 export class GroupsComponent implements OnInit, OnDestroy {
   constructor(private backendService: BackendService,
-              public dialog: MatDialog,
-              private router : Router) {}
+              public dialog: MatDialog) {}
   ngOnInit() {
-    this.backendService.what_object_delete = 'group'
-    this.backendService.getGroups().subscribe(data =>{ this.backendService.groups = data; console.log(data)},
-                                              err=>{ console.log(err)},
-                                              ()=>{console.log('groups loaded')})
+    this.backendService.multiple_delete_type = 'group'
+    this.backendService.single_delete_type='groupę'
+    this.backendService.loadGroups()
   }
   ngOnDestroy(){
-    this.backendService.what_object_delete = ''
+    this.backendService.multiple_delete_type = ''
     this.backendService.addToList = false
  }
   deleteGroup(group:GroupInterface){
     console.log(group)
     let dialogRef = this.dialog.open(DeleteItemComponent, {
       width: '250px',
-      data : {id:group._id, name:group.pavadinimas, type:'grupę'}
+      data : {id:group._id, name:group.pavadinimas}
     });
   }
   newGallery(group:GroupInterface){

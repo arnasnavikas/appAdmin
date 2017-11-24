@@ -53,7 +53,7 @@ export class NewGalleryComponent implements OnInit {
                        .subscribe(data=>{console.log(data)},
                                   err =>{console.log(err)},
                                   ()=>{this.galleryCreated = true;
-                                       this.backendService.loadGroups();
+                                       this.data.gallerys = this.data.gallerys+1
                                        setTimeout(this.closeModal,2000)})
   }
 }

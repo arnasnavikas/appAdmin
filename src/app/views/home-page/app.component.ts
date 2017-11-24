@@ -29,7 +29,7 @@ export class AppComponent  {
   deleteItems(){
     if(this.backendService.deleteList.length == 0)
     return;
-    switch (this.backendService.what_object_delete) {
+    switch (this.backendService.multiple_delete_type) {
       case "gallery":
       this.backendService.deleteGallerys(this.backendService.deleteList)
                          .subscribe(data=>{console.log(data)},
@@ -51,8 +51,8 @@ export class AppComponent  {
       case "table":
       console.log('deleting tablr')
       break;
-      case "message":
-      console.log('deleting message')
+      case "gallery-images":
+      console.log('deleting gallery images')
       break;
       case "private-pictures":
       this.backendService.deletePrivateImages(this.backendService.deleteList)

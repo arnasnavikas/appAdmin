@@ -1,10 +1,3 @@
-export interface PicsInterfase{
-    _id:string,
-    name : string,
-    imgURL : string,
-    size : number,
-    created: Date
-}
 export interface MyResumeInterface{
     vardas : string,
     amzius : string,
@@ -26,14 +19,14 @@ export interface GroupInterface{
     folder_name: string
 }
  interface TableRowData  {
-    darbo_pavadinimas: string,
+     darbo_pavadinimas: string,
     vnt_kaina: number,
     mato_vnt: string,
     input: string,
     suma: number
 }
  interface TableHeader  {
-    darbo_pavadinimas: string,
+     darbo_pavadinimas: string,
     vnt_kaina: string,
     mato_vnt: string,
     input: string,
@@ -50,9 +43,16 @@ export interface PictureInterface{
     _id         : string,
     description : string,
     name        : string,
-    imgURL     : string,
+    imgURL      : string,
     size        : number,
-    sukurta     : number
+    created     : number
+}
+export interface PicsInterfase{
+    _id:string,
+    name : string,
+    imgURL : string,
+    size : number,
+    created: Date
 }
 export interface GalerijaInterface{
     _v: number,

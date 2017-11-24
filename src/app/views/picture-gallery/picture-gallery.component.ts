@@ -1,5 +1,5 @@
 import {Component, OnInit, Input,trigger, Output,
-  state, style, transition, animate, EventEmitter,ViewEncapsulation, OnDestroy} from '@angular/core';
+  state, style, transition, animate, EventEmitter,ViewEncapsulation} from '@angular/core';
 import { PictureInterface } from '../../intercafe.enum'
 @Component({
   selector: 'app-picture-gallery',
@@ -7,32 +7,36 @@ import { PictureInterface } from '../../intercafe.enum'
   styleUrls: ['./picture-gallery.component.css'],
   encapsulation: ViewEncapsulation.None,
   animations: [
-    trigger('gallery-open',[
-      state('in', style({transform: 'translateX(0)'})),
+    trigger('show-info',[
+      state('close', style({opacity:0,transform: 'translateY(100%) scale(0)'})),
+      state('open', style({opacity:1,transform: 'translateY(0 )'})),
+      transition('* => open', [animate('.2s ease-in')]),
+      transition('open => *', [animate('.2s ease-in')])
+    ]),
+    trigger('open-close-gallery',[
       state('close', style({transform: 'translateX(-100%) scale(0)'})),
-      transition('void => *', [
-        style({transform: 'translateX(0) scale(0)'}),
-        animate('.2s ease-in')
-      ]),
+      transition('void => *', [style({transform: 'translateX(0) scale(0)'}),animate('.2s ease-in')]),
       transition('* => close', [animate('.2s ease-in')])
     ]),
     trigger('flyRight', [
-      state('out-right', style({opacity: 0,transform: 'translateX(-50%)' })),
-      state('back-right', style({opacity: 1,transform: 'translateX(0)' })),
+      state('ready', style({opacity: 0,transform: 'translateX(-100%)' })),
+      state('fly-in', style({opacity: 1,transform: 'translateX(0)' })),
       state('fly-out', style({opacity: 0,transform: 'translateX(50%)' })),
-      transition('out-right => back-right', [animate('.2s ease-in')]),
-      transition('back-right => fly-out', [animate('.2s ease-in')])
+      transition('ready => fly-in', [animate('.2s ease-in')]),
+      transition('* => fly-out', [animate('.2s ease-in')]),
+      transition('fly-out => ready',[])
     ]),
     trigger('flyLeft', [
-      state('out-left', style({opacity: 0,transform: 'translateX(50%)' })),
-      state('back-left', style({opacity: 1,transform: 'translateX(0)' })),
+      state('ready', style({opacity: 0,transform: 'translateX(100%)' })),
+      state('fly-in', style({opacity: 1,transform: 'translateX(0)' })),
       state('fly-out', style({opacity: 0,transform: 'translateX(-50%)' })),
-      transition('out-left => back-left', [animate('.2s ease-in')]),
-      transition('back-left => fly-out', [animate('.2s ease-in')])
+      transition('ready => fly-in', [animate('.2s ease-in')]),
+      transition('* => fly-out', [animate('.2s ease-in')]),
+      transition('fly-out => ready',[])
     ])
   ]
 })
-export class PictureGalleryComponent implements OnInit,OnDestroy {
+export class PictureGalleryComponent implements OnInit {
 
   constructor() { }
 // @Input('picture') pictures:Array<PictureInterface>
@@ -43,17 +47,16 @@ export class PictureGalleryComponent implements OnInit,OnDestroy {
 private gallery_description;
 private imgIndex;
 private _source;
-private right = 'in';
-private left = 'in';
-private animate_open
-private allowNextImg = true;
-private infoShowed = false // for mobile phones click on image is turning on image info
+private right;
+private left;
+private gallery_animation
+private infoShowed = 'close' // for mobile phones click on image is turning on image info
 /**###############################################
  * CHECK IF IMAGES NOT EMPTY, AND SETS FIRST
  * IMAGE IN SLIDER
  */
 ngOnInit() {
-  this.animate_open = 'open'
+  // this.gallery_animation = 'open'
   this.index = this.index ? this.index : 0;
   this.imgIndex = this.index;
   if(this.pictures.length > 0){
@@ -61,92 +64,85 @@ ngOnInit() {
     this.gallery_description = this.pictures[this.index].description;
   }
 } 
-ngOnDestroy(){
-  // this.animate_open = 'closed'
+closeGallery =(event)=>{
+  if(event.toState == 'close'){
+    console.log('animation complete, closing gallery')
+    this.close.emit(false);
+  }
 }
-rightDone(e) {
-  // console.log(e)
-  this.allowNextImg = true;
-  this.right = 'back-right';
-}
-leftDone(e){
-  // console.log(e)
-  this.allowNextImg = true;
-  this.left = 'back-left';
-}
-closeGallery =()=>{
-  this.close.emit(false);
-}
-// close gallery component
-removeGallery = ()=>{
-  this.animate_open = 'close'
-  setTimeout(this.closeGallery,500)
-}
+/**#################### shows next picture ################### */
+nextImg(e) {
+    e.stopPropagation()
+    this.right = 'fly-out'
+  }
+right_animation_done(e) {
+    if(e.toState == 'fly-out')
+      this.right = 'ready'
+    if(e.toState == 'ready')
+      this.insert_next_image();
+  }
 private insert_next_image = ()=>{
-  this.right = 'out-right';
-  let realPicturesLength = this.pictures.length - 1;
+    let realPicturesLength = this.pictures.length - 1;
     if (this.imgIndex == realPicturesLength)
       this.imgIndex = 0;
     else
       this.imgIndex += 1;
     this.gallery_description = this.pictures[this.imgIndex].description;
     this._source = this.pictures[this.imgIndex].imgURL;
-}
-nextImg(e) {
+    this.right = 'fly-in';
+  }
+/**#################### shows previous picture ################### */
+prevImg(e) {
   e.stopPropagation()
-  this.right = 'fly-out'
-  if(this.allowNextImg)
-    setTimeout(this.insert_next_image,500)
+  this.left = 'fly-out'
 }
-
+left_animation_done(e){
+  if(e.toState == 'fly-out')
+    this.left = 'ready'
+  if(e.toState == 'ready')
+    this.insert_Previous_Image()
+}
 private insert_Previous_Image = ()=>{
-  this.left = 'out-left'
   if (this.imgIndex == 0)
     this.imgIndex = this.pictures.length - 1;
   else
     this.imgIndex -= 1;
   this.gallery_description = this.pictures[this.imgIndex].description;
   this._source = this.pictures[this.imgIndex].imgURL;
+  this.left = 'fly-in'
 }
-// animates next picture entry
-prevImg(e) {
-  e.stopPropagation()
-  this.left = 'fly-out'
-  if(this.allowNextImg)
-      setTimeout(this.insert_Previous_Image,500)
-  }
+/**################################################################# */
   // shows info abaout image on mobile phones when clicked on image
-  showInfo(domElem,event){
-    let screenSize = window.innerWidth
-    if(screenSize < 640){
-
-      console.log(domElem)
-      if(screenSize < 640 && !this.infoShowed){
-        domElem.style.visibility = 'visible'
-        console.log('setting visible')
-      }
-      else if(screenSize < 640 && this.infoShowed){
-        this.infoShowed = false
-        domElem.style.visibility = 'hidden'
-        console.log('setting hidden')
-        return;
-      }
-      this.infoShowed = true
-    }else
-      this.removeGallery()
-
+  infoToggle = false
+  showInfo(e){
+    e.stopPropagation()
+    this.infoShowed = this.infoShowed == 'open'? 'close': 'open'
+    console.log(this.infoShowed)
+    //   if(!this.infoShowed){
+    //     domElem.style.visibility = 'visible'
+    //     console.log('setting visible')
+    //   }
+    //   else{
+    //     this.infoShowed = false
+    //     domElem.style.visibility = 'hidden'
+    //     console.log('setting hidden')
+    //     return;
+    //   }
+    //   this.infoShowed = true
   }
   swipe(e){
     console.log(e)
     if(e.type == 'swiperight'){
-      this.nextImg(e)
+      // this.nextImg(e)
+      this.right = 'fly-out'
       console.log(e.type)
       console.log(e)
     }
     else if (e.type == 'swipeleft'){
       console.log(e.type)
       console.log(e)
-      this.prevImg(e)
+      // this.prevImg(e)
+      this.left = 'fly-out'
     }
   }
 }

@@ -19,7 +19,7 @@ export class GallerysComponent implements OnInit,OnDestroy {
                private router : Router) {
               }
   private group :GroupInterface;
-  ngOnInit(){ this.backendService.what_object_delete = 'gallery'
+  ngOnInit(){ this.backendService.multiple_delete_type = 'gallery'
               this.route.params.subscribe(params=>{
                   this.backendService.getOneGroup(params.group_id)
                   .subscribe((group :GroupInterface)=>{this.group = group;
@@ -31,7 +31,7 @@ export class GallerysComponent implements OnInit,OnDestroy {
     }
     ngOnDestroy(){
       this.backendService.addToList = false
-      this.backendService.what_object_delete = ''
+      this.backendService.multiple_delete_type = ''
   }
   changeName(id,oldName){
     this.dialog.open(RenameGalleryComponent,{

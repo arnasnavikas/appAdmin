@@ -3,8 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { BackendService } from '../../backend.service'
 interface data{
   name: string,
-  id: string,
-  type: string
+  id: string
 }
 @Component({
   selector: 'app-delete-item',
@@ -19,11 +18,7 @@ export class DeleteItemComponent implements OnInit {
     private backendService : BackendService) { }
     private deleted = false
     private deleting = null
-    private name
-    private type
     ngOnInit() {
-      this.name = this.data.name 
-      this.type = this.data.type
     }
     deleteGroup(){
       console.log(this.data)
@@ -47,20 +42,32 @@ export class DeleteItemComponent implements OnInit {
                                            setTimeout(this.onNoClick,2000)
                                           })
     }
+    deleteGalleryImage(){
+      this.backendService.deleteGalleryImages([this.data.id])
+                         .subscribe(data=>{console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{this.deleting = false; 
+                                      this.deleted = true;
+                                      this.backendService.loadGalleryPictures();
+                                      setTimeout(this.onNoClick,2000)})
+    }
     confirm(){
       this.deleting = true
-      switch (this.data.type) {
+      switch (this.backendService.single_delete_type) {
         case 'grupę':
         this.deleteGroup()
         break;
         case 'paveikslėlį':
         this.deletePrivateImage()
         break;
+        case 'nuotrauką':
+        this.deleteGalleryImage()
+        console.log('deleting gallery image')
+        break;
         
         default:
         break;
       }
-      // this.dialogRef.close()
   }
   private onNoClick = ()=>{
     this.dialogRef.close();

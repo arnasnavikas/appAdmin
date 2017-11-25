@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RenameGalleryComponent } from './rename-gallery.component';
+import { NewItemComponent } from './new-item.component';
 
-describe('RenameGalleryComponent', () => {
-  let component: RenameGalleryComponent;
-  let fixture: ComponentFixture<RenameGalleryComponent>;
+describe('NewItemComponent', () => {
+  let component: NewItemComponent;
+  let fixture: ComponentFixture<NewItemComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RenameGalleryComponent ]
+      declarations: [ NewItemComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RenameGalleryComponent);
+    fixture = TestBed.createComponent(NewItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

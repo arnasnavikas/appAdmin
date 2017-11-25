@@ -1,7 +1,7 @@
 <h1 mat-dialog-title style="text-align:center;">Aprašymas</h1>
-<div mat-dialog-content>
+<div mat-dialog-content fxLayout="row" fxLayoutWrap fxLayoutAlign="center center">
   <mat-form-field [formGroup]='descriptionForm'  >
-      <textarea style="min-width:280px;min-height:200px;" matInput placeholder="Galerijos aprašymas" formControlName='description' required></textarea>
+      <textarea style="width:100% !important;min-height:200px;" matInput placeholder="Galerijos aprašymas" formControlName='description' required></textarea>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>

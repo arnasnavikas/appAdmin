@@ -1,0 +1,21 @@
+<span *ngIf='!submited && !created' fxLayout="row" fxLayoutWrap fxLayoutAlign="center center">  
+  <h1 mat-dialog-title style="text-align:center;">Sukurti {{typeName}}</h1>
+  <div mat-dialog-content >
+    <mat-form-field [formGroup]='newItemForm'>
+        <input matInput placeholder="Grupės pavadinimas" formControlName="name" required>
+        <mat-error *ngIf="newItemForm.controls['name'].hasError('required')">Laukelis negali būti tuščias!</mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)='create()' tabindex="2">Ok</button>
+    <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  </div>
+</span>
+<div fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+  <mat-spinner  *ngIf='submited' [diameter]="40"></mat-spinner>
+</div>
+<mat-grid-list *ngIf='created' cols="1" rowHeight="2:1">
+    <mat-grid-tile>
+      <mat-icon style="color:green;" class="material-icons">&#xE834;</mat-icon> <p class="mat-typography">{{succes_message}}</p>
+    </mat-grid-tile>
+</mat-grid-list>

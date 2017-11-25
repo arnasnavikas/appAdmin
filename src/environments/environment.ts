@@ -37,10 +37,14 @@ export const environment = {
                 /** adds index picture to gallery */
         addIndexURL : 'http://'+address+'/addindex',
         /******************************* PICTURES************************** */
+        /** upload pitures to gallery */
+uploadGalleryPicturesUrl : 'http://'+address+'/picture/upload/',
         /** removes pictures from gallery */
-       addPictureUrl : 'http://'+address+'/addPictures/',
+removeGalleryPicture : 'http://'+address+'/picture/delete',
         /** removes pictures from gallery */
-removeGalleryPicture : 'http://'+address+'/picture/delete/',
+addPictureDescription : 'http://'+address+'/picture/add-description',
+        /** get pictures by gallery id */
+getPicturesUrl : 'http://'+address+'/picture/get-pictures/',
 
 /******************************* GROUP **************************** */
                 /** creates new group */

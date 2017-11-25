@@ -3,10 +3,11 @@ import { BackendService } from '../../backend.service'
 import { GroupInterface } from '../../intercafe.enum'
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
-import { NewGalleryComponent } from '../../modals/new-gallery/new-gallery.component'
-import { RenameGroupComponent } from '../../modals/rename-group/rename-group.component'
+import { RenameComponent } from '../../modals/rename/rename.component'
 import { AddGroupCoverComponent } from '../../modals/add-group-cover/add-group-cover.component'
-import { AddGroupDescriptionComponent } from '../../modals/add-group-description/add-group-description.component'
+// import { AddGroupDescriptionComponent } from '../../modals/add-group-description/add-group-description.component'
+import { AddDescriptionComponent } from '../../modals/add-description/add-description.component'
+import { NewItemComponent } from '../../modals/new-item/new-item.component';
 @Component({
   selector: 'app-home',
   templateUrl: './groups.component.html',
@@ -18,7 +19,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
               public dialog: MatDialog) {}
   ngOnInit() {
     this.backendService.multiple_delete_type = 'group'
-    this.backendService.single_delete_type='groupę'
+    this.backendService.single_delete_type='grupę'
     this.backendService.loadGroups()
   }
   ngOnDestroy(){
@@ -26,20 +27,19 @@ export class GroupsComponent implements OnInit, OnDestroy {
     this.backendService.addToList = false
  }
   deleteGroup(group:GroupInterface){
-    console.log(group)
     let dialogRef = this.dialog.open(DeleteItemComponent, {
       width: '250px',
-      data : {id:group._id, name:group.pavadinimas}
+      data : {id:group._id, name:group.name}
     });
   }
   newGallery(group:GroupInterface){
-    let dialogRef = this.dialog.open(NewGalleryComponent, {
-      width: '500px',
-      data: group
+    let dialogRef = this.dialog.open(NewItemComponent, {
+      width: '250px',
+      data: {group:group,type:'gallery'}
       });
   }
   changeName(group:GroupInterface){
-    this.dialog.open(RenameGroupComponent,{
+    this.dialog.open(RenameComponent,{
       width:'250px',
       data:group
     })
@@ -52,9 +52,8 @@ export class GroupsComponent implements OnInit, OnDestroy {
     })
   }
   addDescription(group:GroupInterface){
-    this.dialog.open(AddGroupDescriptionComponent,{
-      width:'320px',
-      height: '400px',
+    this.dialog.open(AddDescriptionComponent,{
+      width:'250px',
       data:group
     })
   }

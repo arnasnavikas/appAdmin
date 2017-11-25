@@ -12,9 +12,11 @@
     <div (click)=nextImg($event) id="right-button" >
       <button mat-fab style='background:black !important;opacity:.5;' ><mat-icon class='arrow-icon'>&#xE315;</mat-icon></button>
     </div>
-    <div [@show-info]='infoShowed' #imageInfo id="image-footer" class="mat-typography">
+    <div [@show-info]='infoShowed' #imageInfo id="image-footer" >
       <p id="galerijos-pavadimas">{{gallery_name}}</p>
       <p id="footer-info" >{{imgIndex+1}} / {{pictures.length}} Paveikslelis</p>
+      <p style="color:white;">{{image_description}}</p>
     </div>
   </div>
 </div>
+

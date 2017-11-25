@@ -1,6 +1,6 @@
 import { Component,ViewChild} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { NewGroupComponent } from '../../modals/new-group/new-group.component' 
+import { NewItemComponent } from '../../modals/new-item/new-item.component' 
 import { BackendService } from '../../backend.service'
 import { MenuPositionY} from '@angular/material/menu';
 @Component({
@@ -11,20 +11,19 @@ import { MenuPositionY} from '@angular/material/menu';
 export class AppComponent  {
   constructor(public dialog: MatDialog,
               private backendService : BackendService) {}
-  openDialog(): void {
-    let dialogRef = this.dialog.open(NewGroupComponent, {
-      width: '250px'
+    createNewGroup(): void {
+    let dialogRef = this.dialog.open(NewItemComponent, {
+      width: '250px',
+      data : {type:'group'}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
+  //turns on multiple delete icon in menu bar
   createList(){
-    if(!this.backendService.addToList)
-      this.backendService.addToList = true
-    else
-      this.backendService.addToList = false
+    this.backendService.addToList = this.backendService.addToList? false:true
   }
   deleteItems(){
     if(this.backendService.deleteList.length == 0)
@@ -52,7 +51,11 @@ export class AppComponent  {
       console.log('deleting tablr')
       break;
       case "gallery-images":
-      console.log('deleting gallery images')
+      this.backendService.deleteGalleryImages(this.backendService.deleteList)
+                          .subscribe(data=>{console.log(data)},
+                                     err=>{console.log(err)},
+                                     ()=>{this.backendService.loadGalleryPictures();
+                                          this.resetList()})
       break;
       case "private-pictures":
       this.backendService.deletePrivateImages(this.backendService.deleteList)
@@ -64,6 +67,8 @@ export class AppComponent  {
       break;
       
       default:
+      if(!this.backendService.multiple_delete_type)
+        console.log('no backend.multiple_delete_type is selected');
       break;
     }
   }

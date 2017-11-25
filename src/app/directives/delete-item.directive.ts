@@ -14,7 +14,6 @@ ngOnInit(){
     console.log('this is from directive')
   }
   ngOnDestroy(){
-    this.backendService.multiple_delete_type = ''
     this.backendService.addToList = false
     this.backendService.selected_DOM_items = []
     this.backendService.deleteList = []

@@ -12,10 +12,10 @@ export interface GroupInterface{
     newMessages?: number,
     gallerys: number,
     tables: number,
-    pavadinimas: string,
+    name: string,
     imgURL: string,
     route: string,
-    aprasymas?: string,
+    description?: string,
     folder_name: string
 }
  interface TableRowData  {
@@ -41,29 +41,29 @@ export interface TableStruct {
 }
 export interface PictureInterface{
     _id         : string,
-    description : string,
+    description? : string,
     name        : string,
     imgURL      : string,
     size        : number,
     created     : number
+    group_id    : string,
+    gallery_id  : string,
+    folder_name : string,
+    gallery_name: string,
+    group_folder : string
 }
-export interface PicsInterfase{
-    _id:string,
-    name : string,
-    imgURL : string,
-    size : number,
-    created: Date
-}
+
 export interface GalerijaInterface{
     _v: number,
     _id: string,
     group_id : string,
-    aprasymas: string,
+    group_folder: string,
+    description: string,
+    gallery_images: number,
     birth_time: number,
-    gallery_images: Array<PictureInterface>
-    gallery_name: string,
+    name: string,
     index_img? : string,
-    route_name: string,
+    route: string,
     folder_name: string
 }
 interface address{

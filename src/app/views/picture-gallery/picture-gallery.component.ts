@@ -42,9 +42,9 @@ export class PictureGalleryComponent implements OnInit {
 // @Input('picture') pictures:Array<PictureInterface>
 @Input('picture') pictures : Array<PictureInterface>;
 @Input('index') index : number;
-@Input('galleryName') gallery_name;
+ gallery_name;
 @Output() close  = new EventEmitter();
-private gallery_description;
+private image_description;
 private imgIndex;
 private _source;
 private right;
@@ -61,7 +61,8 @@ ngOnInit() {
   this.imgIndex = this.index;
   if(this.pictures.length > 0){
     this._source = this.pictures[this.index].imgURL;
-    this.gallery_description = this.pictures[this.index].description;
+    this.image_description = this.pictures[this.index].description;
+    this.gallery_name = this.pictures[this.index].folder_name
   }
 } 
 closeGallery =(event)=>{
@@ -87,7 +88,7 @@ private insert_next_image = ()=>{
       this.imgIndex = 0;
     else
       this.imgIndex += 1;
-    this.gallery_description = this.pictures[this.imgIndex].description;
+    this.image_description = this.pictures[this.imgIndex].description;
     this._source = this.pictures[this.imgIndex].imgURL;
     this.right = 'fly-in';
   }
@@ -107,7 +108,7 @@ private insert_Previous_Image = ()=>{
     this.imgIndex = this.pictures.length - 1;
   else
     this.imgIndex -= 1;
-  this.gallery_description = this.pictures[this.imgIndex].description;
+  this.image_description = this.pictures[this.imgIndex].description;
   this._source = this.pictures[this.imgIndex].imgURL;
   this.left = 'fly-in'
 }

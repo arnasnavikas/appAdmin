@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewEncapsulation,Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { BackendService } from '../../backend.service'
-interface data{
-  name: string,
-  id: string
-}
 @Component({
   selector: 'app-delete-item',
   templateUrl: './delete-item.component.html',
@@ -14,7 +10,7 @@ interface data{
 export class DeleteItemComponent implements OnInit {
   
   constructor(public dialogRef: MatDialogRef<DeleteItemComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: data,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private backendService : BackendService) { }
     private deleted = false
     private deleting = null
@@ -33,7 +29,7 @@ export class DeleteItemComponent implements OnInit {
       console.log(this.data)
     }
     deletePrivateImage(){
-      this.backendService.deletePrivateImages([this.data.id])
+      this.backendService.deletePrivateImages([this.data._id])
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
                                     ()=>{ this.deleting = false; 
@@ -43,7 +39,7 @@ export class DeleteItemComponent implements OnInit {
                                           })
     }
     deleteGalleryImage(){
-      this.backendService.deleteGalleryImages([this.data.id])
+      this.backendService.deleteGalleryImages([this.data._id])
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
                                     ()=>{this.deleting = false; 
@@ -66,6 +62,9 @@ export class DeleteItemComponent implements OnInit {
         break;
         
         default:
+          console.log('no or wrong "single_delete_type" was provided')
+          console.log('current value is '+this.backendService.single_delete_type)
+          
         break;
       }
   }

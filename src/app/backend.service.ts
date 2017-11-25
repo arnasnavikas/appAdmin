@@ -60,7 +60,7 @@ export class BackendService {
                     .catch(this.handleError);
   }
   loadGroups(){
-    this.getGroups().subscribe(groups => { this.groups = groups},
+    this.getGroups().subscribe(groups => { this.groups = groups; console.log(groups)},
                                               err =>{ console.log(err)},
                                               ()=>{console.log('groups updated')})
   }
@@ -172,20 +172,35 @@ deleteGallerys(id:Array<string>){
                   .catch(this.handleError);
 }
 getGalleryPictures(gallery_id){
-  return this.http.get(environment.getGalleryPicturesURL+'/'+gallery_id)
+  return this.http.get(environment.getPicturesUrl+gallery_id)
                   .map(this.extractData)
                   .catch(this.handleError);
 }
 loadGalleryPictures(){
-  this.getGalleryPictures(this.gallery_id).subscribe((gallery:GalerijaInterface)=>{this.pictures = gallery.gallery_images},
+  this.getGalleryPictures(this.gallery_id).subscribe((pictures:Array<PictureInterface>)=>{this.pictures = pictures},
                                                       err=>{console.log(err)},
                                                       ()=>{})
 }
+
 deleteGalleryImages(id:Array<string>){
   let body = JSON.stringify(id)
-  return this.http.put(environment.removeGalleryPicture+this.gallery_id,'data='+body,this.options)
+  return this.http.put(environment.removeGalleryPicture,'data='+body,this.options)
                   .map(this.extractData)
                   .catch(this.handleError)
+}
+/**####################################################################
+ *  DESCRIPTION:
+ *        add description to picture;
+ *  PARAMETERS: 
+ *        1. form_data {id    : 'data',
+ *                      description   : 'nasm_sad_' }
+ *#####################################################################*/
+  
+addImageDescription(form_data){
+ var body = JSON.stringify(form_data)
+ return this.http.put(environment.addPictureDescription,'data='+body,this.options)
+                 .map(this.extractData)
+                 .catch(this.handleError);
 }
 getPrivateImages(){
   return this.http.get(environment.upload_pictures)
@@ -197,8 +212,8 @@ loadPrivatePictures(){
     err=>{console.log(err)},
     ()=>{console.log('privte pictures loaded')})
   }
-deletePrivateImages(ids){
-    let body = JSON.stringify(ids)
+deletePrivateImages(id:Array<string>){
+    let body = JSON.stringify(id)
     return this.http.put(environment.upload_pictures,'data='+body,this.options)
   }
 

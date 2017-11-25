@@ -24,13 +24,13 @@ export class UploadImagesComponent implements OnInit {
   public uploader:FileUploader ;
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
-  
+ 
   constructor( private backendService : BackendService,
     private router: ActivatedRoute,
     private _router: Router) {
       this.router.params.subscribe((params:parameters)=>{
         if(Object.keys(params).length > 0){
-          this.URL = environment.addPictureUrl+params.group_folder+'/'+params.gallery_folder+'/'+params.gallery_id;
+          this.URL = environment.uploadGalleryPicturesUrl+params.group_folder+'/'+params.gallery_folder+'/'+params.gallery_id;
           console.log('gallerys images uploading')
         }
         else{
@@ -44,20 +44,18 @@ export class UploadImagesComponent implements OnInit {
           maxFileSize:5000000,
           queueLimit:20});
       }
-      openFile(domEl) {
-        
-        console.log(domEl)
-      }
       public fileOverBase(e:any):void {
         this.hasBaseDropZoneOver = e;
       }
       public fileOverAnother(e:any):void {
         this.hasAnotherDropZoneOver = e;
       }
-      
+      setPaginator = ()=>{
+        this.dataSource.paginator = this.paginator;
+      }
       makeTable(){
-          this.dataSource = new MatTableDataSource(this.uploader.queue);
-          this.dataSource.paginator = this.paginator;
+        this.dataSource = new MatTableDataSource(this.uploader.queue);
+        setTimeout(this.setPaginator,1000) 
       }
       public select(e:any):void{
         this.makeTable()

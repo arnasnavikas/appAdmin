@@ -17,18 +17,15 @@ import { GroupsComponent } from './views/groups/groups.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component'
 import { GallerysComponent } from './views/gallerys/gallerys.component';
   //modals
-import { NewGroupComponent } from './modals/new-group/new-group.component';
+import { NewItemComponent } from './modals/new-item/new-item.component';
 import { DeleteItemComponent } from './modals/delete-item/delete-item.component';
-import { NewGalleryComponent } from './modals/new-gallery/new-gallery.component';
-import { RenameGalleryComponent } from './modals/rename-gallery/rename-gallery.component';
-import { GalleryDescriptionComponent } from './modals/gallery-description/gallery-description.component';
+import { AddDescriptionComponent } from './modals/add-description/add-description.component';
 import { UploadImagesComponent } from './views/upload-images/upload-images.component';
 import { IndexPageComponent } from './views/index-page/index-page.component';
 import { FileSizePipe } from './pipes/bytes-to-larger.pipe';
-import { RenameGroupComponent } from './modals/rename-group/rename-group.component';
+import { RenameComponent } from './modals/rename/rename.component';
 import { PrivateImagesComponent } from './views/private-images/private-images.component';
 import { AddGroupCoverComponent } from './modals/add-group-cover/add-group-cover.component';
-import { AddGroupDescriptionComponent } from './modals/add-group-description/add-group-description.component';
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 import { DeleteItemDirective } from './directives/delete-item.directive';
 @NgModule({
@@ -36,19 +33,16 @@ import { DeleteItemDirective } from './directives/delete-item.directive';
     AppComponent,
     GroupsComponent,
     PageNotFoundComponent,
-    NewGroupComponent,
+    NewItemComponent,
     DeleteItemComponent,
-    NewGalleryComponent,
     GallerysComponent,
-    RenameGalleryComponent,
-    GalleryDescriptionComponent,
+    AddDescriptionComponent,
     UploadImagesComponent,
     IndexPageComponent,
     FileSizePipe,
-    RenameGroupComponent,
+    RenameComponent,
     PrivateImagesComponent,
     AddGroupCoverComponent,
-    AddGroupDescriptionComponent,
     PictureGalleryComponent,
     DeleteItemDirective
   ],
@@ -63,14 +57,11 @@ import { DeleteItemDirective } from './directives/delete-item.directive';
     FileUploadModule
   ],
   providers: [BackendService],
-    entryComponents:[ NewGroupComponent,
+    entryComponents:[ NewItemComponent,
                       DeleteItemComponent,
-                      NewGalleryComponent,
-                      RenameGalleryComponent,
-                      GalleryDescriptionComponent,
-                      RenameGroupComponent,
+                      AddDescriptionComponent,
+                      RenameComponent,
                       AddGroupCoverComponent,
-                      AddGroupDescriptionComponent
                       ],
   bootstrap: [AppComponent]
 })

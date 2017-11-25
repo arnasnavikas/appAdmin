@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation,OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
-import { PicsInterfase,GalerijaInterface,PictureInterface} from '../../intercafe.enum'
+import { GalerijaInterface,PictureInterface} from '../../intercafe.enum'
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 import { ActivatedRoute } from "@angular/router"
+import { AddDescriptionComponent } from '../../modals/add-description/add-description.component'
 @Component({
   selector: 'app-private-images',
   templateUrl: './private-images.component.html',
@@ -20,7 +21,6 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
   ngOnInit() {
     // load pictures for gallery images
     this.router.params.subscribe(params=>{
-      console.log(params)
       if(Object.keys(params).length == 2){
         this.backendService.gallery_id = params.gallery_id
         // set what to delete for multiple deletion
@@ -41,12 +41,18 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.backendService.pictures = []
   }
-  deleteImage(id,name,event){
+  deleteImage(picture,event){
     event.stopPropagation()
     this.dialog.open(DeleteItemComponent,{
       width: '250px',
-      data: {id:id,name:name}
+      data: picture
     })
   }
-
+  editDescrition(picture:PictureInterface,event){
+    event.stopPropagation()
+    this.dialog.open(AddDescriptionComponent,{
+      width:'250px',
+      data:picture
+    })
+  }
 }

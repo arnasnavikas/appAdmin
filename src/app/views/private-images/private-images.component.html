@@ -1,16 +1,19 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center"  >
   <mat-card *ngFor='let pic of backendService.pictures;let i = index' (click)='clicked_Img = i;openGallery = true' class="example-card">
     <div appDeleteItem [id]='pic._id'  [class.select-item]="backendService.addToList == true"></div>
-    <button *ngIf='!backendService.addToList' matTooltip='Ištrinti elementą' class='delete-image' (click)='deleteImage(pic._id,pic.name,$event)' mat-icon-button><mat-icon>&#xE5C9;</mat-icon></button>
+    <button *ngIf='!backendService.addToList' matTooltip='Ištrinti elementą' class='delete-image' (click)='deleteImage(pic,$event)' mat-icon-button><mat-icon>&#xE5C9;</mat-icon></button>
       <mat-card-header>
         <mat-card-subtitle>{{pic.name}}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image [src]="pic.imgURL" style="max-width:250px" alt="">
       <mat-card-content>
         Dydis: {{pic.size | fileSize:'MB'}}
-        Aprašymas: 
+        <span *ngIf='backendService.multiple_delete_type == "gallery-images"'> 
+          Aprašymas: {{pic.description.slice(0,50)}} ...
+          <button mat-icon-button matTooltip='Redaguoti aprašymą' (click)='editDescrition(pic,$event)'><mat-icon>&#xE3C9;</mat-icon></button>
+        </span>
       </mat-card-content>
     </mat-card>
 </div> 
 <!--  gallery omponent -->
-<app-picture-gallery *ngIf='openGallery' [index]='clicked_Img' (close)='openGallery = $event' [picture]='backendService.pictures'></app-picture-gallery>
+<app-picture-gallery *ngIf='openGallery' [index]='clicked_Img' (close)='openGallery = $event' [picture]='backendService.pictures' ></app-picture-gallery>

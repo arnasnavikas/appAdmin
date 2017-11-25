@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation,Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { BackendService } from '../../backend.service'
-import { PicsInterfase,GroupInterface } from '../../intercafe.enum'
+import { PictureInterface,GroupInterface } from '../../intercafe.enum'
 interface paginator {pageIndex: number,
                      pageSize: number,
                      length: number }
@@ -17,7 +17,7 @@ export class AddGroupCoverComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: GroupInterface,
     private backendService : BackendService) { }
 
-  private images : Array<PicsInterfase> = []
+  private images : Array<PictureInterface> = []
   private showedImages = []
   length;
   pageSize = 5  ;

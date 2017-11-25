@@ -3,8 +3,8 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { BackendService } from '../../backend.service';
 import { GalerijaInterface,GroupInterface } from '../../intercafe.enum'
 import { MatDialog } from '@angular/material';
-import { RenameGalleryComponent } from '../../modals/rename-gallery/rename-gallery.component'
-import { GalleryDescriptionComponent } from '../../modals/gallery-description/gallery-description.component'
+import { RenameComponent } from '../../modals/rename/rename.component'
+import { AddDescriptionComponent } from '../../modals/add-description/add-description.component'
 @Component({
   selector: 'app-gallerys',
   templateUrl: './gallerys.component.html',
@@ -22,10 +22,10 @@ export class GallerysComponent implements OnInit,OnDestroy {
   ngOnInit(){ this.backendService.multiple_delete_type = 'gallery'
               this.route.params.subscribe(params=>{
                   this.backendService.getOneGroup(params.group_id)
-                  .subscribe((group :GroupInterface)=>{this.group = group;
-                                      this.backendService.group_id = group._id},
-                    err=>{console.log(err)},
-                    ()=>{this.backendService.loadGallerys(this.group._id)})
+                                     .subscribe((group :GroupInterface)=>{this.group = group;
+                                                         this.backendService.group_id = group._id},
+                                                err=>{console.log(err)},
+                                                ()=>{this.backendService.loadGallerys(this.group._id)})
                   })
           console.log('gallerty component init')
     }
@@ -33,17 +33,16 @@ export class GallerysComponent implements OnInit,OnDestroy {
       this.backendService.addToList = false
       this.backendService.multiple_delete_type = ''
   }
-  changeName(id,oldName){
-    this.dialog.open(RenameGalleryComponent,{
+  changeName(gallery:GalerijaInterface){
+    this.dialog.open(RenameComponent,{
       width: '250px',
-      data: {id:id,name:oldName,group_id:this.group._id}
+      data: gallery
     })
   } 
-  editDescription(id,aprasymas){
-    this.dialog.open(GalleryDescriptionComponent,{
-      width:'320px',
-      height: '400px',
-      data:{id:id,description:aprasymas,group_id:this.group._id}
+  editDescription(gallery:GalerijaInterface){
+    this.dialog.open(AddDescriptionComponent,{
+      width:'250px',
+      data: gallery
     })
   }
 }

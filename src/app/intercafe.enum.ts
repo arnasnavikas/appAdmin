@@ -11,33 +11,45 @@ export interface GroupInterface{
     _id?: string,
     newMessages?: number,
     gallerys: number,
-    tables: number,
+    table_name: number,
     name: string,
     imgURL: string,
     route: string,
     description?: string,
     folder_name: string
 }
- interface TableRowData  {
-     darbo_pavadinimas: string,
-    vnt_kaina: number,
-    mato_vnt: string,
-    input: string,
-    suma: number
+ export interface TableRow  {
+        _id:                   string,
+        group_id:              string,
+        name:                  string, 
+        price:                 number, 
+        type:                  string, 
+        input:                 string, 
+        iframeURL:             string, 
+        iseiga:                number, 
+        hidden:                boolean,
+        material_price:        number, 
+        job_total_price:       number, 
+        material_total_price:  number, 
+        total_price:           number 
 }
- interface TableHeader  {
-     darbo_pavadinimas: string,
-    vnt_kaina: string,
-    mato_vnt: string,
-    input: string,
-    suma: string
+ export interface TableHeader  {
+    name          : string,          
+    job_price     : string,     
+    value         : string,         
+    material_price: string,
+    iseiga        : string,        
+    total         : string,         
+    iframeURL     : string
 }
 
 export interface TableStruct {
-    tableName : string,
-    tableHead: TableHeader,
-    tableBody: Array<TableRowData>,
-    tableSuma: number
+    name           : string,
+    head           : TableHeader,
+    suma           : number,
+    total          : number,
+    material_total : number,
+    work_total     : number   
 }
 export interface PictureInterface{
     _id         : string,

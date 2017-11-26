@@ -32,8 +32,6 @@ export const environment = {
  addGalleryDescrURL : 'http://'+address+'/gallery/description',
                 /** rename gallery */
    renameGalleryURL : 'http://'+address+'/gallery/rename',
-                /** loads one gallery  */
-   getGalleryPicturesURL : 'http://'+address+'/gallery/pictures',
                 /** adds index picture to gallery */
         addIndexURL : 'http://'+address+'/addindex',
         /******************************* PICTURES************************** */
@@ -59,9 +57,18 @@ addGroupDescription : 'http://'+address+'/group/add-description',
        group_delete : 'http://'+address+'/group/delete',
                 /** rename group */
        group_rename : 'http://'+address+'/group/rename',
-                /** load gallerys */
-       get_pictures : 'http://'+address+'/get-pictures',
-                /** upload pictures */
+/******************************* TABLE **************************** */
+                /** cretes new table */
+     createTableUrl : 'http://'+address+'/table/create',
+                /** get table by group id*/
+        getTableUrl : 'http://'+address+'/table/get-one/',
+                /** create row in table*/
+     addTableRowUrl : 'http://'+address+'/table/add-row/',            
+                /** removes row from table*/
+   removeTableRowUrl : 'http://'+address+'/table/remove-row/', 
+                /** save table*/
+   saveTableUrl : 'http://'+address+'/table/save', 
+     /** upload pictures */
     upload_pictures : 'http://'+address+'/upload-pictures',
                 /** save 'apie mane' form */
        save_my_info : 'http://'+address+'/create-resume'

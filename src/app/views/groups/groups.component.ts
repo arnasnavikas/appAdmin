@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
-import { GroupInterface } from '../../intercafe.enum'
+import { GroupInterface,GalerijaInterface,TableStruct } from '../../intercafe.enum'
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { RenameComponent } from '../../modals/rename/rename.component'
@@ -37,11 +37,23 @@ export class GroupsComponent implements OnInit, OnDestroy {
       width: '250px',
       data: {group:group,type:'gallery'}
       });
+    }
+  newTable(group:GroupInterface){
+      let dialogRef = this.dialog.open(NewItemComponent, {
+        width: '250px',
+        data: {group:group,type:'table'}
+        });
   }
   changeName(group:GroupInterface){
     this.dialog.open(RenameComponent,{
       width:'250px',
-      data:group
+      data:{type:'group',group:group}
+    })
+  }
+  renameTable(group:GroupInterface){
+    this.dialog.open(RenameComponent,{
+      width:'250px',
+      data:{type:'table',group:group}
     })
   }
   addCover(group:GroupInterface){

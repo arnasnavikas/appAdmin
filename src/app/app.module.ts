@@ -28,6 +28,9 @@ import { PrivateImagesComponent } from './views/private-images/private-images.co
 import { AddGroupCoverComponent } from './modals/add-group-cover/add-group-cover.component';
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 import { DeleteItemDirective } from './directives/delete-item.directive';
+import { TableEditComponent } from './views/table-edit/table-edit.component';
+import { TableViewComponent } from './views/table-view/table-view.component';
+import { SafePipe } from './pipes/safe-pipe.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +47,10 @@ import { DeleteItemDirective } from './directives/delete-item.directive';
     PrivateImagesComponent,
     AddGroupCoverComponent,
     PictureGalleryComponent,
-    DeleteItemDirective
+    DeleteItemDirective,
+    TableEditComponent,
+    TableViewComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

@@ -36,7 +36,7 @@ export class GallerysComponent implements OnInit,OnDestroy {
   changeName(gallery:GalerijaInterface){
     this.dialog.open(RenameComponent,{
       width: '250px',
-      data: gallery
+      data: {type:'gallery',gallery:gallery}
     })
   } 
   editDescription(gallery:GalerijaInterface){

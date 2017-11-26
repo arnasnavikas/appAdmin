@@ -9,7 +9,14 @@
       <mat-card-content>
         Dydis: {{pic.size | fileSize:'MB'}}
         <span *ngIf='backendService.multiple_delete_type == "gallery-images"'> 
-          Aprašymas: {{pic.description.slice(0,50)}} ...
+          <span [ngSwitch]='true'>
+              <p *ngSwitchCase="pic.description.length < 50">
+                Aprašymas: {{pic.description}} 
+              </p>
+              <p *ngSwitchCase="pic.description.length > 50">
+                Aprašymas: {{pic.description.slice(0,50)}} ...
+              </p>
+          </span>
           <button mat-icon-button matTooltip='Redaguoti aprašymą' (click)='editDescrition(pic,$event)'><mat-icon>&#xE3C9;</mat-icon></button>
         </span>
       </mat-card-content>

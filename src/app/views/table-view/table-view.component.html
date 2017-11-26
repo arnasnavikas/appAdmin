@@ -1,0 +1,4 @@
+<p *ngFor='let row of rows'>
+  <iframe *ngIf='row.iframeURL != ""' [src]="row.iframeURL | safe" frameborder="0" width="500" height="300"></iframe>
+  table-view works!
+</p>

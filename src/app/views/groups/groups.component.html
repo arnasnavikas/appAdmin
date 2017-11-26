@@ -5,9 +5,7 @@
         <mat-card-header>
             <div mat-card-avatar class="group-header-image" [style.background-image]="'url('+group.imgURL+')'"></div>
             <mat-card-title>Grupės pavadinimas
-                <button mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='changeName(group)'>
-                    <mat-icon>&#xE3C9;</mat-icon> 
-                </button>
+                <button mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='changeName(group)'><mat-icon>&#xE3C9;</mat-icon></button>
             </mat-card-title>
             <mat-card-subtitle>{{group.name}}</mat-card-subtitle>
         </mat-card-header>
@@ -44,13 +42,14 @@
                 (closed)="antras = false">
                 <mat-expansion-panel-header>
                     <mat-panel-title fxLayoutAlign="left center">
-                            <mat-chip-list *ngIf='group.tables > 0' class="mat-chip-list-stacked"><mat-chip selected="true" color='warn'>{{group.tables}}</mat-chip></mat-chip-list>
-                        <mat-icon>&#xE03B;</mat-icon>  Lentelės 
+                        <mat-icon>&#xE03B;</mat-icon> <span *ngIf='group.table_name == undefined'>Lentelė </span>  <span *ngIf='group.table_name != undefined' style="color:rgb(219, 103, 103)"> {{group.table_name}}</span> 
+                        <button *ngIf='group.table_name != undefined' mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='renameTable(group)'><mat-icon>&#xE3C9;</mat-icon></button>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                     <!-- buttons -->
-                    <button mat-raised-button color='primary' ><mat-icon>&#xE02E;</mat-icon> Sukurti Lentelę</button>
-                    <button mat-raised-button color='accent' [disabled]='group.tables == 0' ><mat-icon >&#xE896;</mat-icon> Redaguoti Lenteles</button>
+                    <button mat-raised-button color='primary' *ngIf='group.table_name != undefined' [routerLink]='["view-table",group._id]' ><mat-icon>&#xE02E;</mat-icon>Žiūrėti</button>
+                    <button mat-raised-button color='primary' *ngIf='group.table_name == undefined'(click)='newTable(group)' ><mat-icon>&#xE02E;</mat-icon>Sukurti</button>
+                    <button mat-raised-button color='accent' [disabled]='group.table_name == undefined' [routerLink]='["edit-table",group._id]' ><mat-icon >&#xE896;</mat-icon> Redaguoti</button>
                 </mat-expansion-panel>
                 </mat-accordion>
                       

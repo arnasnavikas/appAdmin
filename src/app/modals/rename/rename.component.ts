@@ -15,25 +15,32 @@ export class RenameComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private backendService: BackendService,
     private _fb: FormBuilder ){}
+    private placeholder;
     ngOnInit() {
       
-      switch (this.backendService.multiple_delete_type) {
+      switch (this.data.type) {
         case 'group':
+        this.placeholder = 'Grupės pavadinimas'
         console.log('renaming group')
-        this.renameForm = this._fb.group({ name:this._fb.control(this.data.name,[Validators.required]),
-                                           id:this._fb.control(this.data._id),
+        this.renameForm = this._fb.group({ name:this._fb.control(this.data.group.name,[Validators.required]),
+                                           id:this._fb.control(this.data.group._id),
                                            route :this._fb.control('')
         })
           break;
           case 'gallery':
+          this.placeholder = 'Galerijos pavadinimas'
           console.log('renaming gallery')
           console.log(this.data)
-          this.renameForm = this._fb.group({ name:this._fb.control(this.data.name,[Validators.required]),
-                                             id: this._fb.control(this.data._id),
+          this.renameForm = this._fb.group({ name:this._fb.control(this.data.gallery.name,[Validators.required]),
+                                             id: this._fb.control(this.data.gallery._id),
                                              route:this._fb.control('',[Validators.required])
            })
-          break;
-          case 'table':
+           break;
+           case 'table':
+           this.placeholder = 'Lenetelės pavadinimas'
+           this.renameForm = this._fb.group({ name:this._fb.control(this.data.group.table_name,[Validators.required]),
+                                              id: this._fb.control(this.data.group._id)
+            })
           console.log('renaming table')
           
           break;
@@ -66,12 +73,15 @@ export class RenameComponent implements OnInit {
       }
     }
   rename(){
-    switch (this.backendService.multiple_delete_type) {
+    switch (this.data.type) {
       case 'group':
         this.rename_group()
         break;
       case 'gallery':
         this.rename_gallery()
+        break;
+      case 'table':
+      console.log('renaming table')
         break;
     
       default:

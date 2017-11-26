@@ -18,6 +18,7 @@ export class NewItemComponent implements OnInit{
    switch (this.data.type) {
      case 'group':
      this.typeName = 'grupę'
+     this.placeholder = 'Grupės pavadinimas'
      this.succes_message = 'Grupė sukurta'
      this.newItemForm = this._fb.group({ name: this._fb.control('',[Validators.required]),
                                       route: this._fb.control(''),
@@ -27,28 +28,36 @@ export class NewItemComponent implements OnInit{
         break;
       case 'gallery':
       this.typeName = 'galeriją'
+      this.placeholder = 'Galerijos pavadinimas'
       this.succes_message = 'Galerija sukurta'
-      this.newItemForm = this._fb.group({ 
-        name: this._fb.control('',[Validators.required]),
-        route: this._fb.control(''),
-        group_folder: this._fb.control(this.data.group.folder_name),
-        group_id:  this._fb.control(this.data.group._id),
-        folder_name: this._fb.control(''),
+      this.newItemForm = this._fb.group({ name: this._fb.control('',[Validators.required]),
+                                          route: this._fb.control(''),
+                                          tables: this._fb.control(0),
+                                          group_folder: this._fb.control(this.data.group.folder_name),
+                                          group_id:  this._fb.control(this.data.group._id),
+                                          folder_name: this._fb.control(''),
       });
-        break;
+      break;
       case 'table':
-        
+      this.typeName = 'Darbų lentelę'
+      this.placeholder = 'Lentelės pavadinimas'
+      this.succes_message = 'Lentelė sukurta'
+      this.newItemForm = this._fb.group({ name: this._fb.control('',[Validators.required]),
+                                          group_id:  this._fb.control(this.data.group._id),
+                                        });
         break;
     
       default:
+      console.log('no data type provided')
         break;
     }
   }
   private created = false // for group created notification show 
   private submited = false //for spinner display while response from server is comming
   private newItemForm : FormGroup
-  private typeName     
-  private succes_message          
+  private typeName   //for display what create  
+  private succes_message    
+  private placeholder;      
   private onNoClick = (): void=> {
     this.dialogRef.close();
   }
@@ -73,19 +82,32 @@ export class NewItemComponent implements OnInit{
       
   }
   create_gallery(){
-    let name = this.newItemForm.controls['name'].value
-    name = name.replace(/[\W_]+/g,"-") 
-    this.newItemForm.controls['route'].setValue(name)
-    name = name +"_"+Date.now()
-    this.newItemForm.controls['folder_name'].setValue(name)
-    this.backendService.createGallery(this.newItemForm.value)
-                       .subscribe(data=>{console.log(data)},
-                                  err =>{console.log(err)},
-                                  ()=>{this.submited = false; 
-                                       this.created = true;
-                                       this.data.group.gallerys = this.data.group.gallerys+1
-                                       setTimeout(this.onNoClick,2000)})
-  }
+    if(this.newItemForm.valid){
+      let name = this.newItemForm.controls['name'].value
+      name = name.replace(/[\W_]+/g,"-") 
+      this.newItemForm.controls['route'].setValue(name)
+      name = name +"_"+Date.now()
+      this.newItemForm.controls['folder_name'].setValue(name)
+      this.backendService.createGallery(this.newItemForm.value)
+                        .subscribe(data=>{console.log(data)},
+                                    err =>{console.log(err)},
+                                    ()=>{this.submited = false; 
+                                        this.created = true;
+                                        this.data.group.gallerys = this.data.group.gallerys+1
+                                        setTimeout(this.onNoClick,2000)})
+      }                               
+    }
+    create_table(){
+    if(this.newItemForm.valid){
+        this.backendService.createTable(this.newItemForm.value)
+                            .subscribe(data=>{console.log(data)},
+                            err =>{console.log(err)},
+                            ()=>{this.submited = false; 
+                                this.created = true;
+                                this.data.group.table_name = this.newItemForm.value.name
+                                setTimeout(this.onNoClick,2000)})
+      }      
+    }
   create(){
     this.submited = true;
     
@@ -97,7 +119,8 @@ export class NewItemComponent implements OnInit{
         this.create_gallery()
         break;
       case 'table':
-        
+      this.create_table()
+        console.log('creating table')
         break;
     
       default:

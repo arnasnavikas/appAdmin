@@ -9,12 +9,16 @@ import { AppComponent } from './views/home-page/app.component'
 import { UploadImagesComponent } from './views/upload-images/upload-images.component'
 import { IndexPageComponent } from './views/index-page/index-page.component'
 import { PrivateImagesComponent } from './views/private-images/private-images.component'
+import { TableEditComponent } from './views/table-edit/table-edit.component'
+import { TableViewComponent } from './views/table-view/table-view.component'
 const routes = [ {path: '', component: AppComponent},
                  {path: 'groups',component: IndexPageComponent,
                       children:[{path:'',component:GroupsComponent},
                                 {path:':group_id/:group_folder/:gallery_folder/:gallery_id',component:UploadImagesComponent},
+                                {path:'edit-table/:group_id',component:TableEditComponent},
+                                {path:'view-table/:group_id',component:TableViewComponent},
                                 {path:':group_id/:gallery_id',component:PrivateImagesComponent},
-                                {path:':group_id',component:GallerysComponent}
+                                {path:':group_id',component:GallerysComponent},
                               ]},
                  {path: 'upload-images', component: UploadImagesComponent},                
                  {path: 'private-images', component: PrivateImagesComponent},                

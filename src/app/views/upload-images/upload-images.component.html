@@ -8,13 +8,13 @@
                 <div *ngIf='uploader.queue.length > 0' class="example-container mat-elevation-z8">
                   <mat-table #table [dataSource]="dataSource">
               
-                  <!-- Position Column -->
+                  <!-- Name  Column -->
                   <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element._file.name}}_({{element._file.size | fileSize:'MB' }}) </mat-cell>
                   </ng-container>
                   
-                  <!-- Name Column -->
+                  <!-- Status Column -->
                   <ng-container matColumnDef="size">
                     <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
                     <mat-cell *matCellDef="let element">
@@ -24,7 +24,7 @@
                     </mat-cell>
                   </ng-container>
                   
-                  <!-- Weight Column -->
+                  <!-- Progress Column -->
                   <ng-container matColumnDef="progress">
                     <mat-header-cell *matHeaderCellDef> Progress </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.progress}} %</mat-cell>

@@ -19,6 +19,7 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
   openGallery = false;
   clicked_Img
   ngOnInit() {
+    console.log('private picture component init()')
     // load pictures for gallery images
     this.router.params.subscribe(params=>{
       if(Object.keys(params).length == 2){

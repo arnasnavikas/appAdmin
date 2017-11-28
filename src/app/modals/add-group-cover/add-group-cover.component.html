@@ -1,9 +1,11 @@
+<button   matTooltip='Išeiti' class='delete-item' (click)='dialogRef.close()' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
+
 <mat-paginator id='paginator' [length]="length"
                [pageSize]="pageSize"
                [pageSizeOptions]="pageSizeOptions"
                (page)="updateView($event)">
 </mat-paginator>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
   
   <mat-card matTooltip='Paspauskite norėdami pasirinkti paveikslėlį' class="group-cover" *ngFor='let image of showedImages; let i = index' (click)='ElemIndex = i' >
     <div #element  [class.hidden]="i != ElemIndex" [class.showOptions]='i == ElemIndex' ></div>

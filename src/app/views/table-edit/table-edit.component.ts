@@ -1,80 +1,91 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
 import { ActivatedRoute } from '@angular/router'
 import { MatTableDataSource } from '@angular/material';
-import { TableRow,TableStruct, TableHeader } from '../../intercafe.enum'
-interface serverResponse {
-  table : TableStruct,
-  tableRows: TableRow[]
-}
+import { FormControl} from '@angular/forms'
+import { TableRow,TableStruct, TableHeader,serverResponse } from '../../intercafe.enum';
+import { MatSnackBar} from '@angular/material';
+
 @Component({
   selector: 'app-table-edit',
   templateUrl: './table-edit.component.html',
   styleUrls: ['./table-edit.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class TableEditComponent implements OnInit {
-
+export class TableEditComponent implements OnInit,OnDestroy {
+  
   constructor(private backendService: BackendService,
-              private router: ActivatedRoute) { }
-  private new_row = {group_id: '',
-                      name:                  'string', 
-                     price:                 0, 
-                     type:                  'string', 
-                     input:                 'string', 
-                     iframeURL:             'string', 
-                     iseiga:                5, 
-                     hidden:                true,
-                     material_price:        0, 
-                     job_total_price:       0, 
-                     material_total_price:  0, 
-                     total_price:           0 }
-  ELEMENT_DATA : TableRow[] = []
-  displayedColumns = ['name','job_price','material_price','iseiga','iframe','options'];
-  tableHead :TableHeader
-  dataSource 
-  group_id;
-  private data_loaded 
+    private router: ActivatedRoute,
+    public snackBar: MatSnackBar) { }
+  
+    measure_type = [
+      {
+        name: 'Vienatas',
+        measure: [
+          { value: 'vnt', viewValue: 'VNT' }
+        ]
+      },
+      {
+        name: 'Plotas',
+        measure: [
+          { value: 'm2', viewValue: 'kv. metras' },
+          { value: 'cm2', viewValue: 'kv. centimetras' }
+        ]
+      },
+      {
+        name: 'Tūris',
+        measure: [
+          { value: 'l', viewValue: 'litras' },
+          { value: 'ml', viewValue: 'mililitras' }
+        ]
+      },
+      {
+        name: 'Ilgis',
+        measure: [
+          { value: 'm', viewValue: 'metras' },
+          { value: 'cm', viewValue: 'centimetras' },
+          { value: 'mm', viewValue: 'milimetras' }
+        ]
+      },
+      {
+        name: 'Svoris',
+        measure: [
+          { value: 't', viewValue: 'tona' },
+          { value: 'kg', viewValue: 'kilogramas' },
+          { value: 'g', viewValue: 'gramas' },
+        ]
+      }
+    ];
+  private group_id;
+  private table : TableStruct
   load_table_data = ()=>{
-    this.data_loaded = false;
     this.backendService.getTable(this.group_id)
     .subscribe((tableData:serverResponse)=>{
                    console.log(tableData)
-                   this.tableHead = tableData.table.head
-                   this.ELEMENT_DATA = tableData.tableRows
-                   this.dataSource = new MatTableDataSource<TableRow>(this.ELEMENT_DATA) ;
-                   this.data_loaded = true
+                   this.table = tableData.table
+                   this.backendService.table_rows =  tableData.tableRows
                  },
                    err=>{console.log(err)},
                  ()=>{})
   }
   ngOnInit() {
-    
+    this.backendService.item_type = 'table'
     this.router.params.subscribe(param=>{
+      this.backendService.group_id = param.group_id
       this.group_id = param.group_id
-      this.new_row.group_id = this.group_id;
       this.load_table_data()
     })
   }
- addRow(){
-   this.backendService.addTableRow(this.group_id)
-                      .subscribe(row=>{
-                        console.log(row);
-                        this.ELEMENT_DATA.push(row)
-                        this.dataSource = new MatTableDataSource<TableRow>(this.ELEMENT_DATA) ;
-                      })
- }
- remove(row:TableRow){
-   this.backendService.removeTableRow(row._id)
-                      .subscribe(data=>{
-                        console.log(data)
-                        this.load_table_data();
-                      });
- }
- save(){
-   this.backendService.saveTable(this.ELEMENT_DATA)
-                      .subscribe(data=>{console.log(data)},
-                                 err=>{console.log(err)},
-                                 ()=>{})
- }
+  /************* SAVES TABLE DATA AUTOMATICLY WHEN COMPONENT IS DESTOYED *********** */
+  ngOnDestroy(){
+    this.backendService.saveTable(this.backendService.table_rows)
+    .subscribe(data=>{console.log(data)},
+               err=>{console.log(err)},
+               ()=>{
+                this.snackBar.open('lentelė išsaugota','', {
+                  duration: 2000,
+                  panelClass: 'blue-snackbar'
+                });
+               })
+  }
 }

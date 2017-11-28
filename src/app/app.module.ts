@@ -1,36 +1,43 @@
 // modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BackendService } from './backend.service'
 import { FormsModule, ReactiveFormsModule} from '@angular/forms'; 
 import { RoutingModule } from "./routing.module";
 import { HttpModule} from '@angular/http';
 import { FlexLayoutModule} from "@angular/flex-layout";
-import { MaterialModule } from '../../../myApp/src/app/material components/material.module'
+import { MaterialModule } from './material.module'
 import { FileUploadModule } from 'ng2-file-upload'
+//services
+import { BackendService } from './backend.service'
+import { AuthService } from './auth.service'
 // pipes
 import { DatePipe } from '@angular/common';
-//components
+import { SafePipe } from './pipes/safe-pipe.pipe';
+import { FileSizePipe } from './pipes/bytes-to-larger.pipe';
+
   //views
-import { AppComponent } from './views/home-page/app.component';
+import { AppComponent } from './views/root-component/app.component';
 import { GroupsComponent } from './views/groups/groups.component';
 import { PageNotFoundComponent } from './views/page-not-found/page-not-found.component'
 import { GallerysComponent } from './views/gallerys/gallerys.component';
   //modals
+import { AddGroupCoverComponent } from './modals/add-group-cover/add-group-cover.component';
 import { NewItemComponent } from './modals/new-item/new-item.component';
 import { DeleteItemComponent } from './modals/delete-item/delete-item.component';
 import { AddDescriptionComponent } from './modals/add-description/add-description.component';
-import { UploadImagesComponent } from './views/upload-images/upload-images.component';
-import { IndexPageComponent } from './views/index-page/index-page.component';
-import { FileSizePipe } from './pipes/bytes-to-larger.pipe';
 import { RenameComponent } from './modals/rename/rename.component';
+//directives
+import { AddItemDirective } from './directives/add-item.directive';
+import { HighLightTextDirective} from './directives/highlight-text.directive'
+import { DeleteItemDirective} from './directives/delete-item.directive'
+//components
+import { UploadImagesComponent } from './views/upload-images/upload-images.component';
 import { PrivateImagesComponent } from './views/private-images/private-images.component';
-import { AddGroupCoverComponent } from './modals/add-group-cover/add-group-cover.component';
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
-import { DeleteItemDirective } from './directives/delete-item.directive';
 import { TableEditComponent } from './views/table-edit/table-edit.component';
 import { TableViewComponent } from './views/table-view/table-view.component';
-import { SafePipe } from './pipes/safe-pipe.pipe';
+import { LoginComponent } from './views/login/login.component';
+import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,16 +48,19 @@ import { SafePipe } from './pipes/safe-pipe.pipe';
     GallerysComponent,
     AddDescriptionComponent,
     UploadImagesComponent,
-    IndexPageComponent,
+    MenuBarComponent,
     FileSizePipe,
     RenameComponent,
     PrivateImagesComponent,
     AddGroupCoverComponent,
     PictureGalleryComponent,
-    DeleteItemDirective,
+    AddItemDirective,
     TableEditComponent,
     TableViewComponent,
-    SafePipe
+    SafePipe,
+    HighLightTextDirective,
+    DeleteItemDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +72,7 @@ import { SafePipe } from './pipes/safe-pipe.pipe';
     FlexLayoutModule,
     FileUploadModule
   ],
-  providers: [BackendService],
+  providers: [BackendService,AuthService],
     entryComponents:[ NewItemComponent,
                       DeleteItemComponent,
                       AddDescriptionComponent,

@@ -18,15 +18,21 @@ export interface GroupInterface{
     description?: string,
     folder_name: string
 }
+export interface serverResponse {
+    table : TableStruct,
+    tableRows: TableRow[]
+  }
  export interface TableRow  {
         _id:                   string,
         group_id:              string,
         name:                  string, 
+        search_name:           string,
         price:                 number, 
         type:                  string, 
-        input:                 string, 
+        input:                 number, 
         iframeURL:             string, 
         iseiga:                number, 
+        iseiga_type:           string, 
         hidden:                boolean,
         material_price:        number, 
         job_total_price:       number, 

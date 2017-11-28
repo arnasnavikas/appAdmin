@@ -65,7 +65,7 @@ addGroupDescription : 'http://'+address+'/group/add-description',
                 /** create row in table*/
      addTableRowUrl : 'http://'+address+'/table/add-row/',            
                 /** removes row from table*/
-   removeTableRowUrl : 'http://'+address+'/table/remove-row/', 
+   removeTableRowUrl : 'http://'+address+'/table/remove-row', 
                 /** save table*/
    saveTableUrl : 'http://'+address+'/table/save', 
      /** upload pictures */

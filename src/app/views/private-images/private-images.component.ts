@@ -24,30 +24,20 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
     this.router.params.subscribe(params=>{
       if(Object.keys(params).length == 2){
         this.backendService.gallery_id = params.gallery_id
-        // set what to delete for multiple deletion
-        this.backendService.multiple_delete_type = 'gallery-images'
-        // set what to delete for single deletion
-        this.backendService.single_delete_type = 'nuotrauką'
+        this.backendService.item_type = 'gallery-image'
         this.backendService.loadGalleryPictures()
         console.log('this probably is gallery images...')
         return;
       }
       // load images for private pictures
-        this.backendService.multiple_delete_type = 'private-pictures'
-        this.backendService.single_delete_type = 'paveikslėlį'
+        this.backendService.item_type = 'private-image'
         this.backendService.loadPrivatePictures()
         console.log('this is definatley private images')
     })
   }
   ngOnDestroy(){
     this.backendService.pictures = []
-  }
-  deleteImage(picture,event){
-    event.stopPropagation()
-    this.dialog.open(DeleteItemComponent,{
-      width: '250px',
-      data: picture
-    })
+    this.backendService.item_type = ''
   }
   editDescrition(picture:PictureInterface,event){
     event.stopPropagation()

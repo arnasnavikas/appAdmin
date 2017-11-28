@@ -1,7 +1,9 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
     <mat-card style="margin:10px;" *ngFor='let group of backendService.groups; let i = index' >
-        <div appDeleteItem [id]='group._id'  [class.select-item]="backendService.addToList == true"></div>
-            <button matTooltip='Ištrinti grupę' class="delete-group" mat-icon-button (click)='deleteGroup(group)'> <mat-icon>&#xE5C9;</mat-icon></button>
+        <!-- DIV ELEMENT FOR ADDING ITEM IN DELETE LIST -->
+        <div appAddItem [id]='group._id'  [class.select-item]="backendService.addToList == true"></div>
+        <!-- DELETE SINGLE GROUP  -->
+        <button appDeleteItem [data]='group' [disabled]='backendService.addToList' matTooltip='Ištrinti grupę' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
         <mat-card-header>
             <div mat-card-avatar class="group-header-image" [style.background-image]="'url('+group.imgURL+')'"></div>
             <mat-card-title>Grupės pavadinimas
@@ -20,8 +22,8 @@
                             </mat-panel-title>
                             </mat-expansion-panel-header>
                             <!-- buttons -->
-                            <button mat-raised-button color='primary' (click)='addCover(group)' ><mat-icon>&#xE439;</mat-icon> Pridėti viršelį</button>
-                            <button mat-raised-button color='accent' (click)='addDescription(group)'><mat-icon >&#xE3C9;</mat-icon> Redaguoti aprašymą</button>
+                            <button mat-raised-button class='group-buttons' color='primary' (click)='addCover(group)' ><mat-icon>&#xE439;</mat-icon> Pridėti viršelį</button>
+                            <button mat-raised-button class='group-buttons' color='accent' (click)='addDescription(group)'><mat-icon >&#xE3C9;</mat-icon> Redaguoti aprašymą</button>
                     </mat-expansion-panel>
                     <!-- ############ GALLERY OPTIONS ########### -->
                     <mat-expansion-panel (opened)="pirmas = true"
@@ -33,8 +35,8 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <!-- buttons -->
-                    <button mat-raised-button color='primary' (click)='newGallery(group);' ><mat-icon>&#xE02E;</mat-icon> Sukurti Galeriją</button>
-                    <button mat-raised-button color='accent' [disabled]='group.gallerys == 0' [routerLink]='[group._id]' ><mat-icon >&#xE896;</mat-icon> Redaguoti Galerijas</button>
+                    <button mat-raised-button class='group-buttons' color='primary' (click)='newGallery(group);' ><mat-icon>&#xE02E;</mat-icon> Sukurti Galeriją</button>
+                    <button mat-raised-button class='group-buttons' color='accent' [disabled]='group.gallerys == 0' [routerLink]='[group._id]' ><mat-icon >&#xE896;</mat-icon> Redaguoti Galerijas</button>
                     
                 </mat-expansion-panel>
                 <!-- ############ TABLE OPTIONS ########### -->
@@ -42,14 +44,12 @@
                 (closed)="antras = false">
                 <mat-expansion-panel-header>
                     <mat-panel-title fxLayoutAlign="left center">
-                        <mat-icon>&#xE03B;</mat-icon> <span *ngIf='group.table_name == undefined'>Lentelė </span>  <span *ngIf='group.table_name != undefined' style="color:rgb(219, 103, 103)"> {{group.table_name}}</span> 
-                        <button *ngIf='group.table_name != undefined' mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='renameTable(group)'><mat-icon>&#xE3C9;</mat-icon></button>
+                        <mat-icon>&#xE03B;</mat-icon> Lentelė  
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                     <!-- buttons -->
-                    <button mat-raised-button color='primary' *ngIf='group.table_name != undefined' [routerLink]='["view-table",group._id]' ><mat-icon>&#xE02E;</mat-icon>Žiūrėti</button>
-                    <button mat-raised-button color='primary' *ngIf='group.table_name == undefined'(click)='newTable(group)' ><mat-icon>&#xE02E;</mat-icon>Sukurti</button>
-                    <button mat-raised-button color='accent' [disabled]='group.table_name == undefined' [routerLink]='["edit-table",group._id]' ><mat-icon >&#xE896;</mat-icon> Redaguoti</button>
+                    <button mat-raised-button class='group-buttons' color='primary' [routerLink]='["view-table",group._id]' ><mat-icon>&#xE02E;</mat-icon>Žiūrėti</button>
+                    <button mat-raised-button class='group-buttons' color='accent'  [routerLink]='["edit-table",group._id]' ><mat-icon >&#xE896;</mat-icon> Redaguoti</button>
                 </mat-expansion-panel>
                 </mat-accordion>
                       

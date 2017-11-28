@@ -57,7 +57,7 @@ export class RenameComponent implements OnInit {
       this.backendService.renameGroup(this.renameForm.value)
       .subscribe( data=>{console.log(data)},
                   err=>{console.log(err)},
-                  ()=>{this.data.name = this.renameForm.value.name
+                  ()=>{this.data.group.name = this.renameForm.value.name
                        this.dialogRef.close()})
       }
   }
@@ -69,7 +69,7 @@ export class RenameComponent implements OnInit {
                           .subscribe(data=>{console.log(data)},
                                       err=>{console.log(err)},
                                       ()=>{this.dialogRef.close();
-                                          this.data.name = this.renameForm  .value.name})
+                                          this.data.gallery.name = this.renameForm  .value.name})
       }
     }
   rename(){

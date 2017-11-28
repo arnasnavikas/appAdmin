@@ -1,4 +1,47 @@
-<p *ngFor='let row of rows'>
-  <iframe *ngIf='row.iframeURL != ""' [src]="row.iframeURL | safe" frameborder="0" width="500" height="300"></iframe>
-  table-view works!
-</p>
+<mat-form-field class="full-width">
+  <input #search  matInput type="search"  placeholder="Filtrouti">    
+</mat-form-field>    
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
+  
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
+  <mat-card *ngFor='let row of rows' class="job-card">
+      <mat-card-header>
+        <mat-card-title ><span #rowName >{{row.search_name }}</span></mat-card-title>
+        <mat-card-subtitle>Kaina {{row.price}} €/{{row.type}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+          <form >
+              <mat-form-field class="full-width">
+                <input matInput type="number" [placeholder]="'Kiekis '+row.type" 
+                                              [(ngModel)]="row.input" 
+                                              [ngModelOptions]="{standalone: true}"
+                                              (keydown)='limitValue(row,"input")' 
+                                              (keyup)='limitValue(row,"input")' min="0">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput type="number" [placeholder]="'Išeiga '+row.iseiga_type+'/'+row.type" 
+                                              [(ngModel)]="row.iseiga" 
+                                              [ngModelOptions]="{standalone: true}"
+                                              (keydown)='limitValue(row,"iseiga")' 
+                                              (keyup)='limitValue(row,"iseiga")' min="0">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput type="number" [placeholder]="'Medžiagų kaina 1 '+row.iseiga_type+'/€'" 
+                                              [(ngModel)]="row.material_price" 
+                                              [ngModelOptions]="{standalone: true}"
+                                              (keydown)='limitValue(row,"material_price")'
+                                              (keyup)='limitValue(row,"material_price")' min="0">
+              </mat-form-field>
+              <p *ngIf='row.iframeURL !=""' >Kur pirkti medžiagas? <button mat-icon-button><mat-icon>&#xE88F;</mat-icon></button> </p>
+              <p>Suma už darbus: {{row.input*row.price}} €</p>
+              <p>Suma už medžiagas:{{row.input*row.material_price*row.iseiga}} €</p>
+              <p>Viso :{{(row.input*row.price)+(row.input*row.material_price*row.iseiga)}} €</p>
+
+            </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button><mat-icon>&#xE854;</mat-icon> Dėti į krepšelį</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

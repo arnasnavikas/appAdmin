@@ -4,26 +4,34 @@ import { Http,Response,Headers,RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
+import { MatSnackBar} from '@angular/material';
+
 @Injectable()
 export class BackendService {
 
-  constructor(private http  : Http) { }
+  constructor(private http  : Http,public snackBar: MatSnackBar) { }
   private headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
   private options = new RequestOptions({ headers: this.headers });
   
   public groups : Array<GroupInterface> = []
   public gallerys : Array<GalerijaInterface> = []
   public pictures : Array<PictureInterface> = []
+  public table_rows : TableRow[]
   // delete object
   public addToList = false // enables items selecting for deletion
   public deleteList = []  // arry of items _id or other information of selected itemd
-  public multiple_delete_type : string = '' // type for multiple delete
-  public single_delete_type : string = '' // type for single delete
+  public item_type : string = '' // type for multiple delete
   public selected_DOM_items = [] // holds selected itmes DOM, for removing class after canceling deletion
   //group parmas
   public gallery_id : string = ''
   public group_id : string = ''
 
+  public showSuccessMessage =(message:string,button_message:string,duration:number)=>{
+    this.snackBar.open(message,button_message, {
+      duration: duration,
+      panelClass: 'blue-snackbar'
+    });
+  }
   // adds clicked elemetn information and DOM to list
   _addToList(id,element){
     for(let i of this.deleteList){
@@ -52,8 +60,8 @@ export class BackendService {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
-  deleteGroup(group_id:Array<string>){
-    let body = JSON.stringify(group_id)
+  deleteGroup(id:string[]){
+    let body = JSON.stringify(id)
     return this.http.put(environment.group_delete,"data="+body, this.options)
                     .map(this.extractData)
                     .catch(this.handleError);
@@ -164,7 +172,7 @@ createGallery(form_data){
                             .map(this.extractData)
                             ._catch(this.handleError);
 }
-deleteGallerys(id:Array<string>){
+deleteGallerys(id:string[]){
   let body = JSON.stringify(id);
   return this.http.post( environment.deleteGalleryUrl, "data="+body, this.options)
                   .map(this.extractData)
@@ -181,7 +189,7 @@ loadGalleryPictures(){
                                                       ()=>{})
 }
 
-deleteGalleryImages(id:Array<string>){
+deleteGalleryImages(id:string[]){
   let body = JSON.stringify(id)
   return this.http.put(environment.removeGalleryPicture,'data='+body,this.options)
                   .map(this.extractData)
@@ -211,30 +219,19 @@ loadPrivatePictures(){
     err=>{console.log(err)},
     ()=>{console.log('privte pictures loaded')})
   }
-deletePrivateImages(id:Array<string>){
+deletePrivateImages(id:string[]){
     let body = JSON.stringify(id)
     return this.http.put(environment.upload_pictures,'data='+body,this.options)
   }
-  /**####################################################################
- *  DESCRIPTION:
- *        creates table in database;
- *  PARAMETERS: 
- *        1. form_data {group_id    : 'data',
- *                      name   : 'nasm_sad_' }
- *#####################################################################*/
-createTable(formValue){
-  let body = JSON.stringify(formValue);
-  return this.http.post( environment.createTableUrl, "data="+body, this.options)
-                  .map(this.extractData)
-                  .catch(this.handleError);
-}
+/************************* TABLE FUNCTIONS ********************* */
 addTableRow(group_id){
   return this.http.post( environment.addTableRowUrl+group_id, this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }
-removeTableRow(row_id){
-  return this.http.put( environment.removeTableRowUrl+row_id, this.options)
+removeTableRow(row_id:String[]){
+  let body = JSON.stringify(row_id)
+  return this.http.put( environment.removeTableRowUrl,'data='+body, this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }

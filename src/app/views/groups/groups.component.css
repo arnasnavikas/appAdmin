@@ -6,4 +6,9 @@
 }
 .group-header-image {
 	background-size: cover;
-  }
+	}
+	@media screen and (max-width: 480px) {
+		.group-buttons{
+			width: 100%;
+		}
+	}

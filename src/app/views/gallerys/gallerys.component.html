@@ -1,6 +1,10 @@
 <div  fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center" >
   <mat-card *ngFor='let gallery of backendService.gallerys; let i = index' style="margin:10px;" >
-    <div #element  (click)='backendService._addToList(gallery._id,element);'  [class.select-item]="backendService.addToList == true"></div>
+    <!-- DIV ELEMENT FOR ADDING ITEM IN DELETE LIST -->
+    <div appAddItem [id]='gallery._id'  [class.select-item]="backendService.addToList == true"></div>
+    <!-- BUTTON FOR SINGLE DELETE GALLERY  -->
+    <button appDeleteItem [data]='gallery' [disabled]='backendService.addToList' matTooltip='Ištrinti galeriją' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
+    
     <mat-card-header>
       <mat-card-title>Galerijos pavadinimas 
         <button mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='changeName(gallery)'>

@@ -1,4 +1,4 @@
-import { DeleteItemDirective } from './delete-item.directive';
+import { DeleteItemDirective } from './add-item.directive';
 
 describe('DeleteItemDirective', () => {
   it('should create an instance', () => {

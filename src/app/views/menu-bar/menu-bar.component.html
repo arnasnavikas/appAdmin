@@ -1,0 +1,60 @@
+<mat-sidenav-container class="example-container">
+        <mat-toolbar id='top-menu' color="primary">
+          <!-- <button mat-icon-button [matMenuTriggerFor]="appMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>  -->
+          <button type="button" mat-icon-button (click)="sidenav.open()">
+            <mat-icon>more_vert</mat-icon> 
+          </button>
+          
+          <!-- BUTTON FOR CREATE NEW TABLE ROW -->
+          <button *ngIf='backendService.item_type =="table"'
+                   mat-icon-button matTooltip='Pridėti elementą'
+                   (click)='addTableRow()' 
+                   [disabled]='backendService.addToList == true'>
+              <mat-icon>&#xE3CD;</mat-icon>
+          </button>
+          <!-- BUTTON FOR DELTE MULTIPLE ITEMS -->
+          <button *ngIf='backendService.item_type !=""' 
+                   mat-icon-button
+                   matTooltip='Ištrinti kelis elementus' 
+                   (click)='createList()' >
+            <mat-icon [style.color]='backendService.addToList? "red" : "" '>&#xE16C;</mat-icon>
+          </button>
+          <span *ngIf='backendService.addToList'>
+            <button mat-button (click)='deleteItems()'><mat-icon >&#xE5CA;</mat-icon> Delete</button>
+            <button mat-button (click)='resetList()'><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
+          </span>
+          <!-- This fills the remaining space of the current row -->
+          <span class="example-fill-remaining-space"></span>
+          <button mat-icon-button matTooltip='Atsijungti' (click)='authService.logout()'> <mat-icon>&#xE879;</mat-icon></button>
+        </mat-toolbar>
+        <mat-sidenav #sidenav class="example-sidenav">
+            <mat-nav-list #shoes>
+                <mat-list-item routerLink='groups' (click)='sidenav.close()'>
+                  <mat-icon >&#xE896;</mat-icon> Redaguoti grupes 
+                 </mat-list-item>
+                 <mat-list-item (click)="sidenav.close();createNewGroup()">
+                    <mat-icon>&#xE03B;</mat-icon> Pridėti grupę 
+                 </mat-list-item>
+                 <mat-list-item routerLink='upload-images' (click)='sidenav.close()'>
+                    <mat-icon>&#xE439;</mat-icon> Įkelti paveikslėlių 
+                 </mat-list-item>
+                 <mat-list-item routerLink='private-images' (click)='sidenav.close()'>
+                    <mat-icon>&#xE8A0;</mat-icon> Žiūrėti paveikslėlius 
+                 </mat-list-item>
+              </mat-nav-list>
+          </mat-sidenav>
+                    
+          <div class="example-sidenav-content">
+            <span class='nav-spacer'></span>
+            <router-outlet></router-outlet>
+            <span class='nav-spacer'></span>
+            <mat-toolbar fxShow.lg="false" fxShow.md="false" fxLayout="row"  color='primary' fxLayoutWrap fxLayoutAlign="space-between center" id='bottom-menu'>
+              <button mat-icon-button (click)=location.back()><mat-icon>&#xE5C4;</mat-icon></button>
+              <button mat-icon-button routerLink='/groups' ><mat-icon>&#xE88A;</mat-icon></button>
+              <button mat-icon-button (click)=location.forward()><mat-icon>&#xE5C8;</mat-icon></button>
+            </mat-toolbar>
+          </div>
+        </mat-sidenav-container>
+            

@@ -1,0 +1,10 @@
+.job-card{
+    width: 200px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.delete-item{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

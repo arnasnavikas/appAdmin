@@ -1,69 +1,69 @@
-<div *ngIf='data_loaded' class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource">
-
-    <!--- Note that thes e columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-    <!-- Position Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> {{tableHead.name}} </mat-header-cell>
-      <mat-cell *matCellDef="let tableRow">
-          <mat-form-field>
-            <input matInput [(ngModel)]='tableRow.name' type="text">    
-          </mat-form-field>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="job_price">
-      <mat-header-cell *matHeaderCellDef> {{tableHead.job_price}} </mat-header-cell>
-      <mat-cell *matCellDef="let tableRow">
-         <mat-form-field>
-            <input matInput [(ngModel)]='tableRow.price' type="number">    
-          </mat-form-field>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Weight Column -->
-    <ng-container matColumnDef="material_price">
-      <mat-header-cell *matHeaderCellDef> {{tableHead.material_price}} </mat-header-cell>
-      <mat-cell *matCellDef="let tableRow"> 
-        <mat-form-field>
-              <input matInput [(ngModel)]='tableRow.material_price' type="number">    
-        </mat-form-field>
-      </mat-cell>
-    </ng-container>
-
-    <!-- Color Column -->
-    <ng-container matColumnDef="iseiga">
-      <mat-header-cell *matHeaderCellDef> {{tableHead.iseiga}} </mat-header-cell>
-      <mat-cell *matCellDef="let tableRow"> 
-        <mat-form-field>
-            <input matInput [(ngModel)]='tableRow.iseiga' type="number">    
-        </mat-form-field>
-      </mat-cell>
-    </ng-container>
-    <!-- Color Column -->
-    <ng-container matColumnDef="iframe">
-      <mat-header-cell *matHeaderCellDef> {{tableHead.iframeURL}} </mat-header-cell>
-      <mat-cell *matCellDef="let tableRow"> 
-        <mat-form-field>
-            <input matInput [(ngModel)]='tableRow.iframeURL' type="text">    
-        </mat-form-field> 
-      </mat-cell>
-    </ng-container>
-    <!-- options Column -->
-    <ng-container matColumnDef="options">
-      <mat-header-cell *matHeaderCellDef> Options 
-          <button matTooltip='Pridėti eilutę' mat-icon-button (click)='addRow()'><mat-icon>&#xE3CD;</mat-icon></button> 
-          <button matTooltip='Išsaugoti lentelę' mat-icon-button (click)='save()'><mat-icon>&#xE161;</mat-icon></button> 
-      </mat-header-cell>
-      <mat-cell *matCellDef="let tableRow"> 
-        <button matTooltip='Ištrinti eilutę' mat-icon-button (click)='remove(tableRow)'><mat-icon>close</mat-icon></button> 
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+   
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
+    
+<mat-card *ngFor='let row of backendService.table_rows' class="job-card">
+ <!-- DIV ELEMENT FOR ADDING ITEM IN DELETE LIST -->
+ <div appAddItem [id]='row._id'  [class.select-item]="backendService.addToList == true"></div>
+  <!-- BUTTON FOR SINGLE DELETE TABLE ELEMENT  -->
+  <button appDeleteItem [data]='row' [disabled]='backendService.addToList' matTooltip='Ištrinti elementą' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
+       
+    <mat-card-content>
+        <form >
+            <mat-form-field class="full-width">
+              <input matInput type="text" placeholder="Pavadinimas" 
+                                            [(ngModel)]="row.name" 
+                                            [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput type="number" placeholder="Darbo kaina" 
+                                            [(ngModel)]="row.price" 
+                                            [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-select placeholder="Mato Vienetas" [(ngModel)]='row.type' 
+                                                        [ngModelOptions]="{standalone: true}">
+                    <mat-option>-- None --</mat-option>
+                    <mat-optgroup *ngFor="let type of measure_type" [label]="type.name"
+                                  [disabled]="type.disabled">
+                      <mat-option *ngFor="let value of type.measure"  [value]="value.value">
+                          {{ value.value }}
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="number" placeholder="Medžiagų kaina"
+                                              [(ngModel)]='row.material_price'
+                                              [ngModelOptions]="{standalone: true}" >    
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput type="number" placeholder="Išeiga"
+                                              [(ngModel)]='row.iseiga' 
+                                              [ngModelOptions]="{standalone: true}">    
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Išeigos vienetas" [(ngModel)]='row.iseiga_type'
+                                                           [ngModelOptions]="{standalone: true}">
+                    <mat-option>-- None --</mat-option>
+                    <mat-optgroup *ngFor="let type of measure_type" [label]="type.name"
+                                  [disabled]="type.disabled">
+                      <mat-option *ngFor="let value of type.measure"  [value]="value.value">
+                          {{ value.value }} 
+                      </mat-option>
+                    </mat-optgroup>
+                  </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="text" placeholder="Iframe URL"
+                                          [(ngModel)]='row.iframeURL'
+                                          [ngModelOptions]="{standalone: true}" >    
+            </mat-form-field>
+          </form>
+    </mat-card-content>
+  </mat-card>
 </div>
+
+
+
+
+

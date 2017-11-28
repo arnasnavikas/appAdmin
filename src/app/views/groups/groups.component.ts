@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
 import { GroupInterface,GalerijaInterface,TableStruct } from '../../intercafe.enum'
-import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { RenameComponent } from '../../modals/rename/rename.component'
 import { AddGroupCoverComponent } from '../../modals/add-group-cover/add-group-cover.component'
-// import { AddGroupDescriptionComponent } from '../../modals/add-group-description/add-group-description.component'
 import { AddDescriptionComponent } from '../../modals/add-description/add-description.component'
 import { NewItemComponent } from '../../modals/new-item/new-item.component';
-@Component({
+import { AuthService } from '../../auth.service'
+import { Router} from '@angular/router'
+import { Route } from '@angular/router/src/config';
+ @Component({
   selector: 'app-home',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.css'],
@@ -16,44 +18,27 @@ import { NewItemComponent } from '../../modals/new-item/new-item.component';
 })
 export class GroupsComponent implements OnInit, OnDestroy {
   constructor(private backendService: BackendService,
-              public dialog: MatDialog) {}
+              public dialog: MatDialog,
+              public authService :AuthService,
+              private router: Router) {}
   ngOnInit() {
-    this.backendService.multiple_delete_type = 'group'
-    this.backendService.single_delete_type='grupę'
+    this.backendService.item_type = 'group'
     this.backendService.loadGroups()
   }
   ngOnDestroy(){
-    this.backendService.multiple_delete_type = ''
+    this.backendService.item_type = ''
     this.backendService.addToList = false
  }
-  deleteGroup(group:GroupInterface){
-    let dialogRef = this.dialog.open(DeleteItemComponent, {
-      width: '250px',
-      data : {id:group._id, name:group.name}
-    });
-  }
   newGallery(group:GroupInterface){
     let dialogRef = this.dialog.open(NewItemComponent, {
       width: '250px',
       data: {group:group,type:'gallery'}
       });
     }
-  newTable(group:GroupInterface){
-      let dialogRef = this.dialog.open(NewItemComponent, {
-        width: '250px',
-        data: {group:group,type:'table'}
-        });
-  }
   changeName(group:GroupInterface){
     this.dialog.open(RenameComponent,{
       width:'250px',
       data:{type:'group',group:group}
-    })
-  }
-  renameTable(group:GroupInterface){
-    this.dialog.open(RenameComponent,{
-      width:'250px',
-      data:{type:'table',group:group}
     })
   }
   addCover(group:GroupInterface){

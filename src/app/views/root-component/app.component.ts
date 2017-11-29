@@ -8,7 +8,8 @@ import { AuthService } from '../../auth.service'
 })
 export class AppComponent {
   constructor(private authService :AuthService) {
+    console.log('app init()')
       this.authService.handleAuthentication()
-    }
+   }
   
 }

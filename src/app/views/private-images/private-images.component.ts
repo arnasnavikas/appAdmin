@@ -39,8 +39,7 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
     this.backendService.pictures = []
     this.backendService.item_type = ''
   }
-  editDescrition(picture:PictureInterface,event){
-    event.stopPropagation()
+  editDescrition(picture:PictureInterface){
     this.dialog.open(AddDescriptionComponent,{
       width:'250px',
       data:picture

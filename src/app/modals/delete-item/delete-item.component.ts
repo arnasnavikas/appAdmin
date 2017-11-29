@@ -53,7 +53,7 @@ export class DeleteItemComponent implements OnInit {
                                           this.deleted = true; 
                                           this.backendService.showSuccessMessage('Ištrinta','',3000);
                                           this.onNoClick();
-                                          this.resetList();
+                                          this.backendService.resetList();
                                           for(let id of this.id_list)
                                             this.backendService.groups = this.backendService.groups.filter((group:GroupInterface)=>group._id != id)
                                         })
@@ -65,7 +65,7 @@ export class DeleteItemComponent implements OnInit {
                                     ()=>{ this.deleting = false; 
                                           this.deleted = true;
                                           this.onNoClick();
-                                          this.resetList();
+                                          this.backendService.resetList();
                                           this.backendService.showSuccessMessage('Ištrinta','',3000);
                                           for(let id of this.id_list)
                                             this.backendService.pictures = this.backendService.pictures.filter((picture:PictureInterface)=>picture._id != id)
@@ -78,7 +78,7 @@ export class DeleteItemComponent implements OnInit {
                                     ()=>{ this.deleting = false; 
                                           this.deleted = true;
                                           this.onNoClick();
-                                          this.resetList();
+                                          this.backendService.resetList();
                                           this.backendService.showSuccessMessage('Ištrinta','',3000);
                                           for(let id of this.id_list)
                                             this.backendService.pictures = this.backendService.pictures.filter((picture:PictureInterface)=>picture._id != id)
@@ -91,7 +91,7 @@ export class DeleteItemComponent implements OnInit {
                                     ()=>{ this.deleting = false; 
                                           this.deleted = true;
                                           this.onNoClick();
-                                          this.resetList();
+                                          this.backendService.resetList();
                                           this.backendService.showSuccessMessage('Ištrinta','',3000);
                                           for(let id of this.id_list)
                                             this.backendService.table_rows = this.backendService.table_rows.filter((row:TableRow)=>row._id != id)
@@ -104,7 +104,7 @@ export class DeleteItemComponent implements OnInit {
                                     ()=>{ this.deleting = false; 
                                           this.deleted = true;
                                           this.onNoClick();
-                                          this.resetList();
+                                          this.backendService.resetList();
                                           this.backendService.showSuccessMessage('Ištrinta','',3000);
                                           for(let id of this.id_list)
                                             this.backendService.gallerys = this.backendService.gallerys.filter((gallery:GalerijaInterface)=>gallery._id != id)
@@ -146,10 +146,4 @@ export class DeleteItemComponent implements OnInit {
   }
   
     // removes class name from selected elements
-    private resetList =()=>{
-      this.backendService.deleteList = []
-      this.backendService.addToList = false
-      for(let i of this.backendService.selected_DOM_items)
-        i.className ='select-item'
-    }
 }

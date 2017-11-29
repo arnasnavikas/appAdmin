@@ -11,22 +11,13 @@ import { PrivateImagesComponent } from './views/private-images/private-images.co
 import { TableEditComponent } from './views/table-edit/table-edit.component'
 import { TableViewComponent } from './views/table-view/table-view.component'
 import { LoginComponent } from './views/login/login.component'
-// const routes = [ {path: '', component: LoginComponent},
-//                  {path: 'groups',component: IndexPageComponent,
-//                       children:[{path:'',component:GroupsComponent},
-//                                 {path:':group_id/:group_folder/:gallery_folder/:gallery_id',component:UploadImagesComponent},
-//                                 {path:'edit-table/:group_id',component:TableEditComponent},
-//                                 {path:'view-table/:group_id',component:TableViewComponent},
-//                                 {path:':group_id/:gallery_id',component:PrivateImagesComponent},
-//                                 {path:':group_id',component:GallerysComponent},
-//                               ]},
-//                  {path: 'upload-images', component: UploadImagesComponent},                
-//                  {path: 'private-images', component: PrivateImagesComponent},                
-//                  {path: '**', component: PageNotFoundComponent}                
-// ]
-const routes = [ {path: '', component: LoginComponent},
-                  {path: 'welcome',component:AppComponent},
+import { AppLoadingComponent } from './views/loding-component/loading-app.component'
+const routes = [   
+                  {path: '',component:AppComponent},
+                  {path: 'login',component:LoginComponent},
+                  {path: 'loading', component: AppLoadingComponent},
                   {path: 'groups',component:GroupsComponent},
+                  {path: 'add-team-member',component:AppLoadingComponent},
                   {path: 'groups/:group_id/:group_folder/:gallery_folder/:gallery_id',component:UploadImagesComponent},
                   {path: 'groups/edit-table/:group_id',component:TableEditComponent},
                   {path: 'groups/view-table/:group_id',component:TableViewComponent},
@@ -37,7 +28,7 @@ const routes = [ {path: '', component: LoginComponent},
                   {path: '**', component: PageNotFoundComponent}                
 ]
 @NgModule({
-  imports: [  RouterModule.forRoot(routes,{ useHash: true }),
+  imports: [  RouterModule.forRoot(routes),
     CommonModule
   ],
   exports: [RouterModule]

@@ -11,7 +11,7 @@ export class AuthService {
     domain: 'arnas.auth0.com',
     responseType: 'token id_token',
     audience: 'https://arnas.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/groups',      
+    redirectUri: 'http://localhost:4200/loading',      
     scope: 'openid'
   });
 
@@ -25,7 +25,7 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/welcome']);
+        this.router.navigate(['/groups']);
       } else if (err) {
         this.router.navigate(['/']);
         console.log(err);
@@ -48,7 +48,7 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // Go back to the home route
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   public isAuthenticated(): boolean {

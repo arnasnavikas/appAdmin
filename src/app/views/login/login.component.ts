@@ -1,19 +1,20 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component,ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../auth.service'
 import {Router } from '@angular/router'
 @Component({
   selector: 'app-login',
-  template: '<router-outlet><router-outlet>',
+  template: '',
   encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   constructor(private authService :AuthService,private router:Router ) {
-    if(!this.authService.isAuthenticated())
-       this.authService.login()
+    console.log('login init')
+        console.log('authenticated ? - '+this.authService.isAuthenticated())
+        if(this.authService.isAuthenticated()=== false){
+          console.log('loging in')
+          this.authService.login()
+        }
+      
      }
-
-  ngOnInit() {
-  }
-
 }

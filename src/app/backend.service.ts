@@ -1,5 +1,5 @@
 import { Injectable, group } from '@angular/core';
-import { GroupInterface, GalerijaInterface,PictureInterface, TableRow } from "./intercafe.enum"
+import { GroupInterface, GalerijaInterface,PictureInterface, StatusInterface,TableRow } from "./intercafe.enum"
 import { Http,Response,Headers,RequestOptions } from "@angular/http";  
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
@@ -47,6 +47,12 @@ export class BackendService {
     this.selected_DOM_items.push(element)
     element.className += ' selected'
     console.log(this.deleteList )
+  }
+  public resetList =()=>{
+    this.deleteList = []
+    this.addToList = false
+    for(let i of this.selected_DOM_items)
+      i.className ='select-item'
   }
   createGroup(form_data:GroupInterface){
     let body = JSON.stringify(form_data);
@@ -243,6 +249,24 @@ saveTable(tableRow:TableRow[]){
 }
 getTable(group_id){
   return this.http.get(environment.getTableUrl+group_id,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+/************************* STATUS FUNCTIONS ********************* */
+getStatus(){
+  return this.http.get(environment.getStatusRecord,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+updateStatus(status:StatusInterface,id){
+  let body = JSON.stringify(status)
+  return this.http.put(environment.updateStatusRecord+id,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+createStatus(status:StatusInterface){
+  let body = JSON.stringify(status)
+  return this.http.post(environment.createStatusRecord,'data='+body,this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }

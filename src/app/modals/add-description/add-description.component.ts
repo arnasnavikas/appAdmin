@@ -59,7 +59,7 @@ export class AddDescriptionComponent implements OnInit {
         console.log('upadting group description')
         console.log(this.data)
         break;
-        case 'gallery-images':
+        case 'gallery-image':
         console.log('upadting gallery image description')
         this.update_image_description()
         console.log(this.data)

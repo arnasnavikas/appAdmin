@@ -1,0 +1,40 @@
+<form [formGroup]='memberForm'>
+    <mat-form-field class="full-width">
+      <input matInput type="text" placeholder="Vardas" 
+                                  formControlName='name' >
+      <button mat-button *ngIf="memberForm.controls['name'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['name'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="memberForm.controls['name'].hasError('required')">
+            Vardas yra <strong>būtinas</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput type="text" placeholder="Pavardė" 
+                                  formControlName='forname' >
+      <button mat-button *ngIf="memberForm.controls['forname'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['forname'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput type="number" placeholder="Amžius" 
+                                  formControlName='age' >
+      <button mat-button *ngIf="memberForm.controls['age'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['age'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput type="number" placeholder="Profesija" 
+                                  formControlName='profesion' >
+      <button mat-button *ngIf="memberForm.controls['profesion'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['profesion'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <textarea matInput  placeholder="Pomėgiai" 
+                          formControlName='hobby' ></textarea>
+      <button mat-button *ngIf="memberForm.controls['hobby'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['hobby'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+</form>

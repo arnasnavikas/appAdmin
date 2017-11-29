@@ -30,3 +30,15 @@
     width: 100%;
     z-index: 2;
 }
+@media screen and (max-width:480px){
+    #close-button{
+        visibility: visible !important;
+        position: absolute;
+        right:0;
+        top: 0;
+        color: white;
+    }
+}
+#close-button{
+    visibility: hidden;
+}

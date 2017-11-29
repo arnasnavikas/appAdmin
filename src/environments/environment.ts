@@ -67,9 +67,17 @@ addGroupDescription : 'http://'+address+'/group/add-description',
                 /** removes row from table*/
    removeTableRowUrl : 'http://'+address+'/table/remove-row', 
                 /** save table*/
-   saveTableUrl : 'http://'+address+'/table/save', 
-     /** upload pictures */
-    upload_pictures : 'http://'+address+'/upload-pictures',
+        saveTableUrl : 'http://'+address+'/table/save', 
+/*************************** PRIVATE PICTURES **************************** */
+                /** upload pictures */
+        upload_pictures : 'http://'+address+'/upload-pictures',
+/******************************* STATUS **************************** */
+                 /** upload pictures  (method - POST)*/
+        createStatusRecord : 'http://'+address+'/status/new',
+                 /** upload pictures  (method - PUT)*/
+        updateStatusRecord : 'http://'+address+'/status/update/',
+                 /** upload pictures  (method - PUT)*/
+        getStatusRecord : 'http://'+address+'/status/get-status/',
                 /** save 'apie mane' form */
        save_my_info : 'http://'+address+'/create-resume'
 }

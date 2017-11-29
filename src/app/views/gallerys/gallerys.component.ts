@@ -22,7 +22,7 @@ export class GallerysComponent implements OnInit,OnDestroy {
   ngOnInit(){ this.backendService.item_type = 'gallery'
               this.route.params.subscribe(params=>{
                 this.backendService.loadGallerys(params.group_id)
-                  });
+                });
           console.log('gallerty component init')
     }
     ngOnDestroy(){

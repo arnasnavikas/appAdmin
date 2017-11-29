@@ -38,6 +38,9 @@ import { TableEditComponent } from './views/table-edit/table-edit.component';
 import { TableViewComponent } from './views/table-view/table-view.component';
 import { LoginComponent } from './views/login/login.component';
 import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
+import { AppLoadingComponent} from './views/loding-component/loading-app.component';
+import { StatusComponent } from './modals/status/status.component';
+import { AddMemberComponent } from './modals/add-member/add-member.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +63,10 @@ import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
     SafePipe,
     HighLightTextDirective,
     DeleteItemDirective,
-    LoginComponent
+    LoginComponent,
+    AppLoadingComponent,
+    StatusComponent,
+    AddMemberComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +84,8 @@ import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
                       AddDescriptionComponent,
                       RenameComponent,
                       AddGroupCoverComponent,
+                      StatusComponent,
+                      AddMemberComponent
                       ],
   bootstrap: [AppComponent]
 })

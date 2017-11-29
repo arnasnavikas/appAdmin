@@ -7,6 +7,9 @@ import { serverResponse } from '../../intercafe.enum'
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { Location } from '@angular/common'
 import { AuthService } from '../../auth.service'
+import { Router} from '@angular/router'
+import { StatusComponent} from '../../modals/status/status.component'
+import { AddMemberComponent} from '../../modals/add-member/add-member.component'
 @Component({
   selector: 'menu-bar',
   templateUrl: './menu-bar.component.html',
@@ -18,7 +21,8 @@ export class MenuBarComponent implements OnInit{
     constructor(public dialog: MatDialog,
       private backendService : BackendService,
       private location : Location,
-      public authService: AuthService) {
+      public authService: AuthService,
+    private router : Router) {
       }
     ngOnInit(){
       this.backendService.item_type = ""
@@ -40,8 +44,18 @@ export class MenuBarComponent implements OnInit{
                 })
   }
   deleteItems(){
-  let dialogRef = this.dialog.open(DeleteItemComponent, {
-  width: '250px'
-  });
+    let dialogRef = this.dialog.open(DeleteItemComponent, {
+    width: '250px'
+    });
+  }
+  changeStatus(){
+    let dialogRef = this.dialog.open(StatusComponent, {
+    width: '250px'
+    });
+  }
+  add_team_memeber(){
+    let dialogRef = this.dialog.open(AddMemberComponent, {
+    width: '250px'
+    });
   }
 }

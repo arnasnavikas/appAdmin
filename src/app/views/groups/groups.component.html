@@ -5,7 +5,7 @@
         <!-- DELETE SINGLE GROUP  -->
         <button appDeleteItem [data]='group' [disabled]='backendService.addToList' matTooltip='Ištrinti grupę' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
         <mat-card-header>
-            <div mat-card-avatar class="group-header-image" [style.background-image]="'url('+group.imgURL+')'"></div>
+            <div mat-card-avatar class="group-header-image" matTooltip='Atidaryti' (click)='showAvatar(group)' [style.background-image]="'url('+group.imgURL+')'" style="cursor:pointer;"></div>
             <mat-card-title>Grupės pavadinimas
                 <button mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='changeName(group)'><mat-icon>&#xE3C9;</mat-icon></button>
             </mat-card-title>
@@ -44,7 +44,7 @@
                 (closed)="antras = false">
                 <mat-expansion-panel-header>
                     <mat-panel-title fxLayoutAlign="left center">
-                        <mat-icon>&#xE03B;</mat-icon> Lentelė  
+                        <mat-icon>&#xE03B;</mat-icon> Paslaugų kainos  
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                     <!-- buttons -->
@@ -57,4 +57,4 @@
     </mat-card>
 </div>
 
-      
+<app-picture-gallery *ngIf='openGallery' [index]='0' (close)='openGallery = $event' [picture]='groupAvatar' ></app-picture-gallery>

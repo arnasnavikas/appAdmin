@@ -6,6 +6,13 @@ export interface MyResumeInterface{
     image  : string,
     kita   : string,
 }
+export interface StatusInterface{
+    _id? :     string,
+    status:   number,
+    message:  string,
+    date?:     Date,
+    days_left:  number;
+}
 export interface GroupInterface{
     _v?: number,
     _id?: string,
@@ -58,17 +65,17 @@ export interface TableStruct {
     work_total     : number   
 }
 export interface PictureInterface{
-    _id         : string,
+    _id?         : string,
     description? : string,
     name        : string,
     imgURL      : string,
-    size        : number,
-    created     : number
-    group_id    : string,
-    gallery_id  : string,
-    folder_name : string,
-    gallery_name: string,
-    group_folder : string
+    size?        : number,
+    created?     : number
+    group_id?    : string,
+    gallery_id?  : string,
+    folder_name? : string,
+    gallery_name?: string,
+    group_folder? : string
 }
 
 export interface GalerijaInterface{

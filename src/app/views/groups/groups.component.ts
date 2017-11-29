@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
-import { GroupInterface,GalerijaInterface,TableStruct } from '../../intercafe.enum'
+import { GroupInterface,GalerijaInterface,PictureInterface } from '../../intercafe.enum'
 import { MatDialog } from '@angular/material';
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { RenameComponent } from '../../modals/rename/rename.component'
@@ -16,12 +16,19 @@ import { Route } from '@angular/router/src/config';
   styleUrls: ['./groups.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GroupsComponent implements OnInit, OnDestroy {
+export class GroupsComponent implements AfterViewInit, OnDestroy {
   constructor(private backendService: BackendService,
               public dialog: MatDialog,
               public authService :AuthService,
-              private router: Router) {}
-  ngOnInit() {
+              private router: Router) {
+                if(this.authService.isAuthenticated() == false){
+                  this.router.navigate(['/login'])
+                  return
+                }
+              }
+  private openGallery = false
+  private groupAvatar :PictureInterface[] 
+  ngAfterViewInit() {
     this.backendService.item_type = 'group'
     this.backendService.loadGroups()
   }
@@ -53,6 +60,11 @@ export class GroupsComponent implements OnInit, OnDestroy {
       width:'250px',
       data:group
     })
+  }
+  showAvatar(group:GroupInterface){
+    this.groupAvatar = [{ name        : group.name,
+                          imgURL      : group.imgURL}]
+    this.openGallery = true;
   }
 }
 

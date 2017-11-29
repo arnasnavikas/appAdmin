@@ -1,0 +1,29 @@
+  <form *ngIf='statusForm' [formGroup]='statusForm'>
+    
+  <!-- ################### STATUS ################## -->
+    <mat-form-field>
+      <mat-select placeholder="Darbo statusas" formControlName='status' >
+        <mat-option *ngFor="let stat of status" [value]="stat.value" (click)='selectStatus(stat.value)' >
+          {{stat.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+ <!-- ################### MESSAGE ################## -->
+ <mat-form-field>
+   <textarea formControlName='message' style="width:100% !important;min-height:70px;" matInput placeholder="Žinutė"  required></textarea>
+  </mat-form-field>
+  <!-- ################### DATE PICKER ################## -->
+      <mat-form-field *ngIf='status_selected != 2' >
+        <input matInput [matDatepicker]="picker" 
+                        (dateInput)="changeDate($event)"
+                        formControlName='date'   
+                        [placeholder]="date_picker_placeholder" 
+                        >
+        <mat-hint align="start"><strong>{{date_picer_text}}</strong> </mat-hint>
+        <mat-hint align="end">{{statusForm.value.days_left}}</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker touchUi='true'></mat-datepicker>
+      </mat-form-field>
+    
+  <button mat-button (click)='save()'> Atnaujinti </button>
+</form>

@@ -23,7 +23,7 @@
           </button>
           <span *ngIf='backendService.addToList'>
             <button mat-button (click)='deleteItems()'><mat-icon >&#xE5CA;</mat-icon> Delete</button>
-            <button mat-button (click)='resetList()'><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
+            <button mat-button (click)='backendService.resetList()'><mat-icon >&#xE5CD;</mat-icon> Cancel</button>
           </span>
           <!-- This fills the remaining space of the current row -->
           <span class="example-fill-remaining-space"></span>
@@ -41,7 +41,13 @@
                     <mat-icon>&#xE439;</mat-icon> Įkelti paveikslėlių 
                  </mat-list-item>
                  <mat-list-item routerLink='private-images' (click)='sidenav.close()'>
-                    <mat-icon>&#xE8A0;</mat-icon> Žiūrėti paveikslėlius 
+                    <mat-icon>&#xE8A0;</mat-icon> Tvarkyti   paveikslėlius 
+                 </mat-list-item>
+                 <mat-list-item (click)='sidenav.close();changeStatus()'>
+                    <mat-icon>&#xE916;</mat-icon> Pakeisti statusą 
+                 </mat-list-item>
+                 <mat-list-item (click)="add_team_memeber();sidenav.close()">
+                    <mat-icon>&#xE8D3;</mat-icon> Pridėti darbuotoją 
                  </mat-list-item>
               </mat-nav-list>
           </mat-sidenav>

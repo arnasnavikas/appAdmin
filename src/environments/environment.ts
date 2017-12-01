@@ -48,7 +48,9 @@ getPicturesUrl : 'http://'+address+'/picture/get-pictures/',
                 /** creates new group */
         createGroup : 'http://'+address+'/group/create',
                 /** adds group image */
-      addGroupCover : 'http://'+address+'/group/add-cover',
+      addGroupCover : 'http://'+address+'/group/add-cover/',
+                /** remove group image */
+      removeGroupCover : 'http://'+address+'/group/remove-cover/',
              /** adds description to group */
 addGroupDescription : 'http://'+address+'/group/add-description',
                 /** downloads all groups */
@@ -71,14 +73,15 @@ addGroupDescription : 'http://'+address+'/group/add-description',
 /*************************** PRIVATE PICTURES **************************** */
                 /** upload pictures */
         upload_pictures : 'http://'+address+'/upload-pictures',
-/******************************* STATUS **************************** */
-                 /** upload pictures  (method - POST)*/
-        createStatusRecord : 'http://'+address+'/status/new',
-                 /** upload pictures  (method - PUT)*/
-        updateStatusRecord : 'http://'+address+'/status/update/',
-                 /** upload pictures  (method - PUT)*/
-        getStatusRecord : 'http://'+address+'/status/get-status/',
-                /** save 'apie mane' form */
-       save_my_info : 'http://'+address+'/create-resume'
+
+/******************************* TEAM MEMBER **************************** */
+                /** creates new team member  */
+createTeamMemberUrl : 'http://'+address+'/my-team/add-member',
+                /** creates new team member  */
+updateTeamMemberUrl : 'http://'+address+'/my-team/update-member',
+                /** creates new team member  */
+deleteTeamMemberUrl : 'http://'+address+'/my-team/delete-member',
+                /** creates new team member  */
+getTeamMemberUrl : 'http://'+address+'/my-team/get-members',
 }
 

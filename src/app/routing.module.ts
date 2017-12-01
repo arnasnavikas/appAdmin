@@ -12,12 +12,13 @@ import { TableEditComponent } from './views/table-edit/table-edit.component'
 import { TableViewComponent } from './views/table-view/table-view.component'
 import { LoginComponent } from './views/login/login.component'
 import { AppLoadingComponent } from './views/loding-component/loading-app.component'
+import { EditTeamMemberComponent} from './views/edit-team-member/edit-team-member.component'
 const routes = [   
                   {path: '',component:AppComponent},
                   {path: 'login',component:LoginComponent},
                   {path: 'loading', component: AppLoadingComponent},
                   {path: 'groups',component:GroupsComponent},
-                  {path: 'add-team-member',component:AppLoadingComponent},
+                  {path: 'team-list',component:EditTeamMemberComponent},
                   {path: 'groups/:group_id/:group_folder/:gallery_folder/:gallery_id',component:UploadImagesComponent},
                   {path: 'groups/edit-table/:group_id',component:TableEditComponent},
                   {path: 'groups/view-table/:group_id',component:TableViewComponent},

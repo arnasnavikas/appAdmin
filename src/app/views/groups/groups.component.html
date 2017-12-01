@@ -5,7 +5,8 @@
         <!-- DELETE SINGLE GROUP  -->
         <button appDeleteItem [data]='group' [disabled]='backendService.addToList' matTooltip='Ištrinti grupę' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
         <mat-card-header>
-            <div mat-card-avatar class="group-header-image" matTooltip='Atidaryti' (click)='showAvatar(group)' [style.background-image]="'url('+group.imgURL+')'" style="cursor:pointer;"></div>
+            <button mat-icon-button matTooltip='Ištrinti grupės viršelius' *ngIf='group.imgURL.length > 0' (click)='removeCover(group)'><mat-icon>&#xE16C;</mat-icon></button>
+            <!-- <div mat-card-avatar class="group-header-image" matTooltip='Atidaryti' (click)='showAvatar(group)' [style.background-image]="'url('+group.imgURL+')'" style="cursor:pointer;"></div> -->
             <mat-card-title>Grupės pavadinimas
                 <button mat-icon-button matTooltip='Pakeisti pavadinimą' (click)='changeName(group)'><mat-icon>&#xE3C9;</mat-icon></button>
             </mat-card-title>
@@ -57,4 +58,4 @@
     </mat-card>
 </div>
 
-<app-picture-gallery *ngIf='openGallery' [index]='0' (close)='openGallery = $event' [picture]='groupAvatar' ></app-picture-gallery>
+<!-- <app-picture-gallery *ngIf='openGallery' [index]='0' (close)='openGallery = $event' [picture]='groupAvatar' ></app-picture-gallery> -->

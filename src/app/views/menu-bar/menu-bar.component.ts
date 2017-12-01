@@ -26,9 +26,10 @@ export class MenuBarComponent implements OnInit{
       }
     ngOnInit(){
       this.backendService.item_type = ""
+      this.backendService.getTeamMembers().subscribe(data=>{ this.backendService.members = data;console.log(data)})
     }
   createNewGroup(): void {
-  let dialogRef = this.dialog.open(NewItemComponent, {
+   this.dialog.open(NewItemComponent, {
   width: '250px',
   data : {type:'group'}
   });
@@ -44,17 +45,13 @@ export class MenuBarComponent implements OnInit{
                 })
   }
   deleteItems(){
-    let dialogRef = this.dialog.open(DeleteItemComponent, {
+     this.dialog.open(DeleteItemComponent, {
     width: '250px'
     });
   }
-  changeStatus(){
-    let dialogRef = this.dialog.open(StatusComponent, {
-    width: '250px'
-    });
-  }
+
   add_team_memeber(){
-    let dialogRef = this.dialog.open(AddMemberComponent, {
+     this.dialog.open(AddMemberComponent, {
     width: '250px'
     });
   }

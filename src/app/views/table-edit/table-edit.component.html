@@ -9,16 +9,20 @@
        
     <mat-card-content>
         <form >
+  <!-- ********************** PAVADINIMAS **********************  -->
             <mat-form-field class="full-width">
               <input matInput type="text" placeholder="Pavadinimas" 
                                             [(ngModel)]="row.name" 
                                             [ngModelOptions]="{standalone: true}">
             </mat-form-field>
+  <!-- ********************** DARBO KAINA  **********************  -->
             <mat-form-field class="full-width">
+              <span matPrefix> €</span>
               <input matInput type="number" placeholder="Darbo kaina" 
                                             [(ngModel)]="row.price" 
                                             [ngModelOptions]="{standalone: true}">
             </mat-form-field>
+  <!-- ********************** DARBO MATO VIENETAS **********************  -->
             <mat-form-field class="full-width">
                 <mat-select placeholder="Mato Vienetas" [(ngModel)]='row.type' 
                                                         [ngModelOptions]="{standalone: true}">
@@ -31,16 +35,26 @@
                     </mat-optgroup>
                   </mat-select>
             </mat-form-field>
+  <!-- ********************** MEDZIAGOS PAVADINIMAS  **********************  -->
             <mat-form-field>
+                <input matInput type="text" placeholder="Medžiagos pavadinimas"
+                                              [(ngModel)]='row.material_name'
+                                              [ngModelOptions]="{standalone: true}" >    
+            </mat-form-field>
+  <!-- ********************** MEDZIAGU KAINA  **********************  -->
+            <mat-form-field>
+                <span matPrefix> €</span>
                 <input matInput type="number" placeholder="Medžiagų kaina"
                                               [(ngModel)]='row.material_price'
                                               [ngModelOptions]="{standalone: true}" >    
             </mat-form-field>
+  <!-- ********************** ISEIGA **********************  -->
             <mat-form-field>
                 <input matInput type="number" placeholder="Išeiga"
                                               [(ngModel)]='row.iseiga' 
                                               [ngModelOptions]="{standalone: true}">    
             </mat-form-field>
+  <!-- ********************** ISEIGOS MATO VIENETAS **********************  -->
             <mat-form-field>
                 <mat-select placeholder="Išeigos vienetas" [(ngModel)]='row.iseiga_type'
                                                            [ngModelOptions]="{standalone: true}">
@@ -53,6 +67,7 @@
                     </mat-optgroup>
                   </mat-select>
             </mat-form-field>
+  <!-- ********************** IFRAME URL **********************  -->
             <mat-form-field>
               <input matInput type="text" placeholder="Iframe URL"
                                           [(ngModel)]='row.iframeURL'

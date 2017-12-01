@@ -1,3 +1,8 @@
+<div fxLayout="row"  fxLayoutWrap fxLayoutAlign="space-between center" >
+    <button [disabled]='backendService.selected_items.length > 0' mat-icon-button matTooltip='Įkelti nuotruakų' (click)='addPhotos()'><mat-icon>&#xE439;</mat-icon></button>
+    <p class="mat-typography">Nuotruakos: {{backendService.selected_items.length}}</p>
+    <button *ngIf='backendService.selected_items.length > 0' mat-icon-button matTooltip='Pašalinti paveikslėlius' (click)='backendService.selected_items = []'><mat-icon>&#xE5CD;</mat-icon></button>
+</div>
 <form [formGroup]='memberForm'>
     <mat-form-field class="full-width">
       <input matInput type="text" placeholder="Vardas" 
@@ -24,7 +29,7 @@
       </button>
     </mat-form-field>
     <mat-form-field class="full-width">
-      <input matInput type="number" placeholder="Profesija" 
+      <input matInput type="text" placeholder="Profesija" 
                                   formControlName='profesion' >
       <button mat-button *ngIf="memberForm.controls['profesion'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['profesion'].setValue('')">
           <mat-icon>close</mat-icon>
@@ -37,4 +42,6 @@
           <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
+    <button mat-button (click)='create()'><mat-icon>&#xE876;</mat-icon>Sukurti</button>
+    <button mat-button (click)='dialogRef.close()'><mat-icon></mat-icon>cancel</button>
 </form>

@@ -1,20 +1,29 @@
-<div>
-    <mat-paginator id='paginator' [length]="length"
-                                  [pageSize]="pageSize"
-                                  [pageSizeOptions]="pageSizeOptions"
-                                  (page)="updateView($event)">
-  </mat-paginator>
-<button   matTooltip='Išeiti' id='close-button' (click)='dialogRef.close()' mat-icon-button > <mat-icon >&#xE5CD;</mat-icon></button>
+<div fxLayout="row" style='margin:10px' fxLayoutWrap fxLayoutAlign="space-beteween center" >
+  <button class="select-button" [disabled]='backendService.selected_items.length < 1' mat-button [color]='button_color' (click)='update()' >
+      <mat-icon *ngIf='data.type =="add"'>&#xE876;</mat-icon>
+      <mat-icon *ngIf='data.type =="remove"'>&#xE16C;</mat-icon>
+     ok</button>
+  <button class="select-button" mat-button  (click)='dialogRef.close()' >cancel</button>
+</div>
+
+<!-- <button   matTooltip='Išeiti' id='close-button' (click)='dialogRef.close()' mat-icon-button > <mat-icon >&#xE5CD;</mat-icon></button> -->
   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-    <mat-card matTooltip='Paspauskite norėdami pasirinkti paveikslėlį' class="group-cover" *ngFor='let image of showedImages; let i = index' (click)='ElemIndex = i' >
-      <div #element  [class.hidden]="i != ElemIndex" [class.showOptions]='i == ElemIndex' ></div>
-      <div class='button-background' *ngIf='i == ElemIndex' fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-        <button class="select-button" mat-raised-button color='primary' (click)='addCover(image.imgURL)' >PASIRINKTI</button>
-      </div>
+    <mat-card matTooltip='Paspauskite norėdami pasirinkti paveikslėlį'
+              class="group-cover" 
+              *ngFor='let image of showedImages; let i = index' >
+      <div appAddItem [id]='image'  class='select-item'></div>
+      
+      <!-- <div #element  [class.hidden]="i != ElemIndex" [class.showOptions]='i == ElemIndex' ></div> -->
+      <!-- <div class='button-background' *ngIf='i == ElemIndex' fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
+      </div> -->
       <mat-card-header>
         <mat-card-subtitle>{{image.name}}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image [src]="image.imgURL" alt="">
     </mat-card>
 </div>
-</div>
+<mat-paginator id='paginator' [length]="length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (page)="updateView($event)">
+</mat-paginator>

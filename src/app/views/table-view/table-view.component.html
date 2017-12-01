@@ -12,21 +12,24 @@
       <mat-card-content>
           <form >
               <mat-form-field class="full-width">
-                <input matInput type="number" [placeholder]="'Kiekis '+row.type" 
+                <span matPrefix>{{row.type}}</span>
+                <input matInput type="number" placeholder="Kiekis " 
                                               [(ngModel)]="row.input" 
                                               [ngModelOptions]="{standalone: true}"
                                               (keydown)='limitValue(row,"input")' 
                                               (keyup)='limitValue(row,"input")' min="0">
               </mat-form-field>
               <mat-form-field class="full-width">
-                <input matInput type="number" [placeholder]="'Išeiga '+row.iseiga_type+'/'+row.type" 
+                <span matPrefix>{{row.iseiga_type}}</span>
+                <input matInput type="number" [placeholder]="'Išeiga '+'1 '+row.type" 
                                               [(ngModel)]="row.iseiga" 
                                               [ngModelOptions]="{standalone: true}"
                                               (keydown)='limitValue(row,"iseiga")' 
                                               (keyup)='limitValue(row,"iseiga")' min="0">
               </mat-form-field>
               <mat-form-field class="full-width">
-                <input matInput type="number" [placeholder]="'Medžiagų kaina 1 '+row.iseiga_type+'/€'" 
+                <span matPrefix>€</span>
+                <input matInput type="number" [placeholder]="row.material_name+ ' 1 '+row.iseiga_type+' kaina'" 
                                               [(ngModel)]="row.material_price" 
                                               [ngModelOptions]="{standalone: true}"
                                               (keydown)='limitValue(row,"material_price")'

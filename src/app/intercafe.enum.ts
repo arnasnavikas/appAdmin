@@ -1,18 +1,17 @@
-export interface MyResumeInterface{
-    vardas : string,
-    amzius : string,
-    issilavinimas :string,
-    smallPic: string,
-    image  : string,
-    kita   : string,
-}
-export interface StatusInterface{
+export interface TeamMemberInterfase{
     _id? :     string,
+    name:      string,     
+    forname:   string,  
+    age:       number,      
+    images:    Array<PictureInterface>,   
+    profesion: string,
+    hobby:     string ,
     status:   number,
     message:  string,
     date?:     Date,
-    days_left:  number;
+    days_left:  number;  
 }
+
 export interface GroupInterface{
     _v?: number,
     _id?: string,

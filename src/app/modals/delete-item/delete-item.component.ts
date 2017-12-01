@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewEncapsulation,Inject} from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { BackendService } from '../../backend.service';
-import { TableRow,GalerijaInterface,GroupInterface,PictureInterface} from '../../intercafe.enum'
+import { TableRow,
+         GalerijaInterface,
+         GroupInterface,
+         PictureInterface,
+         TeamMemberInterfase } from '../../intercafe.enum'
 
 @Component({
   selector: 'app-delete-item',
@@ -13,15 +17,14 @@ export class DeleteItemComponent implements OnInit {
   
   constructor(public dialogRef: MatDialogRef<DeleteItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private backendService : BackendService,
-    ) { }
+    private backendService : BackendService) { }
 
     private deleted = false
     private deleting = null
     private item_name;
     private id_list :string[]
     ngOnInit() {
-      this.id_list = this.backendService.addToList == true? this.backendService.deleteList : [this.data._id];
+      this.id_list = this.backendService.addToList == true? this.backendService.selected_items : [this.data._id];
       switch (this.backendService.item_type) {
         case 'group':
         this.item_name = this.id_list.length > 1? 'pažymėtas grupes': ' grupę'
@@ -38,11 +41,26 @@ export class DeleteItemComponent implements OnInit {
         case 'gallery-image':
         this.item_name = this.id_list.length > 1? 'pažymėtas nuotraukas': ' nuotrauką'
           break;
+        case 'team-member':
+        this.item_name = this.id_list.length > 1? 'pažymėtus darbuotojus': ' darbuotoją'
+          break;
       
         default:
         console.log('no item type provided')
           break;
       }
+    }
+    delete_team_member(){
+      this.backendService.deleteMember(this.id_list)
+                         .subscribe(data=>{console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{ this.deleting = false; 
+                                          this.deleted = true; 
+                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
+                                          this.onNoClick();
+                                          this.backendService.resetList();
+                                          for(let id of this.id_list)
+                                            this.backendService.members = this.backendService.members.filter((member:TeamMemberInterfase)=>member._id != id)})
     }
     delete_group(){
       console.log(this.data)
@@ -133,6 +151,10 @@ export class DeleteItemComponent implements OnInit {
         case 'gallery':
         console.log('deleting table rows')
         this.delete_gallery()
+        break;
+        case 'team-member':
+        console.log('deleting team member')
+        this.delete_team_member()
         break;
         
         default:

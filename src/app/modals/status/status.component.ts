@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject} from '@angular/core';
 import { FormGroup,FormBuilder,Validators} from "@angular/forms"
 import{ DateAdapter, MatDialog} from '@angular/material'
-import {StatusInterface } from '../../intercafe.enum'
 import { BackendService } from '../../backend.service'
-import { MatDialogRef } from '@angular/material'
+import { TeamMemberInterfase} from '../../intercafe.enum'
+import { MatDialogRef,MAT_DIALOG_DATA} from '@angular/material'
 @Component({
   selector: 'app-status',
   templateUrl: './status.component.html',
@@ -12,35 +12,23 @@ import { MatDialogRef } from '@angular/material'
 export class StatusComponent implements OnInit {
   constructor(private fb:FormBuilder,
               private backendService: BackendService,
-              public dialogRef : MatDialogRef<StatusComponent>) {}
+              public dialogRef : MatDialogRef<StatusComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: TeamMemberInterfase,) {}
  
   private statusForm : FormGroup;
   private date_picker_placeholder : string
   private date_picer_text : string
-  private create_new : boolean 
-  private status_data :StatusInterface 
   private status_selected
   ngOnInit() {
-    this.backendService.getStatus()
-                       .subscribe((data:StatusInterface[])=>{this.create_new = data.length == 0? true : false;
-                                                 this.status_data = data[0];
-                                                if(this.create_new == false){
-                                                  this.status_selected = this.status_data.status
-                                                  this.statusForm = this.fb.group({ 
-                                                    status:    this.fb.control(this.status_data.status,[Validators.required]),
-                                                    message:   this.fb.control(this.status_data.message,[Validators.required]),
-                                                    date:      this.fb.control(this.status_data.date),
-                                                    days_left: this.fb.control(this.status_data.days_left)
-                                                  });
-                                                  this.changeView(this.status_selected)
-                                                }else{
-                                                  this.statusForm = this.fb.group({ 
-                                                    status:    this.fb.control('',[Validators.required]),
-                                                    message:   this.fb.control('',[Validators.required]),
-                                                    date:      this.fb.control(''),
-                                                    days_left: this.fb.control('')
-                                                  });
-                                                }});
+    this.statusForm = this.fb.group({ 
+      _id:    this.fb.control(this.data._id,[Validators.required]),
+      status:    this.fb.control(this.data.status,[Validators.required]),
+      message:   this.fb.control(this.data.message,[Validators.required]),
+      date:      this.fb.control(this.data.date),
+      days_left: this.fb.control(this.data.days_left)
+    });
+    this.status_selected = this.data.status
+    this.changeView(this.data.status)
   }
   private status = [
     {value: 0, viewValue: 'Dirbu' },
@@ -49,27 +37,20 @@ export class StatusComponent implements OnInit {
   ];
 
   save(){
-    console.log(this.statusForm.valid)
-    console.log(this.create_new)
-    if(this.create_new && this.statusForm.valid){
-      console.log('create new ')
-      this.backendService.createStatus(this.statusForm.value)
-                          .subscribe(data=>{console.log(data)},
-                                     err=>{console.log(err)},
-                                     ()=>{this.backendService.showSuccessMessage('Statusas atnaujinas','',3000);
-                                          this.dialogRef.close();
-                                          });
+    if(this.statusForm.valid){
+
+      this.data.status = this.statusForm.value.status
+      this.data.message = this.statusForm.value.message
+      this.data.days_left = this.statusForm.value.days_left
+      this.data.date = this.statusForm.value.date
+      this.backendService.updateMember(this.data)
+                         .subscribe(data=>{console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{this.backendService.showSuccessMessage('Statusas atnaujinas','',3000);
+                                         this.dialogRef.close();
+                                         });
     }
-       if(this.statusForm.valid){
-        console.log('update ')
-        this.backendService.updateStatus(this.statusForm.value,this.status_data._id)
-                           .subscribe(data=>{console.log(data)},
-                                      err=>{console.log(err)},
-                                      ()=>{this.backendService.showSuccessMessage('Statusas atnaujinas','',3000);
-                                           this.dialogRef.close();
-                                           });
-      }
-      console.log(this.statusForm.value)
+        console.log(this.data)
   }
   changeDate(event){
     let now = new Date().getTime()
@@ -88,9 +69,6 @@ export class StatusComponent implements OnInit {
       this.date_picker_placeholder = 'Atostogų pabaiga'
       this.date_picer_text = 'Iki atostogų pabaigos liko:'
       break;
-      case 2: //status "laisvas"
-      break;
-      
       default:
       break;
     }

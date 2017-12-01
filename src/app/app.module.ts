@@ -40,7 +40,8 @@ import { LoginComponent } from './views/login/login.component';
 import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
 import { AppLoadingComponent} from './views/loding-component/loading-app.component';
 import { StatusComponent } from './modals/status/status.component';
-import { AddMemberComponent } from './modals/add-member/add-member.component'
+import { AddMemberComponent } from './modals/add-member/add-member.component';
+import { EditTeamMemberComponent } from './views/edit-team-member/edit-team-member.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +67,8 @@ import { AddMemberComponent } from './modals/add-member/add-member.component'
     LoginComponent,
     AppLoadingComponent,
     StatusComponent,
-    AddMemberComponent
+    AddMemberComponent,
+    EditTeamMemberComponent
   ],
   imports: [
     BrowserModule,

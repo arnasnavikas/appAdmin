@@ -26,8 +26,8 @@ export class GroupsComponent implements AfterViewInit, OnDestroy {
                   return
                 }
               }
-  private openGallery = false
-  private groupAvatar :PictureInterface[] 
+  // private openGallery = false
+  // private groupAvatar :PictureInterface[] 
   ngAfterViewInit() {
     this.backendService.item_type = 'group'
     this.backendService.loadGroups()
@@ -37,7 +37,7 @@ export class GroupsComponent implements AfterViewInit, OnDestroy {
     this.backendService.addToList = false
  }
   newGallery(group:GroupInterface){
-    let dialogRef = this.dialog.open(NewItemComponent, {
+    this.dialog.open(NewItemComponent, {
       width: '250px',
       data: {group:group,type:'gallery'}
       });
@@ -49,10 +49,16 @@ export class GroupsComponent implements AfterViewInit, OnDestroy {
     })
   }
   addCover(group:GroupInterface){
-    let WindowHeight = window.innerHeight < 500 ? window.innerHeight : window.innerHeight -100
+    // let WindowHeight = window.innerHeight < 500 ? window.innerHeight : window.innerHeight -100
     this.dialog.open(AddGroupCoverComponent,{
-      height: WindowHeight+'px',
-      data : group
+      height: '500px',
+      data : {group:group, type:'add'}
+    })
+  }
+  removeCover(group: GroupInterface){
+    this.dialog.open(AddGroupCoverComponent,{
+      height: '500px',
+      data : {group:group, type:'remove'}
     })
   }
   addDescription(group:GroupInterface){
@@ -61,10 +67,10 @@ export class GroupsComponent implements AfterViewInit, OnDestroy {
       data:group
     })
   }
-  showAvatar(group:GroupInterface){
-    this.groupAvatar = [{ name        : group.name,
-                          imgURL      : group.imgURL}]
-    this.openGallery = true;
-  }
+  // showAvatar(group:GroupInterface){
+  //   this.groupAvatar = [{ name        : group.name,
+  //                         imgURL      : group.imgURL}]
+  //   this.openGallery = true;
+  // }
 }
 

@@ -1,10 +1,11 @@
 import { Injectable, group } from '@angular/core';
-import { GroupInterface, GalerijaInterface,PictureInterface, StatusInterface,TableRow } from "./intercafe.enum"
+import { GroupInterface, TeamMemberInterfase ,GalerijaInterface,PictureInterface,TableRow } from "./intercafe.enum"
 import { Http,Response,Headers,RequestOptions } from "@angular/http";  
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 import { MatSnackBar} from '@angular/material';
+import { AddMemberComponent } from './modals/add-member/add-member.component';
 
 @Injectable()
 export class BackendService {
@@ -17,9 +18,10 @@ export class BackendService {
   public gallerys : Array<GalerijaInterface> = []
   public pictures : Array<PictureInterface> = []
   public table_rows : TableRow[]
+  public members : TeamMemberInterfase[] = []
   // delete object
   public addToList = false // enables items selecting for deletion
-  public deleteList = []  // arry of items _id or other information of selected itemd
+  public selected_items = []  // arry of items _id or other information of selected itemd
   public item_type : string = '' // type for multiple delete
   public selected_DOM_items = [] // holds selected itmes DOM, for removing class after canceling deletion
   //group parmas
@@ -34,22 +36,22 @@ export class BackendService {
   }
   // adds clicked elemetn information and DOM to list
   _addToList(id,element){
-    for(let i of this.deleteList){
+    for(let i of this.selected_items){
       if(id == i){
-        let index = this.deleteList.indexOf(id)
-        this.deleteList.splice(index,1)
+        let index = this.selected_items.indexOf(id)
+        this.selected_items.splice(index,1)
         this.selected_DOM_items.splice(index,1)
         element.className = 'select-item'
         return;
       }
     } 
-    this.deleteList.push(id)
+    this.selected_items.push(id)
     this.selected_DOM_items.push(element)
     element.className += ' selected'
-    console.log(this.deleteList )
+    console.log(this.selected_items )
   }
   public resetList =()=>{
-    this.deleteList = []
+    this.selected_items = []
     this.addToList = false
     for(let i of this.selected_DOM_items)
       i.className ='select-item'
@@ -113,12 +115,17 @@ export class BackendService {
  *  DESCRIPTION:
  *        rename gallery in server database;
  *  PARAMETERS: 
- *        1. form_data {  _id    : 'data',
- *                       imgURL  : 'nasm_sad_' }
+ *        1. form_data {  _id    : 'data' }
  *#####################################################################*/
-  addGroupCover(formValue){
-    var body = JSON.stringify(formValue);
-    return this.http.post(environment.addGroupCover,'data='+body,this.options)
+  addGroupCover(group_id){
+    var body = JSON.stringify(this.selected_items);
+    return this.http.post(environment.addGroupCover+group_id,'data='+body,this.options)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+  removeGroupCover(group_id){
+    var body = JSON.stringify(this.selected_items);
+    return this.http.put(environment.removeGroupCover+group_id,'data='+body,this.options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
@@ -252,21 +259,28 @@ getTable(group_id){
                   .map(this.extractData)
                   .catch(this.handleError);
 }
-/************************* STATUS FUNCTIONS ********************* */
-getStatus(){
-  return this.http.get(environment.getStatusRecord,this.options)
+
+/************************* MEMBERS ********************* */
+addMember(member){
+  let body = JSON.stringify(member)
+  return this.http.post(environment.createTeamMemberUrl,'data='+body,this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }
-updateStatus(status:StatusInterface,id){
-  let body = JSON.stringify(status)
-  return this.http.put(environment.updateStatusRecord+id,'data='+body,this.options)
+getTeamMembers(){
+  return this.http.get(environment.getTeamMemberUrl,this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }
-createStatus(status:StatusInterface){
-  let body = JSON.stringify(status)
-  return this.http.post(environment.createStatusRecord,'data='+body,this.options)
+updateMember(member:TeamMemberInterfase){
+  let body = JSON.stringify(member);
+  return this.http.put(environment.updateTeamMemberUrl,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+deleteMember(id:string[]){
+  let body = JSON.stringify(id)
+  return this.http.put(environment.deleteTeamMemberUrl, 'data='+body,this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }

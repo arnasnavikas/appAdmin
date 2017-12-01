@@ -3,19 +3,14 @@ import { BackendService } from '../backend.service'
 @Directive({
   selector: '[appAddItem]'
 })
-export class AddItemDirective implements OnInit,OnDestroy{
+export class AddItemDirective {
 @Input() id;
   constructor(private backendService : BackendService) { }
-ngOnInit(){
-}
+
   @HostListener('click',['$event']) show(event){
     event.stopPropagation()
     this.backendService._addToList(this.id,event.target)
     console.log('this is add tolist directive')
-  }
-  ngOnDestroy(){
-    this.backendService.addToList = false
-    this.backendService.selected_DOM_items = []
-    this.backendService.deleteList = []
-  }
+    console.log(this.backendService.selected_items)
+  } 
 }

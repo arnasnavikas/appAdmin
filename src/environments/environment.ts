@@ -54,7 +54,7 @@ getPicturesUrl : 'http://'+address+'/picture/get-pictures/',
              /** adds description to group */
 addGroupDescription : 'http://'+address+'/group/add-description',
                 /** downloads all groups */
-          getGroups : 'http://'+address+'/group',
+          getGroups : 'http://'+address+'/group/',
                 /** delete group */
        group_delete : 'http://'+address+'/group/delete',
                 /** rename group */
@@ -72,7 +72,7 @@ addGroupDescription : 'http://'+address+'/group/add-description',
         saveTableUrl : 'http://'+address+'/table/save', 
 /*************************** PRIVATE PICTURES **************************** */
                 /** upload pictures */
-        upload_pictures : 'http://'+address+'/upload-pictures',
+        upload_pictures : 'http://'+address+'/upload-pictures/',
 
 /******************************* TEAM MEMBER **************************** */
                 /** creates new team member  */

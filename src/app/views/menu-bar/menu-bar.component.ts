@@ -2,14 +2,9 @@ import { Component,OnInit,ViewEncapsulation} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { NewItemComponent } from '../../modals/new-item/new-item.component' 
 import { BackendService } from '../../backend.service'
-import { TableEditComponent } from '../table-edit/table-edit.component'
-import { serverResponse } from '../../intercafe.enum'
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
-import { Location } from '@angular/common'
-import { AuthService } from '../../auth.service'
-import { Router} from '@angular/router'
-import { StatusComponent} from '../../modals/status/status.component'
 import { AddMemberComponent} from '../../modals/add-member/add-member.component'
+import { Location } from '@angular/common'
 @Component({
   selector: 'menu-bar',
   templateUrl: './menu-bar.component.html',
@@ -20,19 +15,18 @@ export class MenuBarComponent implements OnInit{
 
     constructor(public dialog: MatDialog,
       private backendService : BackendService,
-      private location : Location,
-      public authService: AuthService,
-    private router : Router) {
+      public location: Location) {
+          this.backendService.userValidation()
       }
     ngOnInit(){
+      console.log('authorozation succssefull initializing menu bar')
       this.backendService.item_type = ""
-      this.backendService.getTeamMembers().subscribe(data=>{ this.backendService.members = data;console.log(data)})
     }
   createNewGroup(): void {
    this.dialog.open(NewItemComponent, {
-  width: '250px',
-  data : {type:'group'}
-  });
+      width: '250px',
+      data : {type:'group'}
+    });
   }
   //turns on/off multiple delete button options in menu bar
   createList(){

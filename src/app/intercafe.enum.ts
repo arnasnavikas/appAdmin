@@ -10,6 +10,7 @@ export interface TeamMemberInterfase{
     message:  string,
     date?:     Date,
     days_left:  number;  
+    folder_name: string
 }
 
 export interface GroupInterface{

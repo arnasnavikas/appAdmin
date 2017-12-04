@@ -11,10 +11,11 @@ export class LoginComponent {
   constructor(private authService :AuthService,private router:Router ) {
     console.log('login init')
         console.log('authenticated ? - '+this.authService.isAuthenticated())
-        if(this.authService.isAuthenticated()=== false){
+        if(this.authService.isAuthenticated()   == false){
           console.log('loging in')
           this.authService.login()
-        }
+        }else
+          this.router.navigate(['admin/select-user'])
       
      }
 }

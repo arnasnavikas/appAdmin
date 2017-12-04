@@ -15,9 +15,9 @@ export class AddMemberComponent implements OnInit,OnDestroy {
               private backendService: BackendService,
               public dialog: MatDialog) { }
   private memberForm : FormGroup = this.fb.group({name:      this.fb.control('',[Validators.required]),
-                                                  forname:   this.fb.control(''),
+                                                  forname:   this.fb.control('',[Validators.required]),
                                                   age:       this.fb.control(''),
-                                                  images:    this.fb.control('',[Validators.required]),
+                                                  images:    this.fb.control(''),
                                                   profesion: this.fb.control(''),
                                                   hobby:     this.fb.control('')
                                                 })
@@ -33,16 +33,15 @@ addPhotos(){
     })
   }
   create(){
-    this.memberForm.controls['images'].setValue(this.backendService.selected_items)
     if(this.memberForm.valid){
       console.log(this.memberForm.value)
       this.backendService.addMember(this.memberForm.value)
-      .subscribe(data=>{console.log(data); this.backendService.members.push(data);},
-                 err=>{console.log(err)},
-                 ()=>{this.dialogRef.close()
-                      this.backendService.showSuccessMessage('Komandos narys pridėtas','',3000)
-                      this.backendService.resetList();
-                      })
+                         .subscribe(data=>{console.log(data); this.backendService.members.push(data[0]);},
+                                    err=>{console.log(err)},
+                                    ()=>{this.dialogRef.close()
+                                          this.backendService.showSuccessMessage('Komandos narys pridėtas','',3000)
+                                          this.backendService.resetList();
+                                          })
     }
   }
 }

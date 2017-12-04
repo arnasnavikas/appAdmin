@@ -23,11 +23,12 @@ export class AuthService {
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
+        // window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/groups']);
+        this.router.navigate(['admin/select-user']);
+        console.log('navigating to /admin/select-user')
       } else if (err) {
-        this.router.navigate(['/']);
+        this.router.navigate(['admin/select-user']);
         console.log(err);
       }
     });

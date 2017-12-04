@@ -6,14 +6,17 @@ import { environment } from '../environments/environment'
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 import { MatSnackBar} from '@angular/material';
 import { AddMemberComponent } from './modals/add-member/add-member.component';
-
+import { AuthService } from './auth.service'
+import { Router } from '@angular/router'
 @Injectable()
 export class BackendService {
 
-  constructor(private http  : Http,public snackBar: MatSnackBar) { }
+  constructor(private http  : Http,public snackBar: MatSnackBar, public authService : AuthService, public router : Router) { }
   private headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
   private options = new RequestOptions({ headers: this.headers });
   
+  public selected_user :TeamMemberInterfase
+
   public groups : Array<GroupInterface> = []
   public gallerys : Array<GalerijaInterface> = []
   public pictures : Array<PictureInterface> = []
@@ -28,6 +31,16 @@ export class BackendService {
   public gallery_id : string = ''
   public group_id : string = ''
 
+  userValidation(){
+    if(!this.authService.isAuthenticated()){
+      this.router.navigate(['/login']);
+      return;
+    }
+    if(!this.selected_user){
+      this.router.navigate(['/admin/select-user'])
+      return;
+    }
+  }
   public showSuccessMessage =(message:string,button_message:string,duration:number)=>{
     this.snackBar.open(message,button_message, {
       duration: duration,
@@ -63,8 +76,8 @@ export class BackendService {
                               .catch(this.handleError);
                               
 }
-  getGroups(){
-    return this.http.get(environment.getGroups)
+  getGroups(user_id){
+    return this.http.get(environment.getGroups+user_id,this.options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
@@ -75,12 +88,12 @@ export class BackendService {
                     .catch(this.handleError);
   }
   loadGroups(){
-    this.getGroups().subscribe((groups:GroupInterface[]) => { this.groups = groups; console.log(this.groups)},
+    this.getGroups(this.selected_user._id).subscribe((groups:GroupInterface[]) => { this.groups = groups; console.log(this.groups)},
                                               err =>{ console.log(err)},
                                               ()=>{console.log('groups updated')})
   }
   getOneGroup(group_id:string){
-    return this.http.get(environment.getGroups+'/'+group_id)
+    return this.http.get(environment.getGroups+'/one/'+group_id)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -223,9 +236,9 @@ addImageDescription(form_data){
                  .catch(this.handleError);
 }
 getPrivateImages(){
-  return this.http.get(environment.upload_pictures)
-  .map(this.extractData)
-  .catch(this.handleError);
+  return this.http.get(environment.upload_pictures+this.selected_user._id,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
 }
 loadPrivatePictures(){
   this.getPrivateImages().subscribe(pictures=>{this.pictures = pictures},
@@ -238,7 +251,7 @@ deletePrivateImages(id:string[]){
   }
 /************************* TABLE FUNCTIONS ********************* */
 addTableRow(group_id){
-  return this.http.post( environment.addTableRowUrl+group_id, this.options)
+  return this.http.post( environment.addTableRowUrl+this.selected_user._id+'/'+group_id, this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }

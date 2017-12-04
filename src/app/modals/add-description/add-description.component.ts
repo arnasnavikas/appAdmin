@@ -64,6 +64,11 @@ export class AddDescriptionComponent implements OnInit {
         this.update_image_description()
         console.log(this.data)
         break;
+        case 'private-image':
+        console.log('upadting private image description')
+        this.update_image_description()
+        console.log(this.data)
+        break;
         case 'gallery':
         this.update_gallery_description()
         console.log('upadting gallery description')

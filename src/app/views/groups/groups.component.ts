@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { BackendService } from '../../backend.service'
 import { GroupInterface,GalerijaInterface,PictureInterface } from '../../intercafe.enum'
 import { MatDialog } from '@angular/material';
@@ -9,28 +9,35 @@ import { AddDescriptionComponent } from '../../modals/add-description/add-descri
 import { NewItemComponent } from '../../modals/new-item/new-item.component';
 import { AuthService } from '../../auth.service'
 import { Router} from '@angular/router'
-import { Route } from '@angular/router/src/config';
  @Component({
   selector: 'app-home',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GroupsComponent implements AfterViewInit, OnDestroy {
+export class GroupsComponent implements OnInit, OnDestroy {
   constructor(private backendService: BackendService,
               public dialog: MatDialog,
               public authService :AuthService,
               private router: Router) {
-                if(this.authService.isAuthenticated() == false){
-                  this.router.navigate(['/login'])
-                  return
-                }
+                this.backendService.userValidation()
               }
   // private openGallery = false
   // private groupAvatar :PictureInterface[] 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.backendService.item_type = 'group'
-    this.backendService.loadGroups()
+    this.backendService.getGroups(this.backendService.selected_user._id)
+                       .subscribe((groups:GroupInterface[])=>{
+                         if(groups.length == 0){
+                           this.backendService.groups = []
+                           this.dialog.open(NewItemComponent,{
+                             width: '250px',
+                             data : {type:'group'}
+                           })
+                         }else{
+                           this.backendService.groups = groups
+                         }
+                       })
   }
   ngOnDestroy(){
     this.backendService.item_type = ''

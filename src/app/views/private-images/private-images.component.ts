@@ -3,8 +3,10 @@ import { BackendService } from '../../backend.service'
 import { GalerijaInterface,PictureInterface} from '../../intercafe.enum'
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material';
-import { ActivatedRoute } from "@angular/router"
+import { ActivatedRoute, Router} from "@angular/router"
 import { AddDescriptionComponent } from '../../modals/add-description/add-description.component'
+import { AuthService } from '../../auth.service'
+import { Route } from '@angular/router/src/config';
 @Component({
   selector: 'app-private-images',
   templateUrl: './private-images.component.html',
@@ -15,7 +17,10 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
 
   constructor(private backendService: BackendService,
               public dialog: MatDialog,
-              public router: ActivatedRoute) { }
+              public router: ActivatedRoute
+              ) {
+                this.backendService.userValidation()
+               }
   openGallery = false;
   clicked_Img
   ngOnInit() {

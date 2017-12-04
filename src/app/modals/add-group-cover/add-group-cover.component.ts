@@ -98,18 +98,17 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
                                      err=>{console.log(err)},
                                      ()=>{
                                        for(let image of this.backendService.selected_items)
-                                         this.showedImages = this.images.filter((img:PictureInterface)=>img._id != image._id)
+                                         this.data.group.imgURL = this.images.filter((img:PictureInterface)=>img._id != image._id)
                                          console.log(this.showedImages)
-                                        this.backendService.loadGroups()
                                         this.backendService.showSuccessMessage('Nuotraukos ištrintos','',3000);
                                         this.backendService.resetList()
                                        });
         break;
         case 'member-add-picture':
-        this.dialogRef.close()
         break;                             
-      default:
+        default:
         break;
-    }
+      }
+      this.dialogRef.close()
   }
 }

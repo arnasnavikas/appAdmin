@@ -15,14 +15,17 @@ export class NewItemComponent implements OnInit{
   constructor(public dialogRef: MatDialogRef<NewItemComponent>,@Inject(MAT_DIALOG_DATA) public data: any,
               private backendService: BackendService, private _fb: FormBuilder) {}
  ngOnInit(){
+   let user = this.backendService.selected_user;
    switch (this.data.type) {
      case 'group':
      this.typeName = 'grupę'
      this.placeholder = 'Grupės pavadinimas'
      this.newItemForm = this._fb.group({ name: this._fb.control('',[Validators.required]),
-                                      route: this._fb.control(''),
-                                      folder_name: this._fb.control(''),
-                                 });
+                                         route: this._fb.control(''),
+                                         folder_name: this._fb.control(''),
+                                         user_id: this._fb.control(user._id),
+                                         user_folder: this._fb.control(user.folder_name)
+                                    });
  
         break;
       case 'gallery':
@@ -30,8 +33,9 @@ export class NewItemComponent implements OnInit{
       this.placeholder = 'Galerijos pavadinimas'
       this.newItemForm = this._fb.group({ name: this._fb.control('',[Validators.required]),
                                           route: this._fb.control(''),
-                                          tables: this._fb.control(0),
+                                          user_id: this._fb.control(user._id),
                                           group_folder: this._fb.control(this.data.group.folder_name),
+                                          user_folder: this._fb.control(user.folder_name),
                                           group_id:  this._fb.control(this.data.group._id),
                                           folder_name: this._fb.control(''),
       });
@@ -55,6 +59,7 @@ export class NewItemComponent implements OnInit{
       this.newItemForm.controls['route'].setValue(name) 
       let date ="_"+Date.now()
       name = name+date
+      let user = this.backendService.selected_user
       this.newItemForm.controls['folder_name'].setValue(name) 
       this.backendService.createGroup(this.newItemForm.value)
                          .subscribe(data=>{console.log(data); this.backendService.groups.push(data)},

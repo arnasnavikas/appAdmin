@@ -6,6 +6,7 @@ import { TableRow,
          GroupInterface,
          PictureInterface,
          TeamMemberInterfase } from '../../intercafe.enum'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-delete-item',
@@ -16,7 +17,7 @@ import { TableRow,
 export class DeleteItemComponent implements OnInit {
   
   constructor(public dialogRef: MatDialogRef<DeleteItemComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any, public router: Router,
     private backendService : BackendService) { }
 
     private deleted = false
@@ -42,7 +43,7 @@ export class DeleteItemComponent implements OnInit {
         this.item_name = this.id_list.length > 1? 'pažymėtas nuotraukas': ' nuotrauką'
           break;
         case 'team-member':
-        this.item_name = this.id_list.length > 1? 'pažymėtus darbuotojus': ' darbuotoją'
+        this.item_name = this.id_list.length > 1? 'pažymėtus vartotojus': ' vartotoją'
           break;
       
         default:
@@ -59,8 +60,16 @@ export class DeleteItemComponent implements OnInit {
                                           this.backendService.showSuccessMessage('Ištrinta','',3000);
                                           this.onNoClick();
                                           this.backendService.resetList();
-                                          for(let id of this.id_list)
-                                            this.backendService.members = this.backendService.members.filter((member:TeamMemberInterfase)=>member._id != id)})
+                                          for(let id of this.id_list){
+                                            if(id == this.backendService.selected_user._id)
+                                              this.backendService.selected_user = undefined;
+                                            this.backendService.members = this.backendService.members.filter((member:TeamMemberInterfase)=>member._id != id)
+                                          }
+                                          if(this.backendService.members.length == 0){
+                                            this.backendService.selected_user = undefined;
+                                            this.router.navigate(['/admin'])
+                                          }
+                                            })
     }
     delete_group(){
       console.log(this.data)

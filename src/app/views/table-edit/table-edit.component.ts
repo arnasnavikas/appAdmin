@@ -3,7 +3,7 @@ import { BackendService } from '../../backend.service'
 import { ActivatedRoute } from '@angular/router'
 import { MatTableDataSource } from '@angular/material';
 import { FormControl} from '@angular/forms'
-import { TableRow,TableStruct, TableHeader,serverResponse } from '../../intercafe.enum';
+import { TableRow,TableStruct, TableHeader } from '../../intercafe.enum';
 import { MatSnackBar} from '@angular/material';
 
 @Component({
@@ -57,13 +57,11 @@ export class TableEditComponent implements OnInit,OnDestroy {
       }
     ];
   private group_id;
-  private table : TableStruct
   load_table_data = ()=>{
     this.backendService.getTable(this.group_id)
-    .subscribe((tableData:serverResponse)=>{
-                   console.log(tableData)
-                   this.table = tableData.table
-                   this.backendService.table_rows =  tableData.tableRows
+    .subscribe((tableRows:TableRow[])=>{
+                   console.log(tableRows)
+                   this.backendService.table_rows =  tableRows
                  },
                    err=>{console.log(err)},
                  ()=>{})

@@ -1,7 +1,7 @@
  
     
   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-    <mat-card *ngFor='let member of backendService.members' class="job-card">
+    <mat-card *ngFor='let member of backendService.members' class="member-card">
       <!-- DIV ELEMENT FOR ADDING ITEM IN DELETE LIST -->
       <div appAddItem [id]='member._id'  [class.select-item]="backendService.addToList == true"></div>
       <!-- DELETE SINGLE GROUP  -->
@@ -9,13 +9,23 @@
       <mat-card-header>
             <div mat-card-avatar [style.background-image]='"url("+member.images[0].imgURL+")"' class="header-image"></div>
           <mat-card-title ><span #rowName >Vardas / pavardė</span></mat-card-title>
-          <mat-card-subtitle>{{member.name+' / '+member.forname}}</mat-card-subtitle>
+          <mat-card-subtitle >{{member.name+' / '+member.forname}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content >
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button><mat-icon>&#xE254;</mat-icon> Redaguoti</button>
-          <button mat-button (click)='changeStatus(member)'><mat-icon>&#xE916;</mat-icon> Pakeisti statusą </button>
+            <mat-list dense>
+                <mat-list-item> 
+                  <button mat-button style="width:100%"><mat-icon>&#xE254;</mat-icon> Redaguoti</button>
+                </mat-list-item>
+                <mat-list-item> 
+                  <button mat-button style="width:100%" (click)='changeStatus(member)'><mat-icon>&#xE916;</mat-icon> Pakeisti statusą </button>
+                </mat-list-item>
+                <mat-list-item> 
+                  <button mat-button style="width:100%" color='primary' (click)='selectUser(member)'><mat-icon>&#xE853;</mat-icon> Pasirinkti vartotoją </button>
+                </mat-list-item>
+            
+               </mat-list>
           
           
         </mat-card-actions>

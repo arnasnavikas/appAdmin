@@ -1,7 +1,17 @@
 .header-image {
     background-size: cover;
+    /* background-image: url(); */
+    z-index: 3;
   }
   .member-card{
     margin-right: 10px;
     margin-bottom: 10px;
   }
+
+.active{
+  color: white;
+  background: #3f51b5;
+}
+.full-width{
+  width: 100%;
+}

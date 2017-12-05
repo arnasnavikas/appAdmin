@@ -1,11 +1,13 @@
-import { Injectable, group } from '@angular/core';
-import { GroupInterface, TeamMemberInterfase ,GalerijaInterface,PictureInterface,TableRow } from "./intercafe.enum"
+import { Injectable} from '@angular/core';
+import { GroupInterface, 
+         TeamMemberInterfase,
+         GalerijaInterface,
+         PictureInterface,
+         TableRow } from "./intercafe.enum"
 import { Http,Response,Headers,RequestOptions } from "@angular/http";  
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
-import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 import { MatSnackBar} from '@angular/material';
-import { AddMemberComponent } from './modals/add-member/add-member.component';
 import { AuthService } from './auth.service'
 import { Router } from '@angular/router'
 @Injectable()
@@ -16,11 +18,12 @@ export class BackendService {
   private options = new RequestOptions({ headers: this.headers });
   
   public selected_user :TeamMemberInterfase
-
+  public activeUserIndex;
+  
   public groups : Array<GroupInterface> = []
   public gallerys : Array<GalerijaInterface> = []
   public pictures : Array<PictureInterface> = []
-  public table_rows : TableRow[]
+  public table_rows : TableRow[] = []
   public members : TeamMemberInterfase[] = []
   // delete object
   public addToList = false // enables items selecting for deletion
@@ -69,6 +72,9 @@ export class BackendService {
     for(let i of this.selected_DOM_items)
       i.className ='select-item'
   }
+/**####################################################################
+ *             ----GROUP---- SERVER REQUESTS
+ *#####################################################################*/
   createGroup(form_data:GroupInterface){
     let body = JSON.stringify(form_data);
     return this.http.post(environment.createGroup,"data="+body, this.options)
@@ -97,39 +103,18 @@ export class BackendService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  /**####################################################################
- *  DESCRIPTION:
- *        rename gallery in server database;
- *  PARAMETERS: 
- *        1. form_data { pavadinimas : 'data',
- *                       _id    : 'data',
- *                       route   : 'nasm_sad_' }
- *#####################################################################*/
   renameGroup(formValue){
     var body = JSON.stringify(formValue);
     return this.http.put(environment.group_rename,'data='+body,this.options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
-  /**####################################################################
- *  DESCRIPTION:
- *        change group description in server database;
- *  PARAMETERS: 
- *        1. form_data { _id    : 'data',
- *                       description: 'nasm_sad_' }
- *#####################################################################*/
   changeGroupDecription(formValue){
     var body = JSON.stringify(formValue);
     return this.http.put(environment.addGroupDescription,'data='+body,this.options)
                     .map(this.extractData)
                     .catch(this.handleError);
   }
-  /**####################################################################
- *  DESCRIPTION:
- *        rename gallery in server database;
- *  PARAMETERS: 
- *        1. form_data {  _id    : 'data' }
- *#####################################################################*/
   addGroupCover(group_id){
     var body = JSON.stringify(this.selected_items);
     return this.http.post(environment.addGroupCover+group_id,'data='+body,this.options)
@@ -142,6 +127,9 @@ export class BackendService {
                     .map(this.extractData)
                     .catch(this.handleError);
   }
+ /**####################################################################
+ *             ----GALLERY---- SERVER REQUESTS
+ *#####################################################################*/
   getGalleries(group_id){
     return this.http.get(environment.get_gallerys+'/'+group_id).
                                   map(this.extractData).
@@ -152,46 +140,18 @@ export class BackendService {
                                     err=>{console.log(err)},
                                     ()=>{console.log('gallerys updated')})
   }
-
-  /**####################################################################
- *  DESCRIPTION:
- *        rename gallery in server database;
- *  PARAMETERS: 
- *        1. form_data { name : 'data',
- *                       id    : 'data',
- *                       routeName   : 'nasm_sad_' }
- *#####################################################################*/
   renameGallery(formData){
     let body = JSON.stringify(formData);
     return this.http.put(environment.renameGalleryURL, "data="+body, this.options)
                                                    .map(this.extractData)
                                                    ._catch(this.handleError);
   } 
-  /**####################################################################
- *  DESCRIPTION:
- *        rename gallery in server database;
- *  PARAMETERS: 
- *        1. form_data {id    : 'data',
- *                      description   : 'nasm_sad_' }
- *#####################################################################*/
   updateGalleryDescription(formData){
     let body = JSON.stringify(formData);
     return this.http.post(environment.addGalleryDescrURL+'/'+formData.id, "data="+body, this.options)
                                                    .map(this.extractData)
                                                    ._catch(this.handleError);
   } 
-  /**####################################################################
- *  DESCRIPTION:
- *        Create new folder in _url server;
- *  PARAMETERS: 
- *        1. form_data - object - { gallery_name : 'data',
- *                                  aprasymas    : 'data',
- *                                  route_name   : 'nasm_sad_',
- *                                  group_name   : 'asd-asd',
- *                                  group_id     : 'asd-asd',
- *                                  folder_name  : 'asdasd'
- *                                 }
- *#####################################################################*/
 createGallery(form_data){
   let body = JSON.stringify(form_data);
   return this.http.post(environment.createGalleryURL, "data="+body , this.options)
@@ -204,6 +164,9 @@ deleteGallerys(id:string[]){
                   .map(this.extractData)
                   .catch(this.handleError);
 }
+/**####################################################################
+ *             ----PICTURES---- SERVER REQUESTS
+ *#####################################################################*/
 getGalleryPictures(gallery_id){
   return this.http.get(environment.getPicturesUrl+gallery_id)
                   .map(this.extractData)
@@ -214,21 +177,12 @@ loadGalleryPictures(){
                                                       err=>{console.log(err)},
                                                       ()=>{})
 }
-
 deleteGalleryImages(id:string[]){
   let body = JSON.stringify(id)
   return this.http.put(environment.removeGalleryPicture,'data='+body,this.options)
                   .map(this.extractData)
                   .catch(this.handleError)
 }
-/**####################################################################
- *  DESCRIPTION:
- *        add description to picture;
- *  PARAMETERS: 
- *        1. form_data {id    : 'data',
- *                      description   : 'nasm_sad_' }
- *#####################################################################*/
-  
 addImageDescription(form_data){
  var body = JSON.stringify(form_data)
  return this.http.put(environment.addPictureDescription,'data='+body,this.options)
@@ -249,7 +203,9 @@ deletePrivateImages(id:string[]){
     let body = JSON.stringify(id)
     return this.http.put(environment.upload_pictures,'data='+body,this.options)
   }
-/************************* TABLE FUNCTIONS ********************* */
+/**####################################################################
+ *             ----TABLE---- SERVER REQUESTS
+ *#####################################################################*/
 addTableRow(group_id){
   return this.http.post( environment.addTableRowUrl+this.selected_user._id+'/'+group_id, this.options)
                   .map(this.extractData)
@@ -272,8 +228,9 @@ getTable(group_id){
                   .map(this.extractData)
                   .catch(this.handleError);
 }
-
-/************************* MEMBERS ********************* */
+/**####################################################################
+ *             ----USERS---- SERVER REQUESTS
+ *#####################################################################*/
 addMember(member){
   let body = JSON.stringify(member)
   return this.http.post(environment.createTeamMemberUrl,'data='+body,this.options)
@@ -285,9 +242,32 @@ getTeamMembers(){
                   .map(this.extractData)
                   .catch(this.handleError);
 }
-updateMember(member:TeamMemberInterfase){
-  let body = JSON.stringify(member);
+getOneMember(user_id){
+  return this.http.get(environment.getUserUrl+user_id,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+updateMember(user:TeamMemberInterfase){
+  let body = JSON.stringify(user);
   return this.http.put(environment.updateTeamMemberUrl,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+updateUserStatus(user:TeamMemberInterfase){
+  let body = JSON.stringify(user);
+  return this.http.put(environment.updateUserStatusUrl,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+addUserPictures(){
+  let body = JSON.stringify(this.selected_items);
+  return this.http.post(environment.addUserPicturesUrl+this.selected_user._id,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError);
+}
+removeUserPictures(){
+  let body = JSON.stringify(this.selected_items);
+  return this.http.put(environment.removeUserPicturesUrl+this.selected_user._id,'data='+body,this.options)
                   .map(this.extractData)
                   .catch(this.handleError);
 }
@@ -297,6 +277,9 @@ deleteMember(id:string[]){
                   .map(this.extractData)
                   .catch(this.handleError);
 }
+/**####################################################################
+ *             ----SERVER RESPONSE FUNCTIONS---- 
+ *#####################################################################*/
   // converting response data to json
   private extractData(res: Response) {
     let body = res.json();

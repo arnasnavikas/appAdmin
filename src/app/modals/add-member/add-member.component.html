@@ -1,48 +1,43 @@
-<h3 class='mat-typography'>Sukurti naudotoją</h3>
-<!-- <div fxLayout="row"  fxLayoutWrap fxLayoutAlign="space-between center" >
-    <button [disabled]='backendService.selected_items.length > 0' mat-icon-button matTooltip='Įkelti nuotruakų' (click)='addPhotos()'><mat-icon>&#xE439;</mat-icon></button>
-    <p class="mat-typography">Nuotruakos: {{backendService.selected_items.length}}</p>
-    <button *ngIf='backendService.selected_items.length > 0' mat-icon-button matTooltip='Pašalinti paveikslėlius' (click)='backendService.selected_items = []'><mat-icon>&#xE5CD;</mat-icon></button>
-</div> -->
-<form [formGroup]='memberForm'>
+<h1 mat-dialog-title style="text-align:center;">{{modalTitle}}</h1>
+<form [formGroup]='userForm'>
     <mat-form-field class="full-width">
       <input matInput type="text" placeholder="Vardas" 
                                   formControlName='name' >
-      <button mat-button *ngIf="memberForm.controls['name'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['name'].setValue('')">
+      <button mat-button *ngIf="userForm.controls['name'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['name'].setValue('')">
           <mat-icon>close</mat-icon>
       </button>
-      <mat-error *ngIf="memberForm.controls['name'].hasError('required')">
+      <mat-error *ngIf="userForm.controls['name'].hasError('required')">
             Vardas yra <strong>būtinas</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="full-width">
       <input matInput type="text" placeholder="Pavardė" 
                                   formControlName='forname' >
-      <button mat-button *ngIf="memberForm.controls['forname'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['forname'].setValue('')">
+      <button mat-button *ngIf="userForm.controls['forname'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['forname'].setValue('')">
           <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field class="full-width">
       <input matInput type="number" placeholder="Amžius" 
                                   formControlName='age' >
-      <button mat-button *ngIf="memberForm.controls['age'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['age'].setValue('')">
+      <button mat-button *ngIf="userForm.controls['age'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['age'].setValue('')">
           <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field class="full-width">
       <input matInput type="text" placeholder="Profesija" 
                                   formControlName='profesion' >
-      <button mat-button *ngIf="memberForm.controls['profesion'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['profesion'].setValue('')">
+      <button mat-button *ngIf="userForm.controls['profesion'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['profesion'].setValue('')">
           <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field class="full-width">
       <textarea matInput  placeholder="Pomėgiai" 
                           formControlName='hobby' ></textarea>
-      <button mat-button *ngIf="memberForm.controls['hobby'].value" matSuffix mat-icon-button aria-label="Clear" (click)="memberForm.controls['hobby'].setValue('')">
+      <button mat-button *ngIf="userForm.controls['hobby'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['hobby'].setValue('')">
           <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <button mat-button (click)='create()'><mat-icon>&#xE876;</mat-icon>Sukurti</button>
-    <button mat-button (click)='dialogRef.close()'><mat-icon></mat-icon>cancel</button>
+    <button mat-button (click)='create()'><mat-icon>&#xE876;</mat-icon>{{buttonTitle}}</button>
+    <button mat-button (click)='dialogRef.close()' style="max-width:80px">cancel</button>
 </form>

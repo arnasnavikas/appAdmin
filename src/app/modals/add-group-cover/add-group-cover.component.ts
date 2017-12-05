@@ -27,7 +27,7 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
   firstView = { pageIndex: 0,
                 pageSize: this.pageSize,
                 length: this.length}
-  private loadImages = ()=>{
+  private get_privatePictures = ()=>{
     this.backendService.getPrivateImages()
                       .subscribe(pictures =>{this.images = pictures},
                                   err=>{console.log(err)},
@@ -39,12 +39,19 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
     switch (this.data.type) {
       case 'add':
         this.button_color = 'primary'
-        this.loadImages()
+        this.get_privatePictures()
         break;
         case 'member-add-picture':
         this.button_color = 'primary'
         console.log('adding picture to member')
-        this.loadImages()
+        this.get_privatePictures()
+        break;
+        case 'member-remove-picture':
+        this.button_color = 'warn'
+        console.log('adding picture to member')
+        this.images = this.backendService.selected_user.images
+        this.length = this.images.length
+        this.updateView(this.firstView)
         break;
         case 'remove':
         this.button_color = 'warn'
@@ -59,13 +66,7 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
     }
   }
   ngOnDestroy(){
-    switch (this.data.type) {
-      case 'member-add-picture':
-      break;
-      default:
-      this.backendService.resetList()
-      break;
-    }
+    this.backendService.resetList()
   }
   // pagination logic
   updateView(e:paginator){
@@ -99,12 +100,33 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
                                      ()=>{
                                        for(let image of this.backendService.selected_items)
                                          this.data.group.imgURL = this.images.filter((img:PictureInterface)=>img._id != image._id)
-                                         console.log(this.showedImages)
                                         this.backendService.showSuccessMessage('Nuotraukos ištrintos','',3000);
                                         this.backendService.resetList()
                                        });
         break;
         case 'member-add-picture':
+        this.backendService.addUserPictures()
+                           .subscribe(data=>{console.log(data); 
+                            for(let image of this.backendService.selected_items)
+                              this.backendService.selected_user.images.push(image);
+                            },
+                           err=>{console.log(err)},
+                           ()=>{
+
+                              this.backendService.showSuccessMessage('Nuotraukos pridėtos','',3000);
+                              this.backendService.resetList()
+                             });
+        break;                             
+        case 'member-remove-picture':
+        this.backendService.removeUserPictures()
+                           .subscribe(data=>{console.log(data)},
+                           err=>{console.log(err)},
+                           ()=>{
+                            this.backendService.getOneMember(this.backendService.selected_user._id)
+                                               .subscribe(user=>{this.backendService.selected_user.images = user.images; console.log(user)});
+                              this.backendService.showSuccessMessage('Nuotraukos ištrintos','',3000);
+                              this.backendService.resetList()
+                             });
         break;                             
         default:
         break;

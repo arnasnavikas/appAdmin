@@ -6,6 +6,7 @@ import { TeamMemberInterfase} from '../../intercafe.enum'
 import { StatusComponent } from '../../modals/status/status.component'
 import { AddMemberComponent } from '../../modals/add-member/add-member.component'
 import { Router} from '@angular/router'
+import { AddGroupCoverComponent } from '../../modals/add-group-cover/add-group-cover.component'
 @Component({
   selector: 'app-edit-team-member',
   templateUrl: './edit-team-member.component.html',
@@ -18,7 +19,7 @@ export class EditTeamMemberComponent implements OnInit {
     public dialog: MatDialog,
     public router : Router){}
   ngOnInit() {
-    this.backendService.item_type = 'team-member'
+    this.backendService.item_type = 'user'
     this.backendService.getTeamMembers().subscribe((members:TeamMemberInterfase[])=>{ 
                                                       this.backendService.members = members ;
                                                       console.log(members);
@@ -43,9 +44,28 @@ export class EditTeamMemberComponent implements OnInit {
       data:member
     });
   }             
-  selectUser(member){
+  editUser(user){
+    this.dialog.open(AddMemberComponent, {
+      width: '260px',
+        data:user
+      });
+  }
+  selectUser(member,index){
+    this.backendService.activeUserIndex = index
     this.backendService.selected_user = member
     this.backendService.showSuccessMessage('Vartotojas pasirinktas','',3000)
-    this.router.navigate(['/admin/groups'])
-  }                   
+    // this.router.navigate(['/admin/groups'])
+  }         
+  addPhotos(){
+    this.dialog.open(AddGroupCoverComponent,{
+      height: '500px',
+      data: {type:'member-add-picture'}
+    })
+  }   
+  editPhotos(){
+    this.dialog.open(AddGroupCoverComponent,{
+      height: '500px',
+      data: {type:'member-remove-picture'}
+    })
+  }       
 }

@@ -1,14 +1,13 @@
  
     
   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-    <mat-card *ngFor='let member of backendService.members' class="member-card">
+    <mat-card *ngFor='let member of backendService.members; let i = index' class="member-card" [class.active]='i == backendService.activeUserIndex' >
       <!-- DIV ELEMENT FOR ADDING ITEM IN DELETE LIST -->
       <div appAddItem [id]='member._id'  [class.select-item]="backendService.addToList == true"></div>
       <!-- DELETE SINGLE GROUP  -->
-      <button appDeleteItem [data]='member' [disabled]='backendService.addToList' matTooltip='Ištrinti darbuotiją' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
+      <button appDeleteItem [data]='member' [disabled]='backendService.addToList' matTooltip='Ištrinti vartotoją' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
       <mat-card-header>
-            <div mat-card-avatar [style.background-image]='"url("+member.images[0].imgURL+")"' class="header-image"></div>
-          <mat-card-title ><span #rowName >Vardas / pavardė</span></mat-card-title>
+          <mat-card-title >Vartotojas</mat-card-title>
           <mat-card-subtitle >{{member.name+' / '+member.forname}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content >
@@ -16,13 +15,19 @@
         <mat-card-actions>
             <mat-list dense>
                 <mat-list-item> 
-                  <button mat-button style="width:100%"><mat-icon>&#xE254;</mat-icon> Redaguoti</button>
+                  <button mat-button [disabled]='!backendService.selected_user || i!=backendService.activeUserIndex || member.images.length == 0'  [style.color]='i == backendService.activeUserIndex ? "white": ""' class='full-width' (click)='editPhotos()'><mat-icon>&#xE413;</mat-icon>Vartotojo nuotraukos {{member.images.length}}</button>
                 </mat-list-item>
                 <mat-list-item> 
-                  <button mat-button style="width:100%" (click)='changeStatus(member)'><mat-icon>&#xE916;</mat-icon> Pakeisti statusą </button>
+                  <button mat-button [disabled]='!backendService.selected_user || i!=backendService.activeUserIndex' [style.color]='i == backendService.activeUserIndex ? "white": ""' class='full-width' (click)='addPhotos()'><mat-icon>&#xE439;</mat-icon> Pridėti nuotraukų</button>
                 </mat-list-item>
                 <mat-list-item> 
-                  <button mat-button style="width:100%" color='primary' (click)='selectUser(member)'><mat-icon>&#xE853;</mat-icon> Pasirinkti vartotoją </button>
+                  <button mat-button [style.color]='i == backendService.activeUserIndex ? "white": ""' class='full-width' (click)='editUser(member)' ><mat-icon>&#xE254;</mat-icon> Redaguoti</button>
+                </mat-list-item>
+                <mat-list-item> 
+                  <button mat-button [style.color]='i == backendService.activeUserIndex ? "white": ""' class='full-width' (click)='changeStatus(member)'><mat-icon>&#xE916;</mat-icon> Pakeisti statusą </button>
+                </mat-list-item>
+                <mat-list-item> 
+                  <button mat-button *ngIf='i != backendService.activeUserIndex' [style.color]='i == backendService.activeUserIndex ? "white": ""' class='full-width' color='primary' (click)='selectUser(member,i)'><mat-icon>&#xE853;</mat-icon> Pasirinkti vartotoją </button>
                 </mat-list-item>
             
                </mat-list>

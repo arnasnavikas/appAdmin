@@ -3,7 +3,7 @@
           <!-- <button mat-icon-button [matMenuTriggerFor]="appMenu">
             <mat-icon>more_vert</mat-icon>
           </button>  -->
-          <button type="button" mat-icon-button (click)="sidenav.open()">
+          <button type="button" [disabled]='backendService.addToList == true' mat-icon-button (click)="sidenav.open()">
             <mat-icon>more_vert</mat-icon> 
           </button>
           

@@ -15,7 +15,7 @@ export class LoginComponent {
           console.log('loging in')
           this.authService.login()
         }else
-          this.router.navigate(['admin/select-user'])
+          this.router.navigate(['/admin/select-user'])
       
      }
 }

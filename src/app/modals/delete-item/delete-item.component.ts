@@ -42,7 +42,7 @@ export class DeleteItemComponent implements OnInit {
         case 'gallery-image':
         this.item_name = this.id_list.length > 1? 'pažymėtas nuotraukas': ' nuotrauką'
           break;
-        case 'team-member':
+        case 'user':
         this.item_name = this.id_list.length > 1? 'pažymėtus vartotojus': ' vartotoją'
           break;
       
@@ -161,7 +161,7 @@ export class DeleteItemComponent implements OnInit {
         console.log('deleting table rows')
         this.delete_gallery()
         break;
-        case 'team-member':
+        case 'user':
         console.log('deleting team member')
         this.delete_team_member()
         break;

@@ -43,7 +43,7 @@ export class StatusComponent implements OnInit {
       this.data.message = this.statusForm.value.message
       this.data.days_left = this.statusForm.value.days_left
       this.data.date = this.statusForm.value.date
-      this.backendService.updateMember(this.data)
+      this.backendService.updateUserStatus(this.data)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
                                     ()=>{this.backendService.showSuccessMessage('Statusas atnaujinas','',3000);

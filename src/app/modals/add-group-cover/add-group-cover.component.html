@@ -6,22 +6,23 @@
   <button class="select-button" mat-button  (click)='dialogRef.close()' >cancel</button>
 </div>
 
-<!-- <button   matTooltip='Išeiti' id='close-button' (click)='dialogRef.close()' mat-icon-button > <mat-icon >&#xE5CD;</mat-icon></button> -->
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-    <mat-card matTooltip='Paspauskite norėdami pasirinkti paveikslėlį'
-              class="group-cover" 
-              *ngFor='let image of showedImages; let i = index' >
+  <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" > -->
+    <mat-grid-list cols="2" rowHeight="1:1">
+  <!-- DIV ELEMENT FOR ADDING ITEM IN LIST -->
+  <!-- <mat-card-header>
+    <mat-card-subtitle>{{image.name}}</mat-card-subtitle>
+  </mat-card-header> -->
+  <mat-grid-tile *ngFor='let image of showedImages; let i = index'  rowHeight='120px' >
       <div appAddItem [id]='image'  class='select-item'></div>
-      
-      <!-- <div #element  [class.hidden]="i != ElemIndex" [class.showOptions]='i == ElemIndex' ></div> -->
-      <!-- <div class='button-background' *ngIf='i == ElemIndex' fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center center" >
-      </div> -->
-      <mat-card-header>
-        <mat-card-subtitle>{{image.name}}</mat-card-subtitle>
-      </mat-card-header>
-      <img mat-card-image [src]="image.imgURL" alt="">
-    </mat-card>
-</div>
+        <img style='width:100%' [src]="image.imgURL" alt="" >
+      </mat-grid-tile>
+    </mat-grid-list >
+<!-- </div> -->
+<span *ngIf='showedImages.length == 0' fxLayout="column" fxLayoutWrap fxLayoutAlign="center center">
+  <h1 mat-dialog-title style="text-align:center;">Paveikslėlių nėra</h1>
+  <button mat-button routerLink='/admin/upload-images' (click)='dialogRef.close()'>Įkelti</button>
+</span>
+
 <mat-paginator id='paginator' [length]="length"
               [pageSize]="pageSize"
               [pageSizeOptions]="pageSizeOptions"

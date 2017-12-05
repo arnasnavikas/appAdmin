@@ -75,13 +75,21 @@ addGroupDescription : 'http://'+address+'/group/add-description',
         upload_pictures : 'http://'+address+'/upload-pictures/',
 
 /******************************* TEAM MEMBER **************************** */
+                /** gets specific member  */
+getUserUrl : 'http://'+address+'/my-team/',
                 /** creates new team member  */
 createTeamMemberUrl : 'http://'+address+'/my-team/add-member',
-                /** creates new team member  */
+                /** updates team member info  */
 updateTeamMemberUrl : 'http://'+address+'/my-team/update-member',
-                /** creates new team member  */
+                /** udates team member status  */
+updateUserStatusUrl : 'http://'+address+'/my-team/update-status',
+                /** updates team member pictures */
+addUserPicturesUrl : 'http://'+address+'/my-team/add-pictures/',
+                /** updates team member pictures */
+removeUserPicturesUrl : 'http://'+address+'/my-team/remove-pictures/',
+                /** deletes team member  */
 deleteTeamMemberUrl : 'http://'+address+'/my-team/delete-member',
-                /** creates new team member  */
+                /** gets all  team members  */
 getTeamMemberUrl : 'http://'+address+'/my-team/get-members',
 }
 

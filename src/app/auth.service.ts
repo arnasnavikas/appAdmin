@@ -11,7 +11,7 @@ export class AuthService {
     domain: 'arnas.auth0.com',
     responseType: 'token id_token',
     audience: 'https://arnas.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/loading',      
+    redirectUri: 'http://localhost:4201/loading',      
     scope: 'openid'
   });
 

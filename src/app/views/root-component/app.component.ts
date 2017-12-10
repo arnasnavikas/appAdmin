@@ -9,10 +9,10 @@ import { Router } from '@angular/router'
 export class AppComponent {
   constructor(private authService :AuthService,public router:Router) {
     console.log('app init()')
-      if(!this.authService.isAuthenticated())
+      if(!this.authService.isAuthenticated()){
         this.authService.handleAuthentication()
-    //     this.router.navigate(['admin'])
-    // }
+      }else
+        this.router.navigate(['/admin/select-user'])
    }
   
 }

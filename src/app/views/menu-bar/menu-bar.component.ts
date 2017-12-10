@@ -5,6 +5,7 @@ import { BackendService } from '../../backend.service'
 import { DeleteItemComponent } from '../../modals/delete-item/delete-item.component'
 import { AddMemberComponent} from '../../modals/add-member/add-member.component'
 import { Location } from '@angular/common'
+import { AuthService } from '../../auth.service'
 @Component({
   selector: 'menu-bar',
   templateUrl: './menu-bar.component.html',
@@ -15,7 +16,8 @@ export class MenuBarComponent implements OnInit{
 
     constructor(public dialog: MatDialog,
       private backendService : BackendService,
-      public location: Location) {
+      public location: Location,
+      public authService : AuthService) {
           this.backendService.userValidation()
       }
     ngOnInit(){

@@ -69,16 +69,16 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
     this.backendService.resetList()
   }
   // pagination logic
-  updateView(e:paginator){
-    this.showedImages = []
-    let start_index = e.pageIndex * e.pageSize
-    let length = this.images.length
-      for(let i=0; i <= e.pageSize-1; i++){
-        let index = start_index + i
-        if(index < length)
-          this.showedImages.push(this.images[start_index+i])
-      }
-  }
+    updateView(e:paginator){
+      this.showedImages = []
+      let start_index = e.pageIndex * e.pageSize
+      let length = this.images.length
+        for(let i=0; i <= e.pageSize-1; i++){
+          let index = start_index + i
+          if(index < length)
+            this.showedImages.push(this.images[start_index+i])
+        }
+    }
   update(){
     switch (this.data.type) {
       case 'add':

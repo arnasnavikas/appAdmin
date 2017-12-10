@@ -65,6 +65,14 @@ export class UploadImagesComponent implements OnInit {
         setTimeout(this.setPaginator,1000) 
       }
       public select(e:any):void{
+        for(let file  of this.uploader.queue){
+          let _file : any = file;
+
+          let date_created = new Date().setTime( _file.file.rawFile.lastModifiedDate)
+          file.url = this.URL+'/'+date_created
+          console.log(new Date(date_created))
+          console.log(file)
+        }
         this.makeTable()
       }
 

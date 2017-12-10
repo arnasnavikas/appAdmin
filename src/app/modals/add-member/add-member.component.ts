@@ -16,11 +16,10 @@ export class AddMemberComponent implements OnInit,OnDestroy {
               private backendService: BackendService,
               public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: TeamMemberInterfase,) { }
-  private userForm : FormGroup = this.fb.group({  _id:      this.fb.control(''),
+  private userForm : FormGroup = this.fb.group({  
                                                   name:      this.fb.control('',[Validators.required]),
                                                   forname:   this.fb.control('',[Validators.required]),
                                                   age:       this.fb.control(''),
-                                                  images:    this.fb.control(''),
                                                   profesion: this.fb.control(''),
                                                   hobby:     this.fb.control('')
                                                 });
@@ -30,12 +29,13 @@ export class AddMemberComponent implements OnInit,OnDestroy {
     if(this.data){
       this.buttonTitle = 'Atnaujinti'
       this.modalTitle = 'Redaguoti varotoją'
-      this.userForm.controls['_id'].setValue(this.data._id)
-      this.userForm.controls['name'].setValue(this.data.name)
-      this.userForm.controls['forname'].setValue(this.data.forname)
-      this.userForm.controls['age'].setValue(this.data.age)
-      this.userForm.controls['profesion'].setValue(this.data.profesion)
-      this.userForm.controls['hobby'].setValue(this.data.hobby)
+      this.userForm = this.fb.group({  _id:      this.fb.control(this.data._id),
+      name:      this.fb.control(this.data.name,[Validators.required]),
+      forname:   this.fb.control(this.data.forname,[Validators.required]),
+      age:       this.fb.control(this.data.age),
+      profesion: this.fb.control(this.data.profesion),
+      hobby:     this.fb.control(this.data.hobby)
+    });
     }
 
   }

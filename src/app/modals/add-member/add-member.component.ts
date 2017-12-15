@@ -20,6 +20,8 @@ export class AddMemberComponent implements OnInit,OnDestroy {
                                                   name:      this.fb.control('',[Validators.required]),
                                                   forname:   this.fb.control('',[Validators.required]),
                                                   age:       this.fb.control(''),
+                                                  phone:     this.fb.control(''),
+                                                  email:     this.fb.control(''),
                                                   profesion: this.fb.control(''),
                                                   hobby:     this.fb.control('')
                                                 });
@@ -33,6 +35,8 @@ export class AddMemberComponent implements OnInit,OnDestroy {
       name:      this.fb.control(this.data.name,[Validators.required]),
       forname:   this.fb.control(this.data.forname,[Validators.required]),
       age:       this.fb.control(this.data.age),
+      phone:     this.fb.control(this.data.phone),
+      email:     this.fb.control(this.data.email),
       profesion: this.fb.control(this.data.profesion),
       hobby:     this.fb.control(this.data.hobby)
     });

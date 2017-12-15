@@ -18,6 +18,20 @@
       </button>
     </mat-form-field>
     <mat-form-field class="full-width">
+      <input matInput type="tel" placeholder="Telefono nr." 
+                                  formControlName='phone' >
+      <button mat-button *ngIf="userForm.controls['phone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['phone'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput type="text" placeholder="El-paštas" 
+                                  formControlName='email' >
+      <button mat-button *ngIf="userForm.controls['email'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['email'].setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="full-width">
       <input matInput type="number" placeholder="Amžius" 
                                   formControlName='age' >
       <button mat-button *ngIf="userForm.controls['age'].value" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls['age'].setValue('')">

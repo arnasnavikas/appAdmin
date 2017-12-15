@@ -31,13 +31,6 @@ export class EditTeamMemberComponent implements OnInit {
                                                     });
     
   }
-  private memberForm : FormGroup = this.fb.group({name:      this.fb.control('',[Validators.required]),
-                                                  forname:   this.fb.control(''),
-                                                  age:       this.fb.control(''),
-                                                  images:    this.fb.control('',[Validators.required]),
-                                                  profesion: this.fb.control(''),
-                                                  hobby:     this.fb.control('')
-                                                });
    changeStatus(member){
      this.dialog.open(StatusComponent, {
     width: '250px',

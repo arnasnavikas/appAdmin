@@ -61,7 +61,7 @@ export class DeleteItemComponent implements OnInit {
                                           this.onNoClick();
                                           this.backendService.resetList();
                                           for(let id of this.id_list){
-                                            if(id == this.backendService.selected_user._id)
+                                            if(this.backendService.selected_user && id == this.backendService.selected_user._id)
                                               this.backendService.selected_user = undefined;
                                             this.backendService.members = this.backendService.members.filter((member:TeamMemberInterfase)=>member._id != id)
                                           }

@@ -42,6 +42,9 @@ export class DeleteItemComponent implements OnInit {
         case 'gallery-image':
         this.item_name = this.id_list.length > 1? 'pažymėtas nuotraukas': ' nuotrauką'
           break;
+        case 'user-mail':
+        this.item_name = this.id_list.length > 1? 'pažymėtas Žinutes': ' žinutę'
+        break;
         case 'user':
         this.item_name = this.id_list.length > 1? 'pažymėtus vartotojus': ' vartotoją'
           break;
@@ -50,6 +53,9 @@ export class DeleteItemComponent implements OnInit {
         console.log('no item type provided')
           break;
       }
+    }
+    delete_user_mail(){
+      console.log('deleting user mail')
     }
     delete_team_member(){
       this.backendService.deleteMember(this.id_list)
@@ -160,6 +166,9 @@ export class DeleteItemComponent implements OnInit {
         case 'gallery':
         console.log('deleting table rows')
         this.delete_gallery()
+        break;
+        case 'user-mail':
+        this.delete_user_mail()
         break;
         case 'user':
         console.log('deleting team member')

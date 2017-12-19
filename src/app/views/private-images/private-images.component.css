@@ -10,3 +10,11 @@
 	right: -20px;
 	top: -21px;
 }
+.add-cover {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.cover-image{
+  color: gold !important;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation,ViewChild,ViewChildren,AfterViewInit, ElementRef} from '@angular/core';
 import { BackendService } from '../../backend.service'
 import { ActivatedRoute } from "@angular/router"
-import { TableRow,TableStruct} from '../../intercafe.enum'
+import { TableRow} from '../../intercafe.enum'
 import { Observable         } from 'rxjs';
 
 @Component({

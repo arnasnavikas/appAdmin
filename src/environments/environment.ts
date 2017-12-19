@@ -11,12 +11,7 @@ var address = 'localhost:3000'
 
 export const environment = {
   production: true,
-                  /** upload admin/jobs table 46.101.120.14 */
-   table_Upload_Url : 'http://'+address+'/skaiciuokle',
-                /** checks if admin is logged in */
-           loginUrl : 'http://'+address+'/login',
-                /** loads one message */ 
-         messageUrl : 'http://'+address+'/message',
+     getUserMailUrl : 'http://'+address+'/mail/new/',
                 /**   loads all messages */
        _messagesUrl : 'http://'+address+'/messages',
                 /** sends mail */
@@ -43,6 +38,8 @@ removeGalleryPicture : 'http://'+address+'/picture/delete',
 addPictureDescription : 'http://'+address+'/picture/add-description',
         /** get pictures by gallery id */
 getPicturesUrl : 'http://'+address+'/picture/get-pictures/',
+        /** get pictures by gallery id */
+addGalleryCoverUrl : 'http://'+address+'/picture/add-cover',
 
 /******************************* GROUP **************************** */
                 /** creates new group */

@@ -14,6 +14,13 @@
                    [disabled]='backendService.addToList == true'>
               <mat-icon>&#xE3CD;</mat-icon>
           </button>
+          <!-- BUTTON FOR VIEW NEW MESSAGES -->
+          <button *ngIf='backendService.new_messages.length > 0'
+                   mat-button matTooltip='Žiūrėti žinutes'
+                   [routerLink]='["mail"]'>
+              <span style="color:orange">{{backendService.new_messages.length}}</span>
+              <mat-icon [style.color]='"orange"'>message</mat-icon>
+          </button>
           <!-- BUTTON FOR DELTE MULTIPLE ITEMS -->
           <button *ngIf='backendService.item_type !=""' 
                    mat-icon-button
@@ -31,39 +38,42 @@
           <button mat-icon-button matTooltip='Atsijungti' (click)='authService.logout()'> <mat-icon>&#xE879;</mat-icon></button>
         </mat-toolbar>
         <mat-sidenav #sidenav class="example-sidenav">
-            <mat-nav-list >
-              <mat-list-item (click)="add_team_memeber();sidenav.close()">
-                 <mat-icon>&#xE7FE;</mat-icon> Pridėti varotoją 
+          <mat-nav-list >
+            <mat-list-item (click)="add_team_memeber();sidenav.close()">
+               <mat-icon>&#xE7FE;</mat-icon> Pridėti varotoją 
+            </mat-list-item>
+            <mat-list-item  *ngIf='backendService.members.length > 0 ' routerLink='/admin/select-user' (click)="sidenav.close()">
+              <mat-icon>&#xE8D3;</mat-icon>
+              Pasirinkti varotoją
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <h3 *ngIf='!backendService.selected_user' matSubheader>Vartotojas nepasirinktas</h3>
+            <h3 *ngIf='backendService.selected_user' matSubheader>Vartotojas: <span style="color:rgb(216, 66, 66)">{{backendService.selected_user.name}}</span></h3>
+            <span *ngIf='backendService.selected_user'>
+              <mat-list-item routerLink='groups' (click)='sidenav.close()'>
+                <mat-icon >&#xE896;</mat-icon> Redaguoti grupes 
               </mat-list-item>
-              <mat-list-item  *ngIf='backendService.members.length > 0 ' routerLink='/admin/select-user' (click)="sidenav.close()">
-                <mat-icon>&#xE8D3;</mat-icon>
-                Pasirinkti varotoją
+              <mat-list-item (click)="sidenav.close();createNewGroup()">
+                  <mat-icon>&#xE03B;</mat-icon> Pridėti grupę 
               </mat-list-item>
-              <mat-divider></mat-divider>
-              <h3 *ngIf='!backendService.selected_user' matSubheader>Vartotojas nepasirinktas</h3>
-              <h3 *ngIf='backendService.selected_user' matSubheader>Vartotojas: <span style="color:rgb(216, 66, 66)">{{backendService.selected_user.name}}</span></h3>
-              <span *ngIf='backendService.selected_user'>
-                <mat-list-item routerLink='groups' (click)='sidenav.close()'>
-                  <mat-icon >&#xE896;</mat-icon> Redaguoti grupes 
-                </mat-list-item>
-                <mat-list-item (click)="sidenav.close();createNewGroup()">
-                    <mat-icon>&#xE03B;</mat-icon> Pridėti grupę 
-                  </mat-list-item>
-                  <mat-list-item routerLink='upload-images' (click)='sidenav.close()'>
-                    <mat-icon>&#xE439;</mat-icon> Įkelti paveikslėlių 
-                  </mat-list-item>
-                  <mat-list-item routerLink='private-images' (click)='sidenav.close()'>
-                    <mat-icon>&#xE8A0;</mat-icon> Tvarkyti   paveikslėlius 
-                  </mat-list-item>
-                </span>
-                </mat-nav-list>
-              </mat-sidenav>
+              <mat-list-item (click)="sidenav.close();">
+                  <mat-icon>email</mat-icon> Žiūrėti žinutes 
+              </mat-list-item>
+              <mat-list-item routerLink='upload-images' (click)='sidenav.close()'>
+                <mat-icon>&#xE439;</mat-icon> Įkelti paveikslėlių 
+              </mat-list-item>
+              <mat-list-item routerLink='private-images' (click)='sidenav.close()'>
+                <mat-icon>&#xE8A0;</mat-icon> Tvarkyti   paveikslėlius 
+              </mat-list-item>
+            </span>
+          </mat-nav-list>
+        </mat-sidenav>
               
               <div class="example-sidenav-content">
                 <span class='nav-spacer'></span>
                 <router-outlet></router-outlet>
                 <span class='nav-spacer'></span>
-            <mat-toolbar fxShow.lg="false" fxShow.md="false" fxLayout="row"  color='primary' fxLayoutWrap fxLayoutAlign="space-between center" id='bottom-menu'>
+            <mat-toolbar fxHide.gt-xs="true"  fxLayout="row"  color='primary' fxLayoutWrap fxLayoutAlign="space-between center" id='bottom-menu'>
               <button mat-icon-button (click)=location.back()><mat-icon>&#xE5C4;</mat-icon></button>
               <button mat-icon-button routerLink='/admin/groups' ><mat-icon>&#xE88A;</mat-icon></button>
               <button mat-icon-button (click)=location.forward()><mat-icon>&#xE5C8;</mat-icon></button>

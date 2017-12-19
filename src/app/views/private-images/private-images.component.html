@@ -3,7 +3,10 @@
     <div appAddItem [id]='pic._id'  [class.select-item]="backendService.addToList == true"></div>
     <!-- delete single item  -->
     <button appDeleteItem [data]='pic' [disabled]='backendService.addToList' matTooltip='Ištrinti paveikslėlį' mat-icon-button > <mat-icon>&#xE5C9;</mat-icon></button>
-    
+    <button *ngIf="backendService.item_type == 'gallery-image'" class="add-cover" mat-icon-button  (click)='addCoverImage(pic)'>
+      <mat-icon matTooltip='Padaryti galerijos viršeliu' *ngIf="!pic.gallery_cover">star_border</mat-icon>
+      <mat-icon matTooltip='Galrijos viršelis' class="cover-image" *ngIf="pic.gallery_cover">star</mat-icon>
+    </button>
     <!-- <button *ngIf='!backendService.addToList' matTooltip='Ištrinti elementą' class='delete-item' (click)='deleteImage(pic,$event)' mat-icon-button><mat-icon>&#xE5C9;</mat-icon></button> -->
       <mat-card-header>
         <mat-card-subtitle>{{pic.name}}</mat-card-subtitle>

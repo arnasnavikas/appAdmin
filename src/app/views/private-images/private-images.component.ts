@@ -22,7 +22,7 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
                 this.backendService.userValidation()
                }
   openGallery = false;
-  clicked_Img
+  clicked_Img // for gallery slider
   ngOnInit() {
     console.log('private picture component init()')
     // load pictures for gallery images
@@ -49,5 +49,15 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
       width:'250px',
       data:picture
     })
+  }
+  addCoverImage(image: PictureInterface){
+    for(let pic of this.backendService.pictures)
+      pic.gallery_cover = false
+      image.gallery_cover = true
+      this.backendService.addCoverPicture(image)
+                         .subscribe(data=>{console.log('this is response');console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{ this.backendService.showSuccessMessage('Viršelis pridėtas','Gerai',3000)})
+      // console.log(image)
   }
 }

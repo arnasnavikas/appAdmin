@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BackendService } from '../../backend.service'
 import { FormBuilder, FormGroup,Validators} from '@angular/forms'
 import { MatDialog } from "@angular/material"
-import { TeamMemberInterfase} from '../../intercafe.enum'
+import { TeamMemberInterfase,MessagesInterface} from '../../intercafe.enum'
 import { StatusComponent } from '../../modals/status/status.component'
 import { AddMemberComponent } from '../../modals/add-member/add-member.component'
 import { Router} from '@angular/router'
@@ -46,6 +46,11 @@ export class EditTeamMemberComponent implements OnInit {
   selectUser(member,index){
     this.backendService.activeUserIndex = index
     this.backendService.selected_user = member
+    this.backendService.getUserMail()
+                       .subscribe((mail:MessagesInterface[])=>{
+                                    this.backendService.new_messages = mail;
+                                    console.log(mail);
+                                  })
     this.backendService.showSuccessMessage('Vartotojas pasirinktas','',3000)
     // this.router.navigate(['/admin/groups'])
   }         

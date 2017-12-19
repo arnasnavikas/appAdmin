@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewEncapsulation,Inject,OnDestroy} from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, ViewChild,ViewEncapsulation,Inject,OnDestroy} from '@angular/core';
+import { MatDialog, MatDialogRef,MatTableDataSource, MAT_DIALOG_DATA,MatPaginator} from '@angular/material';
 import { BackendService } from '../../backend.service'
 import { PictureInterface,GroupInterface } from '../../intercafe.enum'
 import { DeleteItemComponent} from '../../modals/delete-item/delete-item.component'
+import { SelectionModel} from '@angular/cdk/collections';
+import { Element } from '@angular/compiler';
+
 interface paginator {pageIndex: number,
                      pageSize: number,
                      length: number }
@@ -17,7 +20,11 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
   constructor(public dialogRef: MatDialogRef<AddGroupCoverComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private backendService : BackendService) { }
-
+    
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  selection = new SelectionModel<Element>(true, []);
+  displayedColumns = ['select','image', 'size'];
+  dataSource // table data
   private images : Array<PictureInterface> = []
   private showedImages = []
   length;
@@ -29,15 +36,33 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
                 length: this.length}
   private get_privatePictures = ()=>{
     this.backendService.getPrivateImages()
-                      .subscribe(pictures =>{this.images = pictures},
+                      .subscribe(pictures =>{
+                                    this.dataSource = new MatTableDataSource<Element>(pictures);
+                                    this.dataSource.paginator = this.paginator
+                                  },
                                   err=>{console.log(err)},
-                                  ()=>{ this.length = this.images.length
-                                        this.updateView(this.firstView)
-                                    })
+                                  ()=>{})
+  }
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+  selectElement(el){
+    this.selection.toggle(el)
+    this.backendService.selected_items = this.selection.selected
+    console.log(this.selection.selected)
   }
   ngOnInit() {
     switch (this.data.type) {
-      case 'add':
+        case 'add':
         this.button_color = 'primary'
         this.get_privatePictures()
         break;
@@ -48,18 +73,18 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
         break;
         case 'member-remove-picture':
         this.button_color = 'warn'
-        console.log('adding picture to member')
-        this.images = this.backendService.selected_user.images
-        this.length = this.images.length
-        this.updateView(this.firstView)
+        console.log('removing picture from member')
+        let pictures : any = this.backendService.selected_user.images
+        this.dataSource = new MatTableDataSource<Element>(pictures);
+        this.dataSource.paginator = this.paginator
         break;
+        //removes group cover
         case 'remove':
         this.button_color = 'warn'
           this.backendService.getOneGroup(this.data.group._id)
                              .subscribe(group=>{
-                                this.images = group.imgURL
-                                this.length = this.images.length
-                                this.updateView(this.firstView)
+                                this.dataSource = new MatTableDataSource<Element>(group.imgURL);
+                                this.dataSource.paginator = this.paginator
                              })
       default:
         break;
@@ -68,17 +93,6 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.backendService.resetList()
   }
-  // pagination logic
-    updateView(e:paginator){
-      this.showedImages = []
-      let start_index = e.pageIndex * e.pageSize
-      let length = this.images.length
-        for(let i=0; i <= e.pageSize-1; i++){
-          let index = start_index + i
-          if(index < length)
-            this.showedImages.push(this.images[start_index+i])
-        }
-    }
   update(){
     switch (this.data.type) {
       case 'add':

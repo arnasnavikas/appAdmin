@@ -41,7 +41,8 @@ import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
 import { AppLoadingComponent} from './views/loding-component/loading-app.component';
 import { StatusComponent } from './modals/status/status.component';
 import { AddMemberComponent } from './modals/add-member/add-member.component';
-import { EditTeamMemberComponent } from './views/edit-team-member/edit-team-member.component'
+import { EditTeamMemberComponent } from './views/edit-team-member/edit-team-member.component';
+import { UserMailComponent } from './views/user-mail/user-mail.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +69,8 @@ import { EditTeamMemberComponent } from './views/edit-team-member/edit-team-memb
     AppLoadingComponent,
     StatusComponent,
     AddMemberComponent,
-    EditTeamMemberComponent
+    EditTeamMemberComponent,
+    UserMailComponent
   ],
   imports: [
     BrowserModule,

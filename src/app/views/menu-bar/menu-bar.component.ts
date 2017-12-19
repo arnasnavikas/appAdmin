@@ -41,9 +41,11 @@ export class MenuBarComponent implements OnInit{
                 })
   }
   deleteItems(){
-     this.dialog.open(DeleteItemComponent, {
-    width: '250px'
-    });
+    if(this.backendService.selected_items.length>0){
+      this.dialog.open(DeleteItemComponent, {
+        width: '250px'
+      });
+    }
   }
 
   add_team_memeber(){

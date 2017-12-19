@@ -8,11 +8,11 @@ import { Router } from '@angular/router'
 })
 export class AppComponent {
   constructor(private authService :AuthService,public router:Router) {
-    console.log('app init()')
-      if(!this.authService.isAuthenticated()){
-        this.authService.handleAuthentication()
-      }else
-        this.router.navigate(['/admin/select-user'])
+    // console.log('app init()')
+    if(!this.authService.isAuthenticated()){
+      this.authService.handleAuthentication()
+    }else
+    this.router.navigate(['/admin/select-user'])
    }
   
 }

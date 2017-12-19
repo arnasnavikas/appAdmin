@@ -3,7 +3,8 @@ import { GroupInterface,
          TeamMemberInterfase,
          GalerijaInterface,
          PictureInterface,
-         TableRow } from "./intercafe.enum"
+         TableRow, 
+         MessagesInterface} from "./intercafe.enum"
 import { Http,Response,Headers,RequestOptions } from "@angular/http";  
 import { Observable } from "rxjs/Rx";
 import { environment } from '../environments/environment'
@@ -25,6 +26,7 @@ export class BackendService {
   public pictures : Array<PictureInterface> = []
   public table_rows : TableRow[] = []
   public members : TeamMemberInterfase[] = []
+  public new_messages : MessagesInterface[] = []
   // delete object
   public addToList = false // enables items selecting for deletion
   public selected_items = []  // arry of items _id or other information of selected itemd
@@ -36,7 +38,7 @@ export class BackendService {
 
   userValidation(){
     if(!this.authService.isAuthenticated()){
-      this.router.navigate(['/login']);
+      this.router.navigate(['/admin/login']);
       return;
     }
     if(!this.selected_user){
@@ -47,7 +49,7 @@ export class BackendService {
   public showSuccessMessage =(message:string,button_message:string,duration:number)=>{
     this.snackBar.open(message,button_message, {
       duration: duration,
-      panelClass: 'blue-snackbar'
+      panelClass: ['blue-snackbar','position-snackbar']
     });
   }
   // adds clicked elemetn information and DOM to list
@@ -66,6 +68,7 @@ export class BackendService {
     element.className += ' selected'
     console.log(this.selected_items )
   }
+  // removes all items from "selected_items" && "addToList" var
   public resetList =()=>{
     this.selected_items = []
     this.addToList = false
@@ -203,6 +206,13 @@ deletePrivateImages(id:string[]){
     let body = JSON.stringify(id)
     return this.http.put(environment.upload_pictures,'data='+body,this.options)
   }
+addCoverPicture(picture:PictureInterface){
+  console.log('adding gallery cover')
+    let body = JSON.stringify(picture)
+    return this.http.post(environment.addGalleryCoverUrl,'data='+body,this.options)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
 /**####################################################################
  *             ----TABLE---- SERVER REQUESTS
  *#####################################################################*/
@@ -278,6 +288,14 @@ deleteMember(id:string[]){
                   .catch(this.handleError);
 }
 /**####################################################################
+ *             ----MAIL  SERVER REQUESTS---- 
+ *#####################################################################*/
+getUserMail(){
+  return this.http.get(environment.getUserMailUrl+this.selected_user._id,this.options)
+                   .map(this.extractData)
+                   .catch(this.handleError)
+}
+ /**####################################################################
  *             ----SERVER RESPONSE FUNCTIONS---- 
  *#####################################################################*/
   // converting response data to json

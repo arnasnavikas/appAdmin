@@ -3,7 +3,7 @@ import { BackendService } from '../../backend.service'
 import { ActivatedRoute } from '@angular/router'
 import { MatTableDataSource } from '@angular/material';
 import { FormControl} from '@angular/forms'
-import { TableRow,TableStruct, TableHeader } from '../../intercafe.enum';
+import { TableRow } from '../../intercafe.enum';
 import { MatSnackBar} from '@angular/material';
 
 @Component({

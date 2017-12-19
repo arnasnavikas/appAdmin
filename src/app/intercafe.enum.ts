@@ -5,7 +5,7 @@ export interface TeamMemberInterfase{
     age:       number,     
     phone:      string,
     email:      string, 
-    images:    Array<PictureInterface>,   
+    images:    PictureInterface[],   
     profesion: string,
     hobby:     string ,
     status:   number,
@@ -27,10 +27,6 @@ export interface GroupInterface{
     description?: string,
     folder_name: string
 }
-export interface serverResponse {
-    table : TableStruct,
-    tableRows: TableRow[]
-  }
  export interface TableRow  {
         _id:                   string,
         group_id:              string,
@@ -48,24 +44,7 @@ export interface serverResponse {
         material_total_price:  number, 
         total_price:           number 
 }
- export interface TableHeader  {
-    name          : string,          
-    job_price     : string,     
-    value         : string,         
-    material_price: string,
-    iseiga        : string,        
-    total         : string,         
-    iframeURL     : string
-}
 
-export interface TableStruct {
-    name           : string,
-    head           : TableHeader,
-    suma           : number,
-    total          : number,
-    material_total : number,
-    work_total     : number   
-}
 export interface PictureInterface{
     _id?         : string,
     description? : string,
@@ -77,7 +56,8 @@ export interface PictureInterface{
     gallery_id?  : string,
     folder_name? : string,
     gallery_name?: string,
-    group_folder? : string
+    group_folder? : string,
+    gallery_cover : boolean
 }
 
 export interface GalerijaInterface{
@@ -93,26 +73,17 @@ export interface GalerijaInterface{
     route: string,
     folder_name: string
 }
-interface address{
-    city: string,
-    district: string,
-    street: string,
-    postCode: string
-}
+
 
 export interface MessagesInterface{
     _id: string,
-    address?: address,
-    confirm: boolean,
-    date: string,
-    email: string,
-    forname?: string,
-    group_id?: string,
-    message: string,
-    mobile?: string,
-    name: string,
-    suma?: number,
-    tableData?: Array<TableStruct>,
-    ziuretas: boolean
-    atsakymas?: string,
+    user_id : string,
+    name    : string,
+    email   : string,
+    message : string,
+    address : string,
+    date    : Date,
+    newMail : boolean,
+    answer  : string,
+    samata  : TableRow[],
 }

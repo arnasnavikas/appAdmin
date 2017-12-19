@@ -1,0 +1,76 @@
+<div class="example-container mat-elevation-z8">
+    <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+  
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="select" style="width:50px !important">
+        <mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selectElement(element) : null"
+                          [checked]="selection.isSelected(element)">
+            </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <!-- name and date  -->
+      <ng-container matColumnDef="info" >
+        <mat-header-cell *matHeaderCellDef> Info </mat-header-cell>
+        <mat-cell (click)="selectElement(element)" fxLayout='column' fxLayoutWrap *matCellDef="let element">
+          <span>{{element.name}}</span>
+          <span>{{element.date | date:"yyyy-MM-dd"}}</span>
+        </mat-cell>
+      </ng-container>
+      <!-- email-->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> El-paštas </mat-header-cell>
+        <mat-cell fxLayout='column' fxLayoutWrap *matCellDef="let element">
+          {{element.email}}
+        </mat-cell>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container  matColumnDef="message">
+        <mat-header-cell *matHeaderCellDef> Žinutė </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <span [ngSwitch]="true">
+                <p *ngSwitchCase="element.message.length>30">
+                        {{element.message.slice(0,30)}}[...] 
+                </p>
+                <p *ngSwitchCase="element.message.length<30">
+                    {{element.message}}
+                </p>
+                <p *ngSwitchDefault>
+                
+                </p>
+                </span>
+        </mat-cell>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon matTooltip='Žinutė nauja' style="color:red" *ngIf="element.newMail">fiber_new</mat-icon>
+          <mat-icon matTooltip='Žinutė atsakyta' *ngIf="element.answer ">reply</mat-icon>
+          <mat-icon matTooltip='Žinutė žiūrėta' *ngIf="!element.newMail">visibility</mat-icon>
+         <mat-icon *ngIf="element.samata.length>0" [matTooltip]='"Samata: "+element.samata.length+" darbai"' >attach_file</mat-icon>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" >
+      </mat-row>
+    </mat-table>
+    <mat-paginator #paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>
+  </div>

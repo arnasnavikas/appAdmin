@@ -49,7 +49,7 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // Go back to the home route
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin/login']);
   }
 
   public isAuthenticated(): boolean {

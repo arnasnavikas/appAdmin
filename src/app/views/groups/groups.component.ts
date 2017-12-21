@@ -40,8 +40,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
                        })
   }
   ngOnDestroy(){
-    this.backendService.item_type = ''
-    this.backendService.addToList = false
+    this.backendService.resetList()
  }
   newGallery(group:GroupInterface){
     this.dialog.open(NewItemComponent, {

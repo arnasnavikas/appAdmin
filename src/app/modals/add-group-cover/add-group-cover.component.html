@@ -2,7 +2,7 @@
     <button class="select-button" [disabled]='backendService.selected_items.length < 1' mat-button [color]='button_color' (click)='update()' >
         <mat-icon *ngIf='data.type =="add" || data.type =="member-add-picture"'>&#xE876;</mat-icon>
         <mat-icon *ngIf='data.type =="remove" || data.type =="member-remove-picture"'>&#xE16C;</mat-icon>
-       ok</button>
+       ok ({{selection.selected.length}})</button>
     <button class="select-button" mat-button  (click)='dialogRef.close()' >cancel</button>
   </div>
 <!-- new version  -->
@@ -10,9 +10,8 @@
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="select" >
         <mat-header-cell *matHeaderCellDef>
-              <mat-checkbox (change)="$event ? masterToggle() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+              <mat-checkbox (change)="$event ? backendService.masterToggle(selection,dataSource) : null"
+              [checked]="backendService.master_check_state == true">
               </mat-checkbox>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
@@ -41,7 +40,9 @@
     </mat-table>
   
     <mat-paginator #paginator
-                   [pageSize]="5"
-                   [pageSizeOptions]="[5, 10, 20]">
+        (page)='backendService.masterToggleState(selection,dataSource)'
+        [length]="dataSource.data.length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 20]">
     </mat-paginator>
   </div>

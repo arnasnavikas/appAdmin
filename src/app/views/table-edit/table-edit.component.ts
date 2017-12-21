@@ -76,6 +76,7 @@ export class TableEditComponent implements OnInit,OnDestroy {
   }
   /************* SAVES TABLE DATA AUTOMATICLY WHEN COMPONENT IS DESTOYED *********** */
   ngOnDestroy(){
+    this.backendService.resetList()
     this.backendService.saveTable(this.backendService.table_rows)
     .subscribe(data=>{console.log(data)},
                err=>{console.log(err)},

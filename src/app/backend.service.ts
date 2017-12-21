@@ -68,9 +68,49 @@ export class BackendService {
     element.className += ' selected'
     console.log(this.selected_items )
   }
+   /** Selects all rows if they are not all selected; otherwise clear selection. */
+   public master_check_state : boolean
+   masterToggle(selection,dataSource) {
+    let selected_item = 0
+    let source :any = dataSource;
+    let page_rows = source._renderData._value 
+    for(let row of page_rows){
+      if(selection.isSelected(row))
+        selected_item++
+    }
+    if(selected_item == page_rows.length){
+      page_rows.forEach(row => selection.deselect(row))
+      this.master_check_state = false
+    }else{
+      this.master_check_state = true
+      for(let row of page_rows){
+        if(!selection.isSelected(row))
+          selection.select(row)
+      }
+    }
+    this.selected_items = selection.selected
+  }
+  // cheging if master selcetion button must be checked or not;
+  // function runs on  on paginator  page change event
+  // function used in user-mail component
+  public masterToggleState(selection,dataSource){
+    
+    setTimeout(() => {
+      let selected_item = 0
+      let source :any = dataSource;
+      let page_rows = source._renderData._value 
+      for(let row of page_rows){
+        if(selection.isSelected(row))
+        selected_item++
+      }
+      console.log('selected items - '+selected_item)
+      console.log('row lengt - '+page_rows.length)
+      this.master_check_state = selected_item == page_rows.length &&  page_rows.length != 0 ? true: false;
+    }, 50);
+  }
   // removes all items from "selected_items" && "addToList" var
   public resetList =()=>{
-    this.selected_items = []
+    this.item_type == 'user-mail'? this.selected_items :this.selected_items = []
     this.addToList = false
     for(let i of this.selected_DOM_items)
       i.className ='select-item'
@@ -176,7 +216,7 @@ getGalleryPictures(gallery_id){
                   .catch(this.handleError);
 }
 loadGalleryPictures(){
-  this.getGalleryPictures(this.gallery_id).subscribe((pictures:Array<PictureInterface>)=>{this.pictures = pictures},
+  this.getGalleryPictures(this.gallery_id).subscribe((pictures:PictureInterface[])=>{this.pictures = pictures},
                                                       err=>{console.log(err)},
                                                       ()=>{})
 }
@@ -290,8 +330,33 @@ deleteMember(id:string[]){
 /**####################################################################
  *             ----MAIL  SERVER REQUESTS---- 
  *#####################################################################*/
-getUserMail(){
-  return this.http.get(environment.getUserMailUrl+this.selected_user._id,this.options)
+getNewMessages(){
+  return this.http.get(environment.getNewMessageslUrl+this.selected_user._id,this.options)
+                   .map(this.extractData)
+                   .catch(this.handleError)
+                  }
+getAllMessages(){
+  return this.http.get(environment.getAllMessageslUrl+this.selected_user._id,this.options)
+                   .map(this.extractData)
+                   .catch(this.handleError)
+                  }
+getReadedMessages(){
+  return this.http.get(environment.getReadedMessageslUrl+this.selected_user._id,this.options)
+                   .map(this.extractData)
+                   .catch(this.handleError)
+                  }
+getReplayedMessages(){
+  return this.http.get(environment.getAnsweredMessageslUrl+this.selected_user._id,this.options)
+                   .map(this.extractData)
+                   .catch(this.handleError)
+                  }
+getMessage(message_id){
+  return this.http.get(environment.getUserMessageUrl+message_id,this.options)
+                   .map(this.extractData)
+                   .catch(this.handleError)
+}
+markAsReaded(message_id){
+  return this.http.put(environment.markAsReaded+message_id,this.options)
                    .map(this.extractData)
                    .catch(this.handleError)
 }

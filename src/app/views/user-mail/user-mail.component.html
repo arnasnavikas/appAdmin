@@ -3,14 +3,20 @@
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
+      <mat-form-field>
+          <mat-select placeholder="Rodyti" [value]="nauji">
+            <mat-option *ngFor="let mail of mailOption" [value]="mail.value" (click)='getMail(mail.value)'>
+              {{ mail.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
     </div>
   
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="select" style="width:50px !important">
         <mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            <mat-checkbox (change)="$event ? backendService.masterToggle(selection,dataSource) : null"
+                          [checked]="backendService.master_check_state == true">
             </mat-checkbox>
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
@@ -39,13 +45,14 @@
       <!-- Name Column -->
       <ng-container  matColumnDef="message">
         <mat-header-cell *matHeaderCellDef> Žinutė </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <span [ngSwitch]="true">
-                <p *ngSwitchCase="element.message.length>30">
-                        {{element.message.slice(0,30)}}[...] 
+        <mat-cell *matCellDef="let element" style="cursor:pointer" matTooltip='Atsakyti' [routerLink]='["/admin/message",element._id]' >
+          
+          <span [ngSwitch]="true">
+                <p *ngSwitchCase="element.message.length>30" fxLayout fxLayoutAlign='start center'>
+                    <mat-icon>reply</mat-icon>{{element.message.slice(0,30)}}[...] 
                 </p>
-                <p *ngSwitchCase="element.message.length<30">
-                    {{element.message}}
+                <p *ngSwitchCase="element.message.length<30" fxLayout fxLayoutAlign='start center'>
+                    <mat-icon>reply</mat-icon>{{element.message}}
                 </p>
                 <p *ngSwitchDefault>
                 
@@ -70,7 +77,8 @@
       </mat-row>
     </mat-table>
     <mat-paginator #paginator
-        [pageSize]="10"
+        (page)='backendService.masterToggleState(selection,dataSource)'
+        [pageSize]="5"
         [pageSizeOptions]="[5, 10, 20]">
     </mat-paginator>
   </div>

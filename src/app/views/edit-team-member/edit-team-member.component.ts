@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import {BackendService } from '../../backend.service'
 import { FormBuilder, FormGroup,Validators} from '@angular/forms'
 import { MatDialog } from "@angular/material"
@@ -12,7 +12,7 @@ import { AddGroupCoverComponent } from '../../modals/add-group-cover/add-group-c
   templateUrl: './edit-team-member.component.html',
   styleUrls: ['./edit-team-member.component.css']
 })
-export class EditTeamMemberComponent implements OnInit {
+export class EditTeamMemberComponent implements OnInit,OnDestroy {
 
   constructor(private fb: FormBuilder,
     private backendService: BackendService,
@@ -31,6 +31,9 @@ export class EditTeamMemberComponent implements OnInit {
                                                     });
     
   }
+  ngOnDestroy(){
+    this.backendService.resetList()
+  }
    changeStatus(member){
      this.dialog.open(StatusComponent, {
     width: '250px',
@@ -46,7 +49,7 @@ export class EditTeamMemberComponent implements OnInit {
   selectUser(member,index){
     this.backendService.activeUserIndex = index
     this.backendService.selected_user = member
-    this.backendService.getUserMail()
+    this.backendService.getNewMessages()
                        .subscribe((mail:MessagesInterface[])=>{
                                     this.backendService.new_messages = mail;
                                     console.log(mail);

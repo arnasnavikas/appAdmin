@@ -26,8 +26,7 @@ export class GallerysComponent implements OnInit,OnDestroy {
           console.log('gallerty component init')
     }
     ngOnDestroy(){
-      this.backendService.addToList = false
-      this.backendService.item_type = ''
+      this.backendService.resetList()
   }
   changeName(gallery:GalerijaInterface){
     this.dialog.open(RenameComponent,{

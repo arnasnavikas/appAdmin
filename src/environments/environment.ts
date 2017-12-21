@@ -11,11 +11,20 @@ var address = 'localhost:3000'
 
 export const environment = {
   production: true,
-     getUserMailUrl : 'http://'+address+'/mail/new/',
-                /**   loads all messages */
-       _messagesUrl : 'http://'+address+'/messages',
-                /** sends mail */
-        sendMailUrl : 'http://'+address+'/sendMail',
+                /**   loads user new  messages */
+     getNewMessageslUrl : 'http://'+address+'/mail/new/',
+                 /**   loads user new  messages */
+     getAllMessageslUrl : 'http://'+address+'/mail/all/',
+                /**   loads user readed  messages */
+     getReadedMessageslUrl : 'http://'+address+'/mail/readed/',   
+                  /**   loads user new  messages */
+ getAnsweredMessageslUrl : 'http://'+address+'/mail/replayed/',
+                /**   loads one message */
+   getUserMessageUrl : 'http://'+address+'/mail/message/',
+                /** marks message as readed */
+   markAsReaded : 'http://'+address+'/mail/readed-message/',
+                /** marks message as readed */
+    answerMessageUrl : 'http://'+address+'/mail/reply/',
 /***************************** GALLERY  ************************* */
                 /** load gallerys */
        get_gallerys : 'http://'+address+'/gallery',

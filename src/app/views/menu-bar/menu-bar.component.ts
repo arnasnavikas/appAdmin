@@ -13,7 +13,6 @@ import { AuthService } from '../../auth.service'
   encapsulation: ViewEncapsulation.None
 })  
 export class MenuBarComponent implements OnInit{
-
     constructor(public dialog: MatDialog,
       private backendService : BackendService,
       public location: Location,

@@ -41,8 +41,8 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
     })
   }
   ngOnDestroy(){
-    this.backendService.pictures = []
-    this.backendService.item_type = ''
+    // this.backendService.pictures = []
+    this.backendService.resetList()
   }
   editDescrition(picture:PictureInterface){
     this.dialog.open(AddDescriptionComponent,{
@@ -53,11 +53,11 @@ export class PrivateImagesComponent implements OnInit,OnDestroy {
   addCoverImage(image: PictureInterface){
     for(let pic of this.backendService.pictures)
       pic.gallery_cover = false
-      image.gallery_cover = true
-      this.backendService.addCoverPicture(image)
-                         .subscribe(data=>{console.log('this is response');console.log(data)},
-                                    err=>{console.log(err)},
-                                    ()=>{ this.backendService.showSuccessMessage('Viršelis pridėtas','Gerai',3000)})
-      // console.log(image)
+    image.gallery_cover = true
+    this.backendService.addCoverPicture(image)
+                       .subscribe(data=>{console.log('this is response');console.log(data)},
+                                  err=>{console.log(err)},
+                                  ()=>{ this.backendService.showSuccessMessage('Viršelis pridėtas','Gerai',3000)})
+    // console.log(image)
   }
 }

@@ -27,6 +27,7 @@
                    matTooltip='Ištrinti kelis elementus' 
                    (click)='createList()' >
             <mat-icon [style.color]='backendService.addToList? "red" : "" '>&#xE16C;</mat-icon>
+            <span *ngIf="backendService.selected_items.length > 0 ">({{backendService.selected_items.length}})</span>
           </button>
           <span fxLayout="row" fxLayoutAlign="space-around center" *ngIf='backendService.addToList'>
             <button mat-icon-button (click)='deleteItems()'><mat-icon >&#xE5CA;</mat-icon></button>

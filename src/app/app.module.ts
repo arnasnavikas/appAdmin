@@ -42,7 +42,8 @@ import { AppLoadingComponent} from './views/loding-component/loading-app.compone
 import { StatusComponent } from './modals/status/status.component';
 import { AddMemberComponent } from './modals/add-member/add-member.component';
 import { EditTeamMemberComponent } from './views/edit-team-member/edit-team-member.component';
-import { UserMailComponent } from './views/user-mail/user-mail.component'
+import { UserMailComponent } from './views/user-mail/user-mail.component';
+import { ReplyMessageComponent } from './views/reply-message/reply-message.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +71,8 @@ import { UserMailComponent } from './views/user-mail/user-mail.component'
     StatusComponent,
     AddMemberComponent,
     EditTeamMemberComponent,
-    UserMailComponent
+    UserMailComponent,
+    ReplyMessageComponent
   ],
   imports: [
     BrowserModule,

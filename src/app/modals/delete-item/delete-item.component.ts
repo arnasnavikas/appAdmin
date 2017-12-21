@@ -43,7 +43,7 @@ export class DeleteItemComponent implements OnInit {
         this.item_name = this.id_list.length > 1? 'pažymėtas nuotraukas': ' nuotrauką'
           break;
         case 'user-mail':
-        this.item_name = this.id_list.length > 1? 'pažymėtas Žinutes': ' žinutę'
+        this.item_name = this.id_list.length > 1? 'pažymėtas žinutes': ' žinutę'
         break;
         case 'user':
         this.item_name = this.id_list.length > 1? 'pažymėtus vartotojus': ' vartotoją'

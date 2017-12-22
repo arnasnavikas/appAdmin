@@ -20,11 +20,12 @@ export class DeleteItemComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any, public router: Router,
     private backendService : BackendService) { }
 
-    private deleted = false
     private deleting = null
     private item_name;
-    private id_list :string[]
+    private id_list :any[]
     ngOnInit() {
+      //if this modal was open from single item deletion button, then data is provided from
+      // "data" variable, otherwise from backendServise.selected_items var
       this.id_list = this.backendService.addToList == true? this.backendService.selected_items : [this.data._id];
       switch (this.backendService.item_type) {
         case 'group':
@@ -42,7 +43,10 @@ export class DeleteItemComponent implements OnInit {
         case 'gallery-image':
         this.item_name = this.id_list.length > 1? 'pažymėtas nuotraukas': ' nuotrauką'
           break;
-        case 'user-mail':
+        case 'user-mail-new':
+        case  'user-mail-view':
+        case 'user-mail-answer':
+        case  'user-mail-all':
         this.item_name = this.id_list.length > 1? 'pažymėtas žinutes': ' žinutę'
         break;
         case 'user':
@@ -54,18 +58,40 @@ export class DeleteItemComponent implements OnInit {
           break;
       }
     }
+// after succssesfull deletion run this
+// 1 - hides spinner
+// 2 - shows snackbar message
+// 3 - hides confirm modal
+// 4 - resets item list
+    private deletionComplete = ()=>{
+      this.deleting = false; 
+      this.backendService.showSuccessMessage('Ištrinta ('+this.id_list.length+') ','Gerai',3000);
+      this.backendService.resetList();
+      this.dialogRef.close();
+    }
+    reload_messages = ()=>{
+      this.backendService.getMessages(this.backendService.item_type)
+      this.backendService.addToList= false
+      this.backendService.selected_items = []
+      this.backendService.selection.clear()
+    }
     delete_user_mail(){
-      console.log('deleting user mail')
+      let id_list = []
+      for(let id of this.id_list)
+        id_list.push(id._id)
+      console.log(id_list)
+      this.backendService.deleteMessages(id_list)
+                         .subscribe(data=>{console.log(data)},
+                                    err=>{console.log(err)},
+                                    ()=>{this.deletionComplete(); 
+                                         this.reload_messages()
+                                        })
     }
     delete_team_member(){
       this.backendService.deleteMember(this.id_list)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
-                                    ()=>{ this.deleting = false; 
-                                          this.deleted = true; 
-                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
-                                          this.onNoClick();
-                                          this.backendService.resetList();
+                                    ()=>{ this.deletionComplete()
                                           for(let id of this.id_list){
                                             if(this.backendService.selected_user && id == this.backendService.selected_user._id)
                                               this.backendService.selected_user = undefined;
@@ -82,11 +108,7 @@ export class DeleteItemComponent implements OnInit {
       this.backendService.deleteGroup(this.id_list)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
-                                    ()=>{ this.deleting = false; 
-                                          this.deleted = true; 
-                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
-                                          this.onNoClick();
-                                          this.backendService.resetList();
+                                    ()=>{ this.deletionComplete()
                                           for(let id of this.id_list)
                                             this.backendService.groups = this.backendService.groups.filter((group:GroupInterface)=>group._id != id)
                                         })
@@ -95,11 +117,7 @@ export class DeleteItemComponent implements OnInit {
       this.backendService.deletePrivateImages(this.id_list)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
-                                    ()=>{ this.deleting = false; 
-                                          this.deleted = true;
-                                          this.onNoClick();
-                                          this.backendService.resetList();
-                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
+                                    ()=>{ this.deletionComplete()
                                           for(let id of this.id_list)
                                             this.backendService.pictures = this.backendService.pictures.filter((picture:PictureInterface)=>picture._id != id)
                                           });
@@ -108,11 +126,7 @@ export class DeleteItemComponent implements OnInit {
       this.backendService.deleteGalleryImages(this.id_list)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
-                                    ()=>{ this.deleting = false; 
-                                          this.deleted = true;
-                                          this.onNoClick();
-                                          this.backendService.resetList();
-                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
+                                    ()=>{ this.deletionComplete()
                                           for(let id of this.id_list)
                                             this.backendService.pictures = this.backendService.pictures.filter((picture:PictureInterface)=>picture._id != id)
                                     });
@@ -121,11 +135,7 @@ export class DeleteItemComponent implements OnInit {
       this.backendService.removeTableRow(this.id_list)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
-                                    ()=>{ this.deleting = false; 
-                                          this.deleted = true;
-                                          this.onNoClick();
-                                          this.backendService.resetList();
-                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
+                                    ()=>{ this.deletionComplete()
                                           for(let id of this.id_list)
                                             this.backendService.table_rows = this.backendService.table_rows.filter((row:TableRow)=>row._id != id)
                                     })
@@ -134,11 +144,7 @@ export class DeleteItemComponent implements OnInit {
       this.backendService.deleteGallerys(this.id_list)
                          .subscribe(data=>{console.log(data)},
                                     err=>{console.log(err)},
-                                    ()=>{ this.deleting = false; 
-                                          this.deleted = true;
-                                          this.onNoClick();
-                                          this.backendService.resetList();
-                                          this.backendService.showSuccessMessage('Ištrinta','',3000);
+                                    ()=>{ this.deletionComplete()
                                           for(let id of this.id_list)
                                             this.backendService.gallerys = this.backendService.gallerys.filter((gallery:GalerijaInterface)=>gallery._id != id)
                                           // this.backendService.loadGallerys(this.data.group_id)
@@ -167,7 +173,10 @@ export class DeleteItemComponent implements OnInit {
         console.log('deleting table rows')
         this.delete_gallery()
         break;
-        case 'user-mail':
+        case  'user-mail-new':
+        case 'user-mail-view':
+        case  'user-mail-answer':
+        case   'user-mail-all':
         this.delete_user_mail()
         break;
         case 'user':
@@ -181,9 +190,5 @@ export class DeleteItemComponent implements OnInit {
         break;
       }
   }
-  private onNoClick = ()=>{
-    this.dialogRef.close();
-  }
-  
-    // removes class name from selected elements
+
 }

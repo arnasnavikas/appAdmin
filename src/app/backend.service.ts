@@ -11,6 +11,9 @@ import { environment } from '../environments/environment'
 import { MatSnackBar} from '@angular/material';
 import { AuthService } from './auth.service'
 import { Router } from '@angular/router'
+import { MatTableDataSource} from '@angular/material';
+import { SelectionModel} from '@angular/cdk/collections';
+
 @Injectable()
 export class BackendService {
 
@@ -20,6 +23,9 @@ export class BackendService {
   
   public selected_user :TeamMemberInterfase
   public activeUserIndex;
+   
+  public dataSource = new MatTableDataSource()
+  public selection = new SelectionModel<Element>(true, []);
   
   public groups : Array<GroupInterface> = []
   public gallerys : Array<GalerijaInterface> = []
@@ -68,39 +74,54 @@ export class BackendService {
     element.className += ' selected'
     console.log(this.selected_items )
   }
+    // removes all items from "selected_items" && "addToList" var
+    public resetList =()=>{
+      let exclude_types = ['user-mail-new','user-mail-view','user-mail-answer','user-mail-all']
+      for(let type of exclude_types){
+        if(this.item_type != type)
+          this.selected_items = []
+      }
+      console.log(this.selected_items)
+      this.addToList = false
+      for(let i of this.selected_DOM_items)
+        i.className ='select-item'
+    }
+  /**####################################################################
+ *             ----USER MAIL ---- FUNCTIONS
+ *#####################################################################*/
    /** Selects all rows if they are not all selected; otherwise clear selection. */
    public master_check_state : boolean
-   masterToggle(selection,dataSource) {
+   masterToggle() {
     let selected_item = 0
-    let source :any = dataSource;
+    let source :any = this.dataSource;
     let page_rows = source._renderData._value 
     for(let row of page_rows){
-      if(selection.isSelected(row))
+      if(this.selection.isSelected(row))
         selected_item++
     }
     if(selected_item == page_rows.length){
-      page_rows.forEach(row => selection.deselect(row))
+      page_rows.forEach(row => this.selection.deselect(row))
       this.master_check_state = false
     }else{
       this.master_check_state = true
       for(let row of page_rows){
-        if(!selection.isSelected(row))
-          selection.select(row)
+        if(!this.selection.isSelected(row))
+          this.selection.select(row)
       }
     }
-    this.selected_items = selection.selected
+    this.selected_items = this.selection.selected
   }
   // cheging if master selcetion button must be checked or not;
-  // function runs on  on paginator  page change event
+  // function runs on  paginators  (page) event
   // function used in user-mail component
-  public masterToggleState(selection,dataSource){
-    
+  public masterToggleState(){
+    // timeout is set, becouse paginator page must be initialized before running this function 
     setTimeout(() => {
       let selected_item = 0
-      let source :any = dataSource;
-      let page_rows = source._renderData._value 
+      let source :any = this.dataSource; // table data
+      let page_rows = source._renderData._value  // table rows that are displayed
       for(let row of page_rows){
-        if(selection.isSelected(row))
+        if(this.selection.isSelected(row))
         selected_item++
       }
       console.log('selected items - '+selected_item)
@@ -108,12 +129,34 @@ export class BackendService {
       this.master_check_state = selected_item == page_rows.length &&  page_rows.length != 0 ? true: false;
     }, 50);
   }
-  // removes all items from "selected_items" && "addToList" var
-  public resetList =()=>{
-    this.item_type == 'user-mail'? this.selected_items :this.selected_items = []
-    this.addToList = false
-    for(let i of this.selected_DOM_items)
-      i.className ='select-item'
+  // download spcific messages
+  public getMessages(type){
+    this.masterToggleState()
+    switch (type) {
+      case 'user-mail-new':
+        this.getNewMessages().subscribe(messages=>{
+          this.dataSource.data = messages;
+          this.new_messages = messages
+        })
+        break;
+      case 'user-mail-view':
+        this.getReadedMessages().subscribe(messages=>{
+          this.dataSource.data = messages;
+        })
+        break;
+      case 'user-mail-answer':
+        this.getReplayedMessages().subscribe(messages=>{
+          this.dataSource.data = messages;
+        })
+        break;
+      case 'user-mail-all':
+        this.getAllMessages().subscribe(messages=>{
+          this.dataSource.data = messages;
+        })
+        break;
+      default:
+        break;
+    }
   }
 /**####################################################################
  *             ----GROUP---- SERVER REQUESTS
@@ -359,6 +402,18 @@ markAsReaded(message_id){
   return this.http.put(environment.markAsReaded+message_id,this.options)
                    .map(this.extractData)
                    .catch(this.handleError)
+}
+replyMessage(message_form){
+  let body = JSON.stringify(message_form)
+  return this.http.post(environment.sendMessageUrl,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError)
+}
+deleteMessages(message_id:string[]){
+  let body = JSON.stringify(message_id)
+  return this.http.put(environment.deleteMessagesUrl,'data='+body,this.options)
+                  .map(this.extractData)
+                  .catch(this.handleError)
 }
  /**####################################################################
  *             ----SERVER RESPONSE FUNCTIONS---- 

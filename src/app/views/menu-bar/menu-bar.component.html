@@ -16,7 +16,7 @@
           </button>
           <!-- BUTTON FOR VIEW NEW MESSAGES -->
           <button *ngIf='backendService.new_messages.length > 0'
-                   mat-button matTooltip='Žiūrėti žinutes'
+                   mat-button matTooltip='Naujos žinutės'
                    [routerLink]='["mail"]'>
               <span style="color:orange">{{backendService.new_messages.length}}</span>
               <mat-icon [style.color]='"orange"'>message</mat-icon>
@@ -56,9 +56,6 @@
               </mat-list-item>
               <mat-list-item (click)="sidenav.close();createNewGroup()">
                   <mat-icon>&#xE03B;</mat-icon> Pridėti grupę 
-              </mat-list-item>
-              <mat-list-item (click)="sidenav.close();">
-                  <mat-icon>email</mat-icon> Žiūrėti žinutes 
               </mat-list-item>
               <mat-list-item routerLink='upload-images' (click)='sidenav.close()'>
                 <mat-icon>&#xE439;</mat-icon> Įkelti paveikslėlių 

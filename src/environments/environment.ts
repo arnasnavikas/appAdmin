@@ -25,6 +25,10 @@ export const environment = {
    markAsReaded : 'http://'+address+'/mail/readed-message/',
                 /** marks message as readed */
     answerMessageUrl : 'http://'+address+'/mail/reply/',
+             /** send answer message to client */
+   sendMessageUrl : 'http://'+address+'/mail/send-answer/',
+   /** send answer message to client */
+  deleteMessagesUrl : 'http://'+address+'/mail/delete',
 /***************************** GALLERY  ************************* */
                 /** load gallerys */
        get_gallerys : 'http://'+address+'/gallery',

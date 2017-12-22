@@ -1,9 +1,7 @@
 import { Component,AfterViewInit, OnInit, ViewChild,ViewEncapsulation,Inject,OnDestroy} from '@angular/core';
-import { MatDialog, MatDialogRef,MatTableDataSource, MAT_DIALOG_DATA,MatPaginator} from '@angular/material';
+import { MatDialogRef,MatTableDataSource, MAT_DIALOG_DATA,MatPaginator} from '@angular/material';
 import { BackendService } from '../../backend.service'
 import { PictureInterface,GroupInterface, TeamMemberInterfase } from '../../intercafe.enum'
-import { DeleteItemComponent} from '../../modals/delete-item/delete-item.component'
-import { SelectionModel} from '@angular/cdk/collections';
 import { Element } from '@angular/compiler';
 
 interface paginator {pageIndex: number,
@@ -22,9 +20,7 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy,AfterViewInit {
     private backendService : BackendService) { }
     
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  selection = new SelectionModel<Element>(true, []);
   displayedColumns = ['select','image', 'size'];
-  dataSource = new MatTableDataSource<Element>();// table data
   // private images : PictureInterface[] = []
   private button_color
   // saves item_type of current view
@@ -32,66 +28,61 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy,AfterViewInit {
   // ngOnDestroy sets backendService.item_type back to previous value
   private item_type 
 
-  private get_privatePictures = ()=>{
+  private get_private_pictures = ()=>{
     this.backendService.getPrivateImages()
-                      .subscribe(pictures =>{
-                                    this.dataSource = new MatTableDataSource<Element>(pictures);
+                       .subscribe(pictures =>{
+                                    this.backendService.dataSource.data = pictures;
+                                    this.backendService.masterToggleState()
                                   },
                                   err=>{console.log(err)},
-                                  ()=>{this.dataSource.paginator = this.paginator})
+                                  ()=>{})
   }
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  private get_group_pictures =() =>{
+    this.backendService.getOneGroup(this.data.group._id)
+                       .subscribe(group=>{
+                          this.backendService.dataSource.data = group.imgURL;
+                          this.backendService.masterToggleState()
+                        },
+                        err=>{console.log(err)},
+                        ()=>{})
   }
-
- 
   selectElement(el){
-    this.selection.toggle(el)
-    this.backendService.selected_items = this.selection.selected
-    console.log(this.selection.selected)
+    this.backendService.selection.toggle(el)
+    this.backendService.selected_items = this.backendService.selection.selected
   }
   ngOnInit() {
     this.item_type = this.backendService.item_type
     this.backendService.item_type = ''
     switch (this.data.type) {
         case 'add':
-        this.button_color = 'primary'
-        this.get_privatePictures()
-        break;
         case 'member-add-picture':
         this.button_color = 'primary'
-        console.log('adding picture to member')
-        this.get_privatePictures()
+        this.get_private_pictures()
+        console.log('adding picture to member or group cover')
         break;
         case 'member-remove-picture':
         this.button_color = 'warn'
         console.log('removing picture from member')
-        let pictures : any = this.backendService.selected_user.images
-        this.dataSource = new MatTableDataSource<Element>(pictures)
-        
+        this.backendService.dataSource.data =  this.backendService.selected_user.images
+        this.backendService.masterToggleState()
         break;
         //removes group cover
         case 'remove':
         this.button_color = 'warn'
-          this.backendService.getOneGroup(this.data.group._id)
-                             .subscribe(group=>{
-                                this.dataSource = new MatTableDataSource<Element>(group.imgURL);
-                              },
-                              err=>{console.log(err)},
-                              ()=>{this.dataSource.paginator = this.paginator})
+        this.get_group_pictures()
           default:
+          console.log('no match case')
           break;
         }
   }
   ngAfterViewInit(){
     // adds paginator to "member-remove-picture" view
-    this.dataSource.paginator = this.paginator
-    this.backendService.masterToggleState(this.selection,this.dataSource)
+    this.backendService.dataSource.paginator = this.paginator
+    // this.backendService.masterToggleState()
   }
   ngOnDestroy(){
     this.backendService.resetList()
+    this.backendService.selection.clear()
     this.backendService.item_type = this.item_type
   }
   update(){

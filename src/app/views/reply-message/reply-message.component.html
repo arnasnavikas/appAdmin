@@ -1,3 +1,34 @@
-<p>
-  reply-message works!
-</p>
+<mat-card *ngIf="message">
+  <mat-card-header fxLayout fxLayoutWrap fxLayoutAlign='space-around center'>
+    <mat-card-title>{{message.name}} ({{message.address}})</mat-card-title>
+    <mat-card-subtitle>{{message.email}}</mat-card-subtitle>
+    <button [disabled]='sending || message.answer' mat-button (click)='sendMail()'><mat-icon>send</mat-icon> Siūsti</button>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{message.message}}</p>
+    <p *ngIf="message.answer"><mat-icon>reply</mat-icon>{{message.answer}}</p>
+  </mat-card-content>
+    <form *ngIf="!message.answer" [formGroup]='messageForm'>
+      <mat-form-field style="width:250px" >
+        <input matInput formControlName='subject' placeholder="Tema" autocomplete="off" >
+        <mat-error *ngIf="messageForm.controls['subject'].hasError('required')">Laukelis negali būti tuščias!</mat-error>
+      </mat-form-field>
+      <mat-form-field style="width:100%;" >
+        <textarea matInput formControlName='answer' style="min-height:250px" placeholder="Atsakymas"></textarea>
+        <mat-error *ngIf="messageForm.controls['answer'].hasError('required')">Laukelis negali būti tuščias!</mat-error>
+      </mat-form-field>
+   </form>
+    <span *ngIf="message.samata.length > 0">
+      <mat-list>
+        <h3 mat-subheader>Samata {{samataCost | currency:'EUR':"symbol":'1.2-2'}}</h3>
+        <span  *ngFor="let item of message.samata">
+          <mat-list-item style="height:50px">
+            <mat-icon mat-list-icon>euro_symbol</mat-icon>
+            <h4 mat-line>{{item.name}}</h4>
+            <p mat-line> {{item.job_total_price | currency:'EUR':"symbol":'1.2-2' }} </p>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </span>
+      </mat-list>
+    </span>
+</mat-card>

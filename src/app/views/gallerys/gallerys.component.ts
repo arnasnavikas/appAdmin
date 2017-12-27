@@ -15,7 +15,7 @@ import { DeleteItemComponent } from '../../modals/delete-item/delete-item.compon
 export class GallerysComponent implements OnInit,OnDestroy {
 
   constructor( private route: ActivatedRoute,
-               private backendService: BackendService,
+               public backendService: BackendService,
                private dialog: MatDialog,
                private router : Router) {
               }

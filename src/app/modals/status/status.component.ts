@@ -15,7 +15,7 @@ export class StatusComponent implements OnInit {
               public dialogRef : MatDialogRef<StatusComponent>,
               @Inject(MAT_DIALOG_DATA) public data: TeamMemberInterfase,) {}
  
-  private statusForm : FormGroup;
+  public statusForm : FormGroup;
   private date_picker_placeholder : string
   private date_picer_text : string
   private status_selected

@@ -49,7 +49,7 @@ private imgIndex;
 private _source;
 private right;
 private left;
-private gallery_animation
+public gallery_animation
 private infoShowed = 'close' // for mobile phones click on image is turning on image info
 /**###############################################
  * CHECK IF IMAGES NOT EMPTY, AND SETS FIRST

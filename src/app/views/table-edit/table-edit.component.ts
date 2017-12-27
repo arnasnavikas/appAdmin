@@ -14,7 +14,7 @@ import { MatSnackBar} from '@angular/material';
 })
 export class TableEditComponent implements OnInit,OnDestroy {
   
-  constructor(private backendService: BackendService,
+  constructor(public backendService: BackendService,
     private router: ActivatedRoute,
     public snackBar: MatSnackBar) { }
   

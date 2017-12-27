@@ -16,7 +16,7 @@ import { Router} from '@angular/router'
   encapsulation: ViewEncapsulation.None
 })
 export class GroupsComponent implements OnInit, OnDestroy {
-  constructor(private backendService: BackendService,
+  constructor(public backendService: BackendService,
               public dialog: MatDialog,
               public authService :AuthService,
               private router: Router) {

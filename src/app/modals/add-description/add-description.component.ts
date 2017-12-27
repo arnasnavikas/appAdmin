@@ -15,10 +15,10 @@ export class AddDescriptionComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AddDescriptionComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private backendService: BackendService,
+              public backendService: BackendService,
               private _fb: FormBuilder,
               public snackBar: MatSnackBar){}
-  private descriptionForm:FormGroup
+  public descriptionForm:FormGroup
   ngOnInit() {
     this.descriptionForm = this._fb.group({id:this._fb.control(this.data._id,[Validators.required]),
                                           description: this._fb.control(this.data.description)})

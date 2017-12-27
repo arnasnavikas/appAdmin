@@ -15,7 +15,7 @@ import { AddGroupCoverComponent } from '../../modals/add-group-cover/add-group-c
 export class EditTeamMemberComponent implements OnInit,OnDestroy {
 
   constructor(private fb: FormBuilder,
-    private backendService: BackendService,
+    public backendService: BackendService,
     public dialog: MatDialog,
     public router : Router){}
   ngOnInit() {

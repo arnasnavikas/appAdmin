@@ -17,12 +17,12 @@ export class AddGroupCoverComponent implements OnInit,OnDestroy,AfterViewInit {
 
   constructor(public dialogRef: MatDialogRef<AddGroupCoverComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private backendService : BackendService) { }
+    public backendService : BackendService) { }
     
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns = ['select','image', 'size'];
   // private images : PictureInterface[] = []
-  private button_color
+  public button_color
   // saves item_type of current view
   // ngOnInit sets backendService.item_type to "" for hidding trash icon in menu
   // ngOnDestroy sets backendService.item_type back to previous value

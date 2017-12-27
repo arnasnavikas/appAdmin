@@ -15,7 +15,7 @@ export class TableViewComponent implements OnInit,AfterViewInit {
 @ViewChildren('rowName') row_name // dom element reference
   constructor(private backendService : BackendService,
               private router: ActivatedRoute) { }
- private rows : TableRow[] = []
+ public rows : TableRow[] = []
  private constRows : TableRow[]
   ngOnInit() {
     this.router.params.subscribe(params=>{

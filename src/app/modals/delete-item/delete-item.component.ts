@@ -18,11 +18,11 @@ export class DeleteItemComponent implements OnInit {
   
   constructor(public dialogRef: MatDialogRef<DeleteItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, public router: Router,
-    private backendService : BackendService) { }
+    public backendService : BackendService) { }
 
-    private deleting = null
-    private item_name;
-    private id_list :any[]
+    public deleting = null
+    public item_name;
+    public id_list :any[]
     ngOnInit() {
       //if this modal was open from single item deletion button, then data is provided from
       // "data" variable, otherwise from backendServise.selected_items var

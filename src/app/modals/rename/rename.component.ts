@@ -15,7 +15,9 @@ export class RenameComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private backendService: BackendService,
     private _fb: FormBuilder ){}
-    private placeholder;
+    public placeholder;
+    public renameForm: FormGroup
+    
     ngOnInit() {
       
       switch (this.data.type) {
@@ -49,7 +51,6 @@ export class RenameComponent implements OnInit {
           break;
       }
     }
-    private renameForm: FormGroup
   rename_group(){
     if(this.renameForm.valid){
       let route = this.renameForm.controls['name'].value.replace(/[\W_]+/g,"-") 

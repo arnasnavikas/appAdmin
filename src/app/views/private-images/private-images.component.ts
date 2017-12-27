@@ -15,7 +15,7 @@ import { Route } from '@angular/router/src/config';
 })
 export class PrivateImagesComponent implements OnInit,OnDestroy {
 
-  constructor(private backendService: BackendService,
+  constructor(public backendService: BackendService,
               public dialog: MatDialog,
               public router: ActivatedRoute
               ) {

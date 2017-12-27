@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./reply-message.component.css']
 })
 export class ReplyMessageComponent implements OnInit {
-private message : MessagesInterface
+public message : MessagesInterface
   constructor(private fb: FormBuilder,private _router : ActivatedRoute,private backendService : BackendService) { }
  private messageForm : FormGroup;
  private samataCost = 0

@@ -11,7 +11,7 @@ import { MatTableDataSource,MatPaginator} from '@angular/material';
 })
 export class UserMailComponent implements OnInit,OnDestroy,AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private backendService: BackendService,private _router: ActivatedRoute) { }
+  constructor(public backendService: BackendService,private _router: ActivatedRoute) { }
   displayedColumns = ['select','info','email', 'message','status'];
   mailOption = [
     {viewValue:'Naujas',value:'user-mail-new'},

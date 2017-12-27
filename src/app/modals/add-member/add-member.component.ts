@@ -16,7 +16,7 @@ export class AddMemberComponent implements OnInit,OnDestroy {
               private backendService: BackendService,
               public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: TeamMemberInterfase,) { }
-  private userForm : FormGroup = this.fb.group({  
+  public userForm : FormGroup = this.fb.group({  
                                                   name:      this.fb.control('',[Validators.required]),
                                                   forname:   this.fb.control('',[Validators.required]),
                                                   age:       this.fb.control(''),
@@ -25,8 +25,8 @@ export class AddMemberComponent implements OnInit,OnDestroy {
                                                   profesion: this.fb.control(''),
                                                   hobby:     this.fb.control('')
                                                 });
-  private modalTitle = 'Sukurti vartotoją'
-  private buttonTitle = 'Sukurti'
+  public modalTitle = 'Sukurti vartotoją'
+  public buttonTitle = 'Sukurti'
   ngOnInit() {
     if(this.data){
       this.buttonTitle = 'Atnaujinti'

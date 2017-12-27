@@ -45,10 +45,10 @@ export class NewItemComponent implements OnInit{
         break;
     }
   }
-  private newItemForm : FormGroup
-  private typeName   //for display what create  
-  private placeholder;      
-  private onNoClick = (): void=> {
+  public newItemForm : FormGroup
+  public typeName   //for display what create  
+  public placeholder;      
+  public onNoClick = (): void=> {
     this.dialogRef.close();
   }
 

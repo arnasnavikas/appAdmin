@@ -36,9 +36,7 @@ import { PrivateImagesComponent } from './views/private-images/private-images.co
 import { PictureGalleryComponent } from './views/picture-gallery/picture-gallery.component';
 import { TableEditComponent } from './views/table-edit/table-edit.component';
 import { TableViewComponent } from './views/table-view/table-view.component';
-import { LoginComponent } from './views/login/login.component';
 import { MenuBarComponent } from './views/menu-bar/menu-bar.component';
-import { AppLoadingComponent} from './views/loding-component/loading-app.component';
 import { StatusComponent } from './modals/status/status.component';
 import { AddMemberComponent } from './modals/add-member/add-member.component';
 import { EditTeamMemberComponent } from './views/edit-team-member/edit-team-member.component';
@@ -66,8 +64,6 @@ import { ReplyMessageComponent } from './views/reply-message/reply-message.compo
     SafePipe,
     HighLightTextDirective,
     DeleteItemDirective,
-    LoginComponent,
-    AppLoadingComponent,
     StatusComponent,
     AddMemberComponent,
     EditTeamMemberComponent,

@@ -33,6 +33,7 @@ export class BackendService {
   public table_rows : TableRow[] = []
   public members : TeamMemberInterfase[] = []
   public new_messages : MessagesInterface[] = []
+  public all_messages : MessagesInterface[] = []
   // delete object
   public addToList = false // enables items selecting for deletion
   public selected_items = []  // arry of items _id or other information of selected itemd
@@ -44,8 +45,8 @@ export class BackendService {
 
   userValidation(){
     if(!this.authService.isAuthenticated()){
-      this.router.navigate(['/admin/login']);
-      return;
+      // this.router.navigate(['/admin/login']);
+      // return;
     }
     if(!this.selected_user){
       this.router.navigate(['/admin/select-user'])

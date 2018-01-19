@@ -15,7 +15,7 @@
               <mat-icon>&#xE3CD;</mat-icon>
           </button>
           <!-- BUTTON FOR VIEW NEW MESSAGES -->
-          <button *ngIf='backendService.new_messages.length > 0'
+          <button *ngIf='backendService.all_messages.length > 0'
                    mat-button matTooltip='Naujos žinutės'
                    [routerLink]='["mail"]'>
               <span style="color:orange">{{backendService.new_messages.length}}</span>

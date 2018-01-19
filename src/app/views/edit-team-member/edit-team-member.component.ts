@@ -53,7 +53,10 @@ export class EditTeamMemberComponent implements OnInit,OnDestroy {
                        .subscribe((mail:MessagesInterface[])=>{
                                     this.backendService.new_messages = mail;
                                     console.log(mail);
-                                  })
+                                  });
+    this.backendService.getAllMessages().subscribe((messages:MessagesInterface[])=>{
+        this.backendService.all_messages = messages;
+    });
     this.backendService.showSuccessMessage('Vartotojas pasirinktas','',3000)
     // this.router.navigate(['/admin/groups'])
   }         

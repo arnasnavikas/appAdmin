@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
-
+import { environment } from '../environments/environment'
 @Injectable()
 export class AuthService {
-
   auth0 = new auth0.WebAuth({
     clientID: 'NRrTVVxSsy8ZRkZ22xrj8LfjAnYyZOm0',
     domain: 'arnas.auth0.com',
     responseType: 'token id_token',
     audience: 'https://arnas.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4201/loading',      
+    redirectUri: environment.loginRedirectUrl,      
     scope: 'openid'
   });
 
@@ -26,16 +25,16 @@ export class AuthService {
         // window.location.hash = '';
         this.setSession(authResult);
         this.router.navigate(['admin/select-user']);
-        console.log('navigating to /admin/select-user')
       } else if (err) {
         this.router.navigate(['admin/select-user']);
-        console.log(err);
+      }else if(!this.isAuthenticated()){
+        this.login()
+        return;
       }
     });
   }
 
   private setSession(authResult): void {
-    console.log('setting sesion ')
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
@@ -49,7 +48,7 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // Go back to the home route
-    this.router.navigate(['/admin/login']);
+    this.router.navigate(['/']);
   }
 
   public isAuthenticated(): boolean {

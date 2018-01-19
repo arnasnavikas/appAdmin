@@ -10,17 +10,13 @@ import { UploadImagesComponent } from './views/upload-images/upload-images.compo
 import { PrivateImagesComponent } from './views/private-images/private-images.component'
 import { TableEditComponent } from './views/table-edit/table-edit.component'
 import { TableViewComponent } from './views/table-view/table-view.component'
-import { LoginComponent } from './views/login/login.component'
-import { AppLoadingComponent } from './views/loding-component/loading-app.component'
 import { EditTeamMemberComponent} from './views/edit-team-member/edit-team-member.component'
 import { MenuBarComponent } from './views/menu-bar/menu-bar.component'
 import { UserMailComponent } from './views/user-mail/user-mail.component';
 import { ReplyMessageComponent } from './views/reply-message/reply-message.component';
 const routes = [   
                   {path: '',component:AppComponent},
-                  {path: 'loading', component: AppLoadingComponent},
                   {path: 'admin',component:MenuBarComponent, children:[
-                    {path: 'login',component:LoginComponent},
                     {path: 'groups',component:GroupsComponent},
                     {path: 'groups/:group_id/:user_folder/:group_folder/:gallery_folder/:gallery_id',component:UploadImagesComponent},
                     {path: 'groups/edit-table/:group_id',component:TableEditComponent},

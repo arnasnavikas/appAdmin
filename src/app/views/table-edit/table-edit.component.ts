@@ -35,7 +35,7 @@ export class TableEditComponent implements OnInit,OnDestroy {
       {
         name: 'Tūris',
         measure: [
-          { value: 'l', viewValue: 'litras' },
+          { value: 'L', viewValue: 'litras' },
           { value: 'ml', viewValue: 'mililitras' }
         ]
       },
